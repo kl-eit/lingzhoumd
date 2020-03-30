@@ -8,9 +8,18 @@ namespace Ling.Dashboard.Controllers
 {
     public class AccountController : Controller
     {
-        public IActionResult Index()
+
+        #region Actions
+        public ActionResult Login(String returnurl = "")
         {
+            //if (Request.IsAuthenticated)
+            //{
+                //return RedirectToAction("Index", "Home");
+            //}
+
+            ViewBag.ReturnURL = returnurl;
             return View();
         }
+        #endregion
     }
 }

@@ -1,0 +1,92 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Ling Zhou, MD | Login</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="@Url.Content("~/assets/plugins/bootstrap/css/bootstrap.min.css")" type="text/css">
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/theme.css")" />
+    <link href="@Url.Content("~/assets/css/custom.css")" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/favicon_cp.ico")">
+</head>
+<body class="bg-white">
+    <main class="main" id="top">
+        <div class="container-fluid">
+            <div class="row min-vh-100 bg-100">
+                <div class="col-6 d-none d-lg-block">
+                    <div class="bg-holder" style="background-image:url(../../assets/images/hotel.jpg);background-position: 50% 20%;"></div>
+                </div>
+                <div class="col-sm-10 col-md-6 px-sm-0 align-self-center mx-auto py-5">
+                    <div class="row justify-content-center no-gutters">
+                        <div class="col-lg-9 col-xl-8 col-xxl-6">
+                            <div class="card">
+                                <div class="card-header bg-circle-shape text-center p-2">
+                                    <span class="text-white text-sans-serif font-weight-extra-bold fs-4 z-index-1 position-relative">
+                                        <img src="@Url.Content("~/assets/images/login_logo.png")" alt="" width="50" class="mr-2" style="margin-top: -5px;" />
+                                        Crowne Plaza
+                                    </span>
+                                </div>
+                                <div class="card-body p-4">
+                                    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                                    {
+                                        <div class="alert alert-danger alert-dismissable custom-alert login-alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <img src="@Url.Content("~/assets/images/error.png")" class="mr-1" style="width:20px;" />
+                                            @ViewBag.ErrorMessage
+                                        </div>
+                                    }
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h3>Login</h3>
+                                    </div>
+                                    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "frmLogin" }))
+                                    {
+                                        <div class="form-group">
+                                            <label for="split-email">Username / Email address</label>
+                                            <input id="split-email" name="Username" class="form-control" type="text" placeholder="Username Or Email" >
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="d-flex justify-content-between">
+                                                <label for="Password">Password</label>
+                                            </div>
+                                            <input name="Password" id="Password" class="form-control" type="password" placeholder="Password" >
+                                        </div>
+                                        <div class="custom-control custom-checkbox">
+                                            <input class="custom-control-input" name="RememberMe" id="chkRememberMe" type="checkbox" />
+                                            <label class="custom-control-label" for="chkRememberMe">Remember me</label>
+                                        </div>
+                                        <div class="form-group">
+                                            <button id="btnSignIn" class="btn btn-primary btn-block mt-3" type="button">Log in</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="hdnReturnUrl" name="ReturnUrl" value="@ViewBag.ReturnURL" />
+
+            </div>
+        </div>
+    </main>
+    <div id="loaderWrapper" style="display:none;">
+        <span style="display: inline-block;height: 100%;vertical-align: middle;"></span>
+        <img src=@Url.Content("~/assets/images/loader.gif") />
+    </div>
+    <script src="@Url.Content("~/assets/plugins/jQuery/jQuery-2.1.4.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/plugins/stickyfilljs/stickyfill.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/plugins/sticky-kit/sticky-kit.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/plugins/is_js/is.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/js/theme.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-validation-1.16.0/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/js/pages/login.js")" type="text/javascript"></script>
+</body>
+</html>
