@@ -1,0 +1,68 @@
+﻿@*@using Ling.Common
+    @{
+        Layout = null;
+        Alert alert = (Alert)TempData["OperationMessage"];
+
+    }
+    @if (alert != null)
+    {
+
+        if (alert.AlertType == ALERTTYPE.Error)
+        {
+            if (alert.MessageType == ALERTMESSAGETYPE.OnlyText)
+            {
+                <p class="text-danger">@alert.AlertType.ToString()!&nbsp;@alert.Message</p>
+            }
+            else
+            {
+                <div class="alert alert-danger custom-alert">
+                    <button class="close custom-danger-close" data-dismiss="alert"><i class="fa fa-times"></i></button>
+                    <strong>Error!</strong>  @alert.Message
+                </div>
+            }
+        }
+        else if (alert.AlertType == ALERTTYPE.Success)
+        {
+            if (alert.MessageType == ALERTMESSAGETYPE.OnlyText)
+            {
+                <p class="text-success">@alert.AlertType.ToString()!&nbsp;@alert.Message</p>
+            }
+            else
+            {
+                <div class="alert alert-success custom-alert">
+                    <button class="close custom-success-close" data-dismiss="alert"><i class="fa fa-times"></i></button>
+                    <strong>Success!</strong>  @alert.Message
+                </div>
+            }
+        }
+        else if (alert.AlertType == ALERTTYPE.Warning)
+        {
+            if (alert.MessageType == ALERTMESSAGETYPE.OnlyText)
+            {
+                <p class="text-warning">@alert.AlertType.ToString()!&nbsp;@alert.Message</p>
+            }
+            else
+            {
+                <div class="alert alert-warning custom-alert">
+                    <button class="close custom-warning-close" data-dismiss="alert"><i class="fa fa-times"></i></button>
+                    <strong>Warning!</strong>  @alert.Message
+                </div>
+            }
+        }
+        else
+        {
+            if (alert.MessageType == ALERTMESSAGETYPE.OnlyText)
+            {
+                <p class="text-info">@alert.AlertType.ToString()!&nbsp; @alert.Message</p>
+            }
+            else
+            {
+                <div class="alert alert-info custom-alert">
+                    <button class="close custom-info-close" data-dismiss="alert"><i class="fa fa-times"></i></button>
+                    <strong>Information!</strong> @alert.Message
+                </div>
+            }
+        }
+        alert.Message = string.Empty;
+        TempData["OperationMessage"] = null;
+    }*@

@@ -1,0 +1,16 @@
+﻿.fileinput-preview-error {
+    color: #dd4b39 !important;
+}
+
+.fileinput-preview-success {
+    color: #00a65a !important;
+}
+
+#uploadVideo {
+    background-color: #00a65a;
+    color: #fff;
+}
+
+.thumbnail {
+    margin-bottom: 10px !important;
+}

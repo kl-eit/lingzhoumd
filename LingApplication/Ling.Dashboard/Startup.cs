@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -59,6 +60,8 @@ namespace Ling.Dashboard
         // THIS METHOD GETS CALLED BY THE RUNTIME. USE THIS METHOD TO CONFIGURE THE HTTP REQUEST PIPELINE.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            var foo = Directory.GetCurrentDirectory();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
