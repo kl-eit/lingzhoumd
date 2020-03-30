@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Practices.EnterpriseLibrary.Common.dll" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Practices.EnterpriseLibrary.Data.dll" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Practices.ObjectBuilder.dll" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Ling.Common\Ling.Common.csproj" />
   </ItemGroup>
 
