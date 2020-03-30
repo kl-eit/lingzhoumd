@@ -77,7 +77,7 @@ namespace Ling.Dashboard
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
             app.UseAuthentication();
-            
+            app.UseStaticFiles();
             //ADD ROUTES
             app.UseMvc(routes =>
             {
