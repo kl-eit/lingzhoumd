@@ -5,14 +5,14 @@
 .bg-circle-shape {
     position: relative;
     overflow: hidden;
-    background-color: #b86899;
+    background-color: #005bea;
 }
 
 .bg-circle-shape:before {
     height: 332%;
     width: 45%;
-    background-image: -o-linear-gradient(135deg,#9c3473,#b86899);
-    background-image: linear-gradient(-45deg,#9c3473,#b86899);
+    background-image: -o-linear-gradient(135deg,#9c3473,#005bea);
+    background-image: linear-gradient(-45deg,#9c3473,#005bea);
     left: -9%;
     top: 9px;
 }
@@ -20,8 +20,8 @@
 .bg-circle-shape:after {
     height: 250px;
     width: 115%;
-    background-image: -o-linear-gradient(135deg,#9c3473,#b86899);
-    background-image: linear-gradient(-45deg,#9c3473,#b86899);
+    background-image: -o-linear-gradient(135deg,#9c3473,#005bea);
+    background-image: linear-gradient(-45deg,#9c3473,#005bea);
     left: 32%;
     top: -188%;
 }

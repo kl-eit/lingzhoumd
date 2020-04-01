@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace Ling.Domains.Abstract
 {
-    public interface IUserRepository: IRepositoryBase<Users>
+    public interface IUserRepository : IRepositoryBase<Users>
     {
         ResponseObjectForAnything Authentication(string pUserName, string pPassword);
+        ResponseObjectForAnything UserAuthentication(string pUsername, string pEncryptedPassword);
     }
 }

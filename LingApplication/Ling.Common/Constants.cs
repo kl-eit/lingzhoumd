@@ -13,11 +13,21 @@ namespace Ling.Common
         public static string IMAGE_NOT_FOUND = "/assets/images/no-image.png";
         public static string USER_IMAGE_NOT_FOUND = "/assets/images/user-placeholder-image.jpg";
 
+
         #region FOR RESPONSE OBJECT STATUS
 
         public const string RESPONSE_SUCCESS = "SUCCESS";
         public const string RESPONSE_ERROR = "ERROR";
         public const string RESPONSE_EXISTS = "EXISTS";
+        public const string RESPONCE_EMAIL_EXISTS = "EMAILEXISTS";
+        public const string RESPONSE_INVALID = "INVALID";
+
+        #endregion
+
+        #region REMEMBERME
+
+        public static string REMEMBERMEUSERNAME = "REMEMBERMEUSERNAME";
+        public static string REMEMBERMEPASSWORD = "REMEMBERMEPASSWORD";
 
         #endregion
 
@@ -27,7 +37,6 @@ namespace Ling.Common
         {
             Admin = 1
         }
-
         #endregion
 
         #region USER SESSION VARIABLES

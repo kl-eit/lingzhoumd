@@ -1,0 +1,127 @@
+﻿@model Ling.Domains.Entities.Users
+@using Ling.Common;
+@using Ling.Dashboard.Session
+
+@{
+    ViewBag.Title = "Ling Zhou, MD | Profile";
+    var profileImageurl = Url.Content(Constants.USER_IMAGE_NOT_FOUND);
+    string webURL = "";/*ServerSettings.WEBURL*/
+
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-3 btn-reveal-trigger">
+            <div class="card-header position-relative min-vh-25 mb-8">
+                <div class="cover-image">
+                    <div class="bg-holder rounded-soft rounded-bottom-0 bg-cover-image"></div>
+                </div>
+                <div class="avatar avatar-5xl avatar-profile shadow-sm img-thumbnail rounded-circle">
+                    <div class="h-100 w-100 rounded-circle overflow-hidden position-relative">
+                        <img id="profileImage" src="@profileImageurl" width="200" alt="" data-dz-thumbnail="" onerror="this.src = '@Constants.USER_IMAGE_NOT_FOUND'">
+                        <label class="mb-0 overlay-icon d-flex flex-center" for="profile-image">
+                            <span class="bg-holder overlay overlay-0"></span>
+                            <span class="z-index-1 text-white text-center fs--1">
+                                <svg class="svg-inline--fa fa-camera fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="camera" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                                    <path fill="currentColor" d="M512 144v288c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V144c0-26.5 21.5-48 48-48h88l12.3-32.9c7-18.7 24.9-31.1 44.9-31.1h125.5c20 0 37.9 12.4 44.9 31.1L376 96h88c26.5 0 48 21.5 48 48zM376 288c0-66.2-53.8-120-120-120s-120 53.8-120 120 53.8 120 120 120 120-53.8 120-120zm-32 0c0 48.5-39.5 88-88 88s-88-39.5-88-88 39.5-88 88-88 88 39.5 88 88z"></path>
+                                </svg><!-- <span class="fas fa-camera"></span> -->
+                                <span class="d-block">Update</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        @Html.Partial("_OperationMessage")
+    </div>
+</div>
+<div class="row no-gutters">
+    <div class="col-lg-8 pr-lg-2">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="mb-0">Profile Settings</h5>
+            </div>
+            <div class="card-body bg-light">
+                @using (Html.BeginForm("MyProfile", "Account", FormMethod.Post, new { id = "frm_Profile", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                {
+                    @Html.HiddenFor(m => m.RoleID)
+                    <input class="d-none" id="profile-image" type="file" onchange="ShowPreview(this);" name="Avatar">
+                    <input type="hidden" id="hdfImageName" name="hdfImageName" value="" />
+                    <input type="hidden" id="hdfOldImageName" name="hdfOldImageName" value="" />
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="txtFirstName">First Name</label>
+                                <input class="form-control" id="txtFirstName" name="FirstName" type="text" value="" maxlength="50" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="txtLastName">Last Name</label>
+                                <input class="form-control" id="txtLastName" name="LastName" type="text" value="" maxlength="50" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="txtUserName">Username</label>
+                                <input class="form-control" id="txtUserName" name="UserName" type="text" value="" readonly maxlength="50" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="txtEmail">Email</label>
+                                <input class="form-control" id="txtEmail" name="Email" type="text" value="" readonly />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="txtPhoneNumber">Phone</label>
+                                <input class="form-control" id="txtPhoneNumber" name="PhoneNumber" type="text" value="" maxlength="12" />
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex justify-content-end">
+                            <button class="btn btn-crowne-primary btn-sm" id="btnSave" type="button">Update</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 pl-lg-2">
+        <div class="sticky-top sticky-sidebar">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5 class="mb-0">Change Password</h5>
+                </div>
+                <div class="card-body bg-light">
+                    @using (Html.BeginForm("ChangePassword", "Account", FormMethod.Post, new { id = "frmManage", @class = "form-horizontal" }))
+                    {
+                        <div class="form-group">
+                            <label for="old-password">Old Password</label>
+                            <input class="form-control" id="CurrentPassword" name="CurrentPassword" type="password" placeholder="Old Password" />
+                        </div>
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <input class="form-control" id="Password" name="Password" type="password" placeholder="New Password" />
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm Password</label>
+                            <input class="form-control" id="ConfirmPassword" placeholder="Confirm Password" name="ConfirmPassword" type="password">
+                        </div>
+                        <button class="btn btn-crowne-primary btn-sm btn-block" id="btnUpdatePassword" type="button">Update Password</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section PageScript{
+    <script src="@Url.Content("~/assets/plugins/jquery-validation-1.16.0/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-validation-1.16.0/additional-methods.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/js/pages/profile.js")"></script>
+    <script src="@Url.Content("~/assets/js/pages/changepassword.js")"></script>
+}
