@@ -1,6 +1,7 @@
 ﻿using Ling.Domains.Abstract;
 using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,11 @@ namespace Ling.Domains.Concrete
 {
     public class HomeSliderRepository : DBContext, IHomeSliderRepository
     {
+        public HomeSliderRepository(IConfiguration iConfiguration) : base(iConfiguration)
+        {
+
+        }
+
         public ResponseObjectForAnything Delete(int pID)
         {
             throw new NotImplementedException();

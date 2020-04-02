@@ -36,11 +36,11 @@
                                 <div class="card-body p-4">
                                     @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
                                     {
-                                        <div class="alert alert-danger alert-dismissable custom-alert login-alert">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                            <img src="@Url.Content("~/assets/images/error.png")" class="mr-1" style="width:20px;" />
-                                            @ViewBag.ErrorMessage
-                                        </div>
+                                    <div class="alert alert-danger alert-dismissable custom-alert login-alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <img src="@Url.Content("~/assets/images/error.png")" alt="" class="mr-1" style="width:20px;" />
+                                        @ViewBag.ErrorMessage
+                                    </div>
                                     }
                                     <div class="d-flex align-items-center justify-content-between">
                                         <h3>Login</h3>
@@ -49,16 +49,16 @@
                                     {
                                         <div class="form-group">
                                             <label for="split-email">Username / Email address</label>
-                                            <input id="split-email" name="Username" class="form-control" type="text" placeholder="Username Or Email">
+                                            <input id="split-email" name="Username" class="form-control" type="text" placeholder="Username Or Email" value="@(Context.Request.Cookies[Ling.Common.Constants.REMEMBERMEUSERNAME] != null ? Context.Request.Cookies[Ling.Common.Constants.REMEMBERMEUSERNAME] : "")">
                                         </div>
                                         <div class="form-group">
                                             <div class="d-flex justify-content-between">
                                                 <label for="Password">Password</label>
                                             </div>
-                                            <input name="Password" id="Password" class="form-control" type="password" placeholder="Password">
+                                            <input name="Password" id="Password" class="form-control" type="password" placeholder="Password" value="@(Context.Request.Cookies[Ling.Common.Constants.REMEMBERMEPASSWORD] != null ? Context.Request.Cookies[Ling.Common.Constants.REMEMBERMEPASSWORD] : "")">
                                         </div>
                                         <div class="custom-control custom-checkbox">
-                                            <input class="custom-control-input" name="RememberMe" id="chkRememberMe" type="checkbox" />
+                                            <input class="custom-control-input" name="RememberMe" id="chkRememberMe" type="checkbox"  @(Context.Request.Cookies[Ling.Common.Constants.REMEMBERMEUSERNAME] != null && !string.IsNullOrEmpty(Context.Request.Cookies[Ling.Common.Constants.REMEMBERMEUSERNAME]) ? "checked " : "") />
                                             <label class="custom-control-label" for="chkRememberMe">Remember me</label>
                                         </div>
                                         <div class="form-group">

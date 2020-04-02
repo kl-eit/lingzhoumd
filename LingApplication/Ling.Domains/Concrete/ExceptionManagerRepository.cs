@@ -1,6 +1,7 @@
 ﻿using Ling.Common;
 using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,6 +14,11 @@ namespace Ling.Domains.Concrete
 {
     public class ExceptionManagerRepository : DBContext
     {
+        public ExceptionManagerRepository(IConfiguration iConfiguration) : base(iConfiguration)
+        {
+
+        }
+
         public static ResponseObjectForAnything PublishException(ExceptionLog pEntity)
         {
             ResponseObjectForAnything responseObjectForAnything = new ResponseObjectForAnything();

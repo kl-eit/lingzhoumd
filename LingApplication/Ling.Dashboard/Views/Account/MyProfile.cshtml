@@ -1,12 +1,19 @@
-﻿@model Ling.Domains.Entities.Users
+﻿@model Ling.Domains.ViewModel.UserProfileViewModel
 @using Ling.Common;
-@using Ling.Dashboard.Session
+@using Ling.Dashboard.Session;
+@using Microsoft.Extensions.Options;
+@inject IOptions<Ling.Dashboard.AppSettings> Settings
+
 
 @{
     ViewBag.Title = "Ling Zhou, MD | Profile";
     var profileImageurl = Url.Content(Constants.USER_IMAGE_NOT_FOUND);
-    string webURL = "";/*ServerSettings.WEBURL*/
+    string webURL = Settings.Value.DashboardURL;
 
+    if (!string.IsNullOrEmpty(Model.Avatar))
+    {
+        profileImageurl = webURL + Settings.Value.UploadFolderName + Settings.Value.ProfileImagePath + Model.Avatar;
+    }
 }
 
 <div class="row">
@@ -50,37 +57,32 @@
                 {
                     @Html.HiddenFor(m => m.RoleID)
                     <input class="d-none" id="profile-image" type="file" onchange="ShowPreview(this);" name="Avatar">
-                    <input type="hidden" id="hdfImageName" name="hdfImageName" value="" />
-                    <input type="hidden" id="hdfOldImageName" name="hdfOldImageName" value="" />
+                    <input type="hidden" id="hdfImageName" name="hdfImageName" value="@Model.Avatar" />
+                    <input type="hidden" id="hdfOldImageName" name="hdfOldImageName" value="@Model.Avatar" />
+                    <input type="hidden" id="hdnPath" value="@profileImageurl" />
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <div class="form-group">
-                                <label for="txtFirstName">First Name</label>
-                                <input class="form-control" id="txtFirstName" name="FirstName" type="text" value="" maxlength="50" />
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label for="txtLastName">Last Name</label>
-                                <input class="form-control" id="txtLastName" name="LastName" type="text" value="" maxlength="50" />
+                                <label for="txtName">Name</label>
+                                <input class="form-control" id="txtName" name="Name" type="text" value="@Model.Name" maxlength="50" />
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="txtUserName">Username</label>
-                                <input class="form-control" id="txtUserName" name="UserName" type="text" value="" readonly maxlength="50" />
+                                <input class="form-control" id="txtUserName" name="UserName" type="text" value="@Model.UserName" readonly maxlength="50" />
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="txtEmail">Email</label>
-                                <input class="form-control" id="txtEmail" name="Email" type="text" value="" readonly />
+                                <input class="form-control" id="txtEmail" name="Email" type="text" value="@Model.Email" readonly />
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="txtPhoneNumber">Phone</label>
-                                <input class="form-control" id="txtPhoneNumber" name="PhoneNumber" type="text" value="" maxlength="12" />
+                                <input class="form-control" id="txtPhoneNumber" name="PhoneNumber" type="text" value="@Model.PhoneNumber" maxlength="12" />
                             </div>
                         </div>
                         <div class="col-12 d-flex justify-content-end">

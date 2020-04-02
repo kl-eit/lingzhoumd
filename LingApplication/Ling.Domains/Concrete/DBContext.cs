@@ -1,4 +1,6 @@
-﻿using Microsoft.Practices.EnterpriseLibrary.Data;
+﻿using Ling.Common;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Practices.EnterpriseLibrary.Data;
 using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
 using System;
 using System.Collections.Generic;
@@ -14,11 +16,15 @@ namespace Ling.Domains.Concrete
 
         public static Database dbStatic { get; set; }
 
-        public DBContext()
+        private static string _connectionString = "";
+
+        public DBContext(IConfiguration iConfiguration)
         {
-            //DatabaseProviderFactory factory = new DatabaseProviderFactory();
-            //sqldb = (SqlDatabase)factory.Create("LingDBConnectionString");
-            //dbStatic = factory.Create("LingDBConnectionString");
+            ConfigurationHelper _configuration = new ConfigurationHelper(iConfiguration);
+            _connectionString = _configuration.GetConnectionString();
+
+            sqldb = new SqlDatabase(_connectionString);
+            dbStatic = new SqlDatabase(_connectionString);
         }
     }
 }

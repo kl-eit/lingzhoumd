@@ -31,11 +31,47 @@ namespace Ling.Common
 
         #endregion
 
+        #region ALERT/OPERATION MODE & MESSAGE
+
+        public static string ALERT_SAVE = "Record saved successfully!";
+        public static string ALERT_DELETE = "Record deleted successfully!";
+        public static string ALERT_ERROR = "Unable to perform operation!";
+        public static string ALERT_EXISTS = "Record already exists!";
+        public static string ALERT_EMAIL_EXISTS = "Email address already exists!";
+        public static string ALERT_NAME_EXISTS = "Name already exists!";
+        public static string ALERT_CURRENT_PASSWORD = "Invalid current password!";
+        public static string ALERT_RECORD_IS_IN_USE_DELETE = "Unable to delete due to record is already use in another place!";
+        public static string ALERT_REQUEST_PROPOSAL_SAVE = "Proposal submitted successfully!";
+
+        #endregion
+
         #region Enums
 
         public enum UserRoles
         {
             Admin = 1
+        }
+
+        public class Alert
+        {
+            public ALERTTYPE AlertType { get; set; }
+            public string Message { get; set; }
+            public ALERTMESSAGETYPE MessageType { get; set; }
+        }
+
+        public enum ALERTTYPE
+        {
+            None = 0,
+            Warning = 1,
+            Success = 2,
+            Info = 3,
+            Error = 4
+        }
+
+        public enum ALERTMESSAGETYPE
+        {
+            OnlyText = 0,
+            TextWithClose = 1
         }
         #endregion
 

@@ -22,6 +22,11 @@ namespace Ling.Common
         {
             return value == null ? (object)DBNull.Value : value;
         }
-        
+
+        public static T ConvertTo<T>(object value)
+        {
+            return value == null ? default(T) : (T)Convert.ChangeType(value, typeof(T));
+        }
+
     }
 }
