@@ -558,7 +558,7 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 }
 
 .form-group.has-error label {
-    color: #dd4b39;
+    color: #e63757;
 }
 
 .form-group.has-error .custom-file-label {

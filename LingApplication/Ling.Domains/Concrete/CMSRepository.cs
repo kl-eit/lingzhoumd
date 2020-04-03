@@ -25,6 +25,16 @@ namespace Ling.Domains.Concrete
             throw new NotImplementedException();
         }
 
+        public ResponseObjectForAnything SelectActiveCMSKey()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ResponseObjectForAnything SelectByCMSKey(string pCmskey)
+        {
+            throw new NotImplementedException();
+        }
+
         public ResponseObjectForAnything SelectByID(int pID)
         {
             throw new NotImplementedException();

@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\assets\js\pages\profile.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\assets\css\pages\" />
-    <Folder Include="wwwroot\assets\js\pages\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +31,7 @@
     <None Include="wwwroot\assets\js\jquery.blockUI.js" />
     <None Include="wwwroot\assets\js\jquery.min.js" />
     <None Include="wwwroot\assets\js\moment.min.js" />
+    <None Include="wwwroot\assets\js\pages\profile.js" />
     <None Include="wwwroot\assets\js\popper.min.js" />
     <None Include="wwwroot\assets\js\theme.js" />
     <None Include="wwwroot\assets\plugins\bootstrap-fileinput\bootstrap-fileinput.css" />
@@ -122,6 +126,7 @@
     <None Include="wwwroot\assets\plugins\summernote\font\summernote.woff2" />
     <None Include="wwwroot\assets\plugins\summernote\summernote.css" />
     <None Include="wwwroot\assets\plugins\summernote\summernote.js" />
+    <None Include="wwwroot\upload\profileImage\73a40a0b-1d0b-462f-9848-588c7bad980f_doc-3.jpg" />
   </ItemGroup>
 
   <ItemGroup>

@@ -266,7 +266,7 @@ namespace Ling.Domains.Concrete
                         {
                             entity = new UserLoginViewModel();
                             entity.ID = CommonHelper.FromDB<Int32>(iReader["ID"]);
-                            entity.Name = CommonHelper.FromDB<string>(iReader["FirstName"]);
+                            entity.Name = CommonHelper.FromDB<string>(iReader["Name"]);
                             entity.UserName = CommonHelper.FromDB<string>(iReader["UserName"]);
                             entity.Email = CommonHelper.FromDB<string>(iReader["Email"]);
                             entity.Role = CommonHelper.FromDB<string>(iReader["RoleName"]);
@@ -287,6 +287,36 @@ namespace Ling.Domains.Concrete
                 responseObjectForAnything.ResultMessage = ex.Message;
                 ExceptionLog exLog = new ExceptionLog(ex.Message, ex.StackTrace, this.ToString(), "ReInitUserSession", "E");
                 ExceptionManagerRepository.PublishException(exLog);
+            }
+            return responseObjectForAnything;
+        }
+
+        public ResponseObjectForAnything UpdatePassword(int pUserID, string pExistingPassword, string pNewPassword)
+        {
+            ResponseObjectForAnything responseObjectForAnything = new ResponseObjectForAnything();
+
+            try
+            {
+                DbCommand dbCommand = sqldb.GetStoredProcCommand("[eitlingzhaoumd].[User_ChangePassword]");
+
+                sqldb.AddInParameter(dbCommand, "@ID", DbType.Int32, CommonHelper.ToDB<Int32>(pUserID));
+                sqldb.AddInParameter(dbCommand, "@ExistingPassword", DbType.String, CommonHelper.ToDB<string>(pExistingPassword));
+                sqldb.AddInParameter(dbCommand, "@NewPassword", DbType.String, CommonHelper.ToDB<string>(pNewPassword));
+
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_SUCCESS;
+                responseObjectForAnything.ResultObjectID = Convert.ToInt32((sqldb.ExecuteScalar(dbCommand)));
+                if (responseObjectForAnything.ResultObjectID == -1)
+                {
+                    responseObjectForAnything.ResultCode = Constants.RESPONSE_INVALID;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_ERROR;
+                responseObjectForAnything.ResultMessage = ex.Message;
+                ExceptionLog exLog = new ExceptionLog(ex.Message, ex.StackTrace, this.ToString(), "UpdatePassword", "E");
+                ExceptionManagerRepository.PublishException(exLog);
+
             }
             return responseObjectForAnything;
         }

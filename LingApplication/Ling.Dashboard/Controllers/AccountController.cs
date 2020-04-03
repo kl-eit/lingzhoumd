@@ -20,6 +20,7 @@ using System.Threading;
 using Microsoft.Extensions.Options;
 using System.IO;
 using Ling.Domains.Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Ling.Dashboard.Controllers
 {
@@ -35,11 +36,11 @@ namespace Ling.Dashboard.Controllers
 
         #region Constructor
 
-        public AccountController(IHttpContextAccessor httpContextAccessor, IConfiguration iConfiguration, IOptions<AppSettings> settings)
+        public AccountController(IHttpContextAccessor httpContextAccessor, IConfiguration iConfiguration, IOptions<AppSettings> appSettings)
         {
             _userRepository = new UserRepository(iConfiguration);
             _session = new UserSession(httpContextAccessor, iConfiguration);
-            _appSettings = settings.Value;
+            _appSettings = appSettings.Value;
         }
 
         #endregion
@@ -72,6 +73,8 @@ namespace Ling.Dashboard.Controllers
         [AllowAnonymous]
         public ActionResult Login(string username, string password, string returnurl = "")
         {
+            var a = HttpContext.User as ClaimsPrincipal;
+
             string encryptedPassword = Security.Hash(password);
             string Check = Request.Form["RememberMe"];
             if (Check == "on")
@@ -138,14 +141,18 @@ namespace Ling.Dashboard.Controllers
 
                         _session.InitializeUserSession(user.ID, user);
 
-                        var claims = new[] { new Claim(ClaimTypes.Name, username), new Claim(ClaimTypes.Role, user.Role), new Claim(ClaimTypes.Sid, user.ID.ToString()) };
+                        var claims = new List<Claim>
+                                            {
+                                                new Claim(ClaimTypes.Name, username),
+                                                new Claim(ClaimTypes.Role, user.Role),
+                                                new Claim(ClaimTypes.Sid, user.ID.ToString())
+                                            };
 
-                        var identity = new ClaimsIdentity(claims, "User Identity");
-                        var userPrincipal = new ClaimsPrincipal(new[] { identity });
-
-                        Thread.CurrentPrincipal = userPrincipal;
-
-                        HttpContext.SignInAsync(userPrincipal);
+                        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var authProperties = new AuthenticationProperties();
+                        var userPrincipal = new ClaimsPrincipal(identity);
+                        //Thread.CurrentPrincipal = userPrincipal;
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, userPrincipal, authProperties);
 
                         if (string.IsNullOrEmpty(returnurl))
                         {
@@ -168,13 +175,16 @@ namespace Ling.Dashboard.Controllers
         /// Logout
         /// </summary>
         /// <returns></returns>
+        [Route("logout")]
+        [AllowAnonymous]
         public ActionResult Logout()
         {
-            HttpContext.SignOutAsync();
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.Clear();
             return RedirectToAction("Login", "Account");
         }
 
+        [Route("profile")]
         [Authorize]
         public ActionResult MyProfile()
         {
@@ -188,24 +198,28 @@ namespace Ling.Dashboard.Controllers
             return View();
         }
 
+        [Route("profile")]
         [HttpPost]
-        public ActionResult MyProfile(Users model, [FromForm]IFormFile file)
+        public ActionResult MyProfile(Users model)
         {
-            string getExistFileName = string.Empty;
+            string oldImageName = string.Empty;
             string imageName = string.Empty;
             string sourceFilePath = string.Empty;
+            string uploadedFileName = string.Empty;
 
             model.ID = _session.LoginUserID;
-            getExistFileName = Request.Form["hdfOldImageName"];
-            if (file.Length > 0)
+            oldImageName = Request.Form["hdfOldImageName"];
+            if (Request.Form.Files != null && Request.Form.Files.Count > 0)
             {
+                var uploadedFile = Request.Form.Files[0];
+
                 sourceFilePath = _appSettings.UploadFolderName + _appSettings.ProfileImagePath;
                 //ServerSettings.UPLOADFOLDERNAME + ServerSettings.PROFILEIMAGEPATH;
 
-                string fileName = file.FileName;
-                if (!string.IsNullOrEmpty(fileName))
+                uploadedFileName = uploadedFile.FileName;
+                if (!string.IsNullOrEmpty(uploadedFileName))
                 {
-                    imageName = Guid.NewGuid().ToString() + "_" + file.FileName;
+                    imageName = Guid.NewGuid().ToString() + "_" + uploadedFile.FileName;
 
                     string webURL = _appSettings.DashboardURL;
 
@@ -218,15 +232,15 @@ namespace Ling.Dashboard.Controllers
                     string fileSavePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath, imageName);
                     using (var fileStream = new FileStream(fileSavePath, FileMode.Create))
                     {
-                        file.CopyTo(fileStream);
+                        uploadedFile.CopyTo(fileStream);
                     }
-                    //string imageVersions = Constants.THUMBNAILIMAGERESIZER + "," + Constants.LARGEIMAGERESIZER + "," + Constants.SMALLIMAGERESIZER + "," + Constants.MEDIUMIMAGERESIZER;
+                    string imageVersions = Constants.THUMBNAILIMAGERESIZER + "," + Constants.LARGEIMAGERESIZER + "," + Constants.SMALLIMAGERESIZER + "," + Constants.MEDIUMIMAGERESIZER;
                     //imageName = WebHelper.UploadFile(imageHttpFile, sourceFilePath, imageVersions, webURL);
                 }
-                else
-                {
-                    imageName = Request.Form["hdfImageName"];
-                }
+            }
+            else
+            {
+                imageName = oldImageName;
             }
 
             model.Avatar = imageName;
@@ -240,11 +254,11 @@ namespace Ling.Dashboard.Controllers
             userLoginViewModel.ID = _session.LoginUserID;
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
-                //if (!string.IsNullOrEmpty(getExistFileName))
-                //    WebHelper.DeleteFile(getExistFileName, ServerSettings.PROFILEIMAGEPATH);
+                //if (!string.IsNullOrEmpty(oldImageName) && !string.IsNullOrEmpty(uploadedFileName))
+                //    WebHelper.DeleteFile(oldImageName, ServerSettings.PROFILEIMAGEPATH);
 
                 _session.InitializeUserSession(userLoginViewModel.ID, userLoginViewModel);
-                //WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
                 return RedirectToAction("MyProfile", "Account");
 
             }
@@ -256,6 +270,29 @@ namespace Ling.Dashboard.Controllers
                 WebHelper.WebHelper.SetOperationMessage(this, "Unable To Perform Operation!", ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
 
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword()
+        {
+            string encryptedCurrentPassword = Security.Hash(Request.Form["CurrentPassword"]);
+            encryptedPassword = Security.Hash(Request.Form["Password"]);
+            ResponseObjectForAnything responseObjectForAnything = _userRepository.UpdatePassword(_session.LoginUserID, encryptedCurrentPassword, encryptedPassword);
+
+            if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
+            {
+                WebHelper.WebHelper.SetOperationMessage(this, "Password changed successfully!", ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
+            }
+            else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_INVALID)
+            {
+               WebHelper.WebHelper.SetOperationMessage(this, "Invalid current password.", ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
+            }
+            else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_INVALID)
+            {
+                WebHelper.WebHelper.SetOperationMessage(this, responseObjectForAnything.ResultMessage, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
+            }
+
+            return RedirectToAction("MyProfile", "Account");
         }
         #endregion
     }

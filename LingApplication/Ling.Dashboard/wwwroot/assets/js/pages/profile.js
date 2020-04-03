@@ -1,6 +1,7 @@
 ﻿// document load event it will occure on page load
 $(document).ready(function () {
     InitProfileFormValidation();
+    InitChangePasswordFormValidation();
 });
 
 // Initialization Form Validation
@@ -24,7 +25,7 @@ function InitProfileFormValidation() {
             Name: "Please enter name",
             PhoneNumber: {
                 required: "Please enter phone",
-                digits: "Only digit allow",
+                digits: "Please enter only digit",
                 maxlength: "Please enter 10 digit number",
                 minlength: "Please enter 10 digit number"
             },
@@ -62,6 +63,53 @@ function InitProfileFormValidation() {
     $("#btnSave").click(function () {
         if ($("#frm_Profile").valid()) {
             $("#frm_Profile").submit();
+        }
+    });
+}
+
+// INITIALIZATION FORM VALIDATION
+function InitChangePasswordFormValidation() {
+    $("#frmManage").validate({
+        rules: {
+            CurrentPassword: { required: true },
+            Password: {
+                required: true,
+                minlength: 6,
+                maxlength: 15
+            },
+            ConfirmPassword: {
+                required: true,
+                equalTo: "#Password"
+            }
+        },
+        messages: {
+            CurrentPassword: "Please enter current password",
+            Password: {
+                required: "Please enter password",
+                minlength: "Minimum required 6 characters",
+                maxlength: "Maximum 15 characters allowed"
+            },
+            ConfirmPassword:
+            {
+                required: "Please enter confirm password",
+                equalTo: "Password not match"
+            }
+        },
+        errorElement: 'span',
+        errorClass: 'invalid-feedback',
+        highlight: function (element) {
+            $(element).removeClass('is-valid').addClass('is-invalid');
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+        },
+        success: function (element, object) {
+            $(object).removeClass('is-invalid').addClass('is-valid');
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        },
+    });
+
+    $("#btnUpdatePassword").click(function () {
+        if ($("#frmManage").valid()) {
+            $("#frmManage").submit();
         }
     });
 }

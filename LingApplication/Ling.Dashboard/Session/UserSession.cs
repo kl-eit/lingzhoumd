@@ -3,8 +3,11 @@ using Ling.Domains.Abstract;
 using Ling.Domains.Concrete;
 using Ling.Domains.ResponseObject;
 using Ling.Domains.ViewModel;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,25 +84,13 @@ namespace Ling.Dashboard.Session
 
         public int GetAuthCookieUserID()
         {
-            //System.Security.Principal.IPrincipal principal = System.Threading.Thread.CurrentPrincipal;
-            //System.Security.Principal.IIdentity identity = principal == null ? null : principal.Identity;
-
             int id = 0;
-            //if (identity.IsAuthenticated)
-            //{
-            //    id = identity == null ? 0 : Convert.ToInt32(identity.Name);
-            //}
 
-            //Get the current claims principal
-            var identity = (ClaimsPrincipal)System.Threading.Thread.CurrentPrincipal;
+            var principal = _httpContextAccessor.HttpContext.User as ClaimsPrincipal;
+            var userId = principal?.Claims
+              .First(c => c.Type == ClaimTypes.Sid);
 
-            // Get the claims values
-            var name = identity.Claims.Where(c => c.Type == ClaimTypes.Name)
-                               .Select(c => c.Value).SingleOrDefault();
-            var sid = identity.Claims.Where(c => c.Type == ClaimTypes.Sid)
-                               .Select(c => c.Value).SingleOrDefault();
-
-
+            id = Convert.ToInt32(userId.Value);
             //var claims = System.Security.Claims.ClaimsPrincipal.Current.Identities.First().Claims.ToList();
             //string val = claims?.FirstOrDefault(x => x.Type.Equals("", StringComparison.OrdinalIgnoreCase))?.Value;
 

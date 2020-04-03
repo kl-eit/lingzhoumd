@@ -13,5 +13,6 @@ namespace Ling.Domains.Abstract
         ResponseObjectForAnything Authentication(string pUserName, string pPassword);
         ResponseObjectForAnything UserAuthentication(string pUsername, string pEncryptedPassword);
         ResponseObjectForAnything ReInitUserSession(int pUserID);
+        ResponseObjectForAnything UpdatePassword(int pUserID, string pExistingPassword, string pNewPassword);
     }
 }

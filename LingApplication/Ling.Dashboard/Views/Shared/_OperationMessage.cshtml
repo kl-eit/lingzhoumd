@@ -1,8 +1,12 @@
-﻿@*@using Ling.Common
+﻿@using Ling.Common
+@using Newtonsoft.Json;
 
 @{
+    Alert alert = null;
     Layout = null;
-    Alert alert = (Alert)TempData["OperationMessage"];
+    object o;
+    TempData.TryGetValue("OperationMessage", out o);
+    if (o != null) { alert = JsonConvert.DeserializeObject<Alert>((string)o); }
 
 }
 @if (alert != null)
@@ -66,4 +70,4 @@
     }
     alert.Message = string.Empty;
     TempData["OperationMessage"] = null;
-}*@
+}
