@@ -1,0 +1,192 @@
+﻿@model Ling.Domains.Entities.HomeSlider
+@using Ling.Common
+@using Microsoft.Extensions.Options;
+@inject IOptions<Ling.Dashboard.AppSettings> Settings
+
+@{
+    string title = Model.ID > 0 ? "Ling Zhou, MD | Home Slide - Edit " : "Ling Zhou, MD | Home Slide - Add";
+    ViewBag.Title = title;
+
+    string bannerimagehide = "";
+    string bannervideohide = "d-none";
+    string bannerImageFileName = "", bannerVideoFileName = "";
+    string webURL = Settings.Value.DashboardURL;
+
+    if (Model.FileTypeID == 1)
+    {
+        bannerimagehide = "";
+        bannervideohide = "d-none";
+        bannerImageFileName = Model.ImageName;
+    }
+    else if (Model.FileTypeID == 2)
+    {
+        bannervideohide = "";
+        bannerimagehide = "d-none";
+        bannerVideoFileName = Model.Video;
+    }
+}
+@section PageCss{
+    <link rel="stylesheet" href="@Url.Content("~/assets/css/pages/homeslidermanage.css")" type="text/css" />
+}
+<div class="card mb-3">
+    <div class="card-body rounded-soft bg-gradient">
+        <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+        <div class="row text-white align-items-center no-gutters">
+            <div class="col">
+                <h4 class="text-white mb-0">Home Slider</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <i class="fa fa-home"></i>
+                            <a href="@Url.Content("~/Home/Index")">Home</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="@Url.Content("~/HomeSlider/Index")">Home Slider</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">@(Model.ID > 0 ? "Edit" : "Add")</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        @Html.Partial("_OperationMessage")
+    </div>
+</div>
+
+<div class="row no-gutters">
+    <div class="col-lg-12">
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">@(Model.ID > 0 ? "Edit" : "Add") Home Slider</h5>
+            </div>
+            <div class="card-body bg-light">
+                @using (Html.BeginForm("Manage", "HomeSlider", FormMethod.Post, new { id = "frmManage", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                {
+                    <input type="hidden" value="@Model.ID" id="hdfID" />
+                    <div class="form-group row">
+                        <label for="txtTitle" class="col-sm-2 col-form-label text-right">Title </label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="Enter Title" id="txtTitle" name="Title" value="@Model.Title" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="txtTitle" class="col-sm-2 col-form-label text-right">Content</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control" placeholder="Enter Content" id="txtContent" name="Content" value="@Model.Content" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="IsActive" class="col-sm-2 col-form-label text-right">Active?</label>
+                        <div class="col-sm-4" style="margin-top:6px;">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="chkIsActive" type="checkbox" name="IsActive" @(Model.IsActive ? "checked" : "" ) />
+                                <label class="custom-control-label" for="chkIsActive"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="bannerImageVedio" class="col-sm-2 col-form-label text-right">Banner</label>
+                        <div class="col-sm-10 form-control-static m-auto">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input class="custom-control-input" id="chkImage" type="radio" name="ImageVideo" value="Image" @(Model.FileTypeID == 1 ? "checked" : "checked" ) />
+                                <label class="custom-control-label" for="chkImage">Image</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input class="custom-control-input" id="chkVideo" type="radio" name="ImageVideo" value="Video" @(Model.FileTypeID == 2 ? "checked" : "" ) />
+                                <label class="custom-control-label" for="chkVideo">Video</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row @bannerimagehide" id="dvBannerImage">
+                        <label class="col-sm-2 col-form-label text-right">&nbsp;Banner Image</label>
+                        @{
+                            var bannerPicture = string.Empty;
+                            if (Model.ID > 0)
+                            {
+                                bannerPicture = Model.ImageName;
+                            }
+
+                            if (!string.IsNullOrEmpty(bannerPicture))
+                            {
+                                bannerPicture = Settings.Value.DashboardURL + Settings.Value.UploadFolderName + Settings.Value.ProfileImagePath + Model.ImageName;
+                            }
+                        }
+                        <div class="col-sm-5" id="imageName">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-preview thumbnail" data-trigger="fileinput">
+                                    <img src="@bannerPicture" id="imagePreview" name="BannerImage" onerror="this.src = '@Constants.SLIDE_IMAGE_NOT_FOUND'" class="img-responsive" style="width:100%;" />
+                                </div>
+                                <div class="validate">
+                                    <span class="btn btn-crowne-primary btn-sm btn-file">
+                                        <span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
+                                        <input type="file" name="fileImage" id="fileImage" onchange="ShowPreview(this, 'bannerImage')" />
+                                        <input type="hidden" id="hdfBannerImage" name="hdfBannerImage" value="@bannerImageFileName" class="@(Model.FileTypeID == 2 ? "bannerImage" : "" )" />
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row @bannervideohide" id="dvBannerVideo">
+                        <label class="col-sm-2 col-form-label text-right">&nbsp;Banner Video</label>
+                        @{
+                            var BannerVideo = string.Empty;
+                            if (Model.ID > 0)
+                            {
+                                BannerVideo = Model.Video;
+                            }
+
+                            if (!string.IsNullOrEmpty(BannerVideo))
+                            {
+                                BannerVideo = Settings.Value.DashboardURL + Settings.Value.UploadFolderName + Settings.Value.ProfileImagePath + Model.Video;
+                            }
+                            else
+                            {
+                                BannerVideo = string.Empty;
+                            }
+                        }
+                        <div class="col-sm-5" id="videoName">
+                            <div class="@(bannerVideoFileName == "" ? "d-none" : "" )" id="dvUploadedSection">
+                                <label class="col-form-label">@bannerVideoFileName</label>
+                                <button class="btn btn-close" type="button" onclick="RemoveExistingFile();"><i class="fa fa-close"></i></button>
+                            </div>
+                            <div class="custom-file customvideoupload @(bannerVideoFileName != "" ? "d-none" : "" )" id="dvUploadSection">
+                                <input type="file" class="custom-file-input" id="fileupload" name="fileupload" onchange="ShowPreview(this, 'bannerVideo')" />
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                                <input type="hidden" id="hdfBannerVideo" name="hdfBannerVideo" value="@bannerVideoFileName" class="bannerVideo" class="@(Model.FileTypeID == 1 ? "bannerVideo" : "" )" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group row @bannerimagehide" id="dvBannerNote">
+                        <label class="col-sm-2 control-label">&nbsp;</label>
+                        <div class="col-xs-6 form-control-static note_wrapper">
+                            <div class="alert alert-info mb-0 rounded-0 custom-alert" role="alert"><strong>Note! </strong>Width must be greater than 500 and height must be greater than 174.</div>
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <a href="@Url.Content("~/HomeSlider/Index")" class="btn btn-crowne-cancel btn-sm mr-2">Cancel</a>
+                        <button id="btnSave" type="button" class="btn btn-crowne-primary btn-sm">Save </button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section PageScript{
+    <script src="@Url.Content("~/assets/js/jquery-ui.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-validation-1.16.0/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/plugins/jquery-validation-1.16.0/additional-methods.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/js/pages/homeslidermanage.js")" type="text/javascript"></script>
+}

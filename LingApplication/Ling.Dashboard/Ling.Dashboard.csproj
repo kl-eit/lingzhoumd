@@ -5,11 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\assets\css\pages\" />
-    <Folder Include="wwwroot\assets\js\pages\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\assets\css\custom.css" />
     <None Include="wwwroot\assets\css\fileupload.css" />
     <None Include="wwwroot\assets\css\theme.css" />

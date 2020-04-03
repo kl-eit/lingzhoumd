@@ -12,7 +12,7 @@ namespace Ling.Common
         public static int PAGE_SIZE = 10;
         public static string IMAGE_NOT_FOUND = "/assets/images/no-image.png";
         public static string USER_IMAGE_NOT_FOUND = "/assets/images/user-placeholder-image.jpg";
-
+        public static string SLIDE_IMAGE_NOT_FOUND = "/assets/images/placeholder-slide-image.png";
 
         #region FOR RESPONSE OBJECT STATUS
 
@@ -87,5 +87,17 @@ namespace Ling.Common
         public static string USERSESSION_USERROLEID = "USERSESSION_USERROLEID";
 
         #endregion
+
+        #region IMAGERESIZER
+        public static string THUMBNAILIMAGERESIZER = "T_";
+        public static string MEDIUMIMAGERESIZER = "M_";
+        public static string MEDIUMROOMIMAGERESIZER = "MR_";
+        public static string MEDIUMEVENTIMAGERESIZER = "ME_";
+        public static string LARGEDININGIMAGERESIZER = "LD_";
+        public static string LARGEIMAGERESIZER = "L_";
+        public static string SMALLIMAGERESIZER = "S_";
+        public static string SMALLHOMESLIDERIMAGERESIZER = "SH_";
+        public static string MEDIUMSECTIONIMAGERESIZER = "SE_";
+        #endregion   
     }
 }

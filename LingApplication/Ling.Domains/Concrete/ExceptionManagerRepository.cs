@@ -16,7 +16,6 @@ namespace Ling.Domains.Concrete
     {
         public ExceptionManagerRepository(IConfiguration iConfiguration) : base(iConfiguration)
         {
-
         }
 
         public static ResponseObjectForAnything PublishException(ExceptionLog pEntity)

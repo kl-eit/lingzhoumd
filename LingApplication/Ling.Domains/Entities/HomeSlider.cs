@@ -10,6 +10,7 @@ namespace Ling.Domains.Entities
         public string Title { get; set; }
         public string Content { get; set; }
         public string Video { get; set; }
+        public int FileTypeID { get; set; }
         public string ImageName { get; set; }
         public bool IsActive { get; set; }
         public string CreatedBy { get; set; }

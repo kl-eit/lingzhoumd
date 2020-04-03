@@ -1,0 +1,22 @@
+﻿.box-body #addhomesliderbtn {
+    margin-top: 10px;
+}
+
+.banner-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 5px;
+    display: inline-block;
+}
+
+.note_wrapper {
+    background-color: #e7f3fe;
+    border-left: 6px solid #2196F3;
+    margin-left: 15px;
+}
+
+.btn-close {
+    padding: .375rem .75rem !important;
+    padding-top: calc(.3125rem + 1px);
+    padding-bottom: calc(.3125rem + 1px);
+}
