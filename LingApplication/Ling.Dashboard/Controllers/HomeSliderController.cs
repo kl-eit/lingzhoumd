@@ -35,6 +35,7 @@ namespace Ling.Dashboard.Controllers
             _appSettings = settings.Value;
         }
         #endregion
+
         #region Actions
         public ActionResult Index()
         {
