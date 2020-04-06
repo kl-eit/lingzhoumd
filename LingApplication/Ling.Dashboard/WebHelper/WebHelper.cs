@@ -41,16 +41,10 @@ namespace Ling.Dashboard.WebHelper
                 client.DefaultRequestHeaders.Accept.Clear();
                 HttpResponseMessage response = await client.GetAsync("Common/" + method); // return URI of the created resource.
                 return response.StatusCode;
-            }
-        }
-
-
-                HttpResponseMessage response = await client.GetAsync("Common/" + method);
 
                 // return URI of the created resource.
                 return response.StatusCode;
             }
         }
-
     }
 }
