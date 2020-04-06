@@ -32,22 +32,18 @@ namespace Ling.Dashboard.WebHelper
                 File.Delete(filePath);
             }
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> b5d7faea151cbc4f426b02daf9ed1be2956aee56
         public async static Task<HttpStatusCode> ClearWebApplicationCache(string method, string webURL)
         {
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(webURL);
                 client.DefaultRequestHeaders.Accept.Clear();
-<<<<<<< HEAD
                 HttpResponseMessage response = await client.GetAsync("Common/" + method); // return URI of the created resource.
                 return response.StatusCode;
             }
         }
-=======
+
 
                 HttpResponseMessage response = await client.GetAsync("Common/" + method);
 
@@ -56,6 +52,5 @@ namespace Ling.Dashboard.WebHelper
             }
         }
 
->>>>>>> b5d7faea151cbc4f426b02daf9ed1be2956aee56
     }
 }
