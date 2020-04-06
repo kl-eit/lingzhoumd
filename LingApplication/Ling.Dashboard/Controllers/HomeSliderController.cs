@@ -75,7 +75,8 @@ namespace Ling.Dashboard.Controllers
                 uploadedFileName = uploadedFile.FileName;
                 if (!string.IsNullOrEmpty(uploadedFileName))
                 {
-                    imageName = Guid.NewGuid().ToString() + "_" + uploadedFile.FileName; string webURL = _appSettings.DashboardURL;
+                    imageName = Guid.NewGuid().ToString() + "_" + uploadedFile.FileName;
+                    string webURL = _appSettings.DashboardURL;
                     string fileDirectory = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath);
                     if (!Directory.Exists(fileDirectory))
                     {

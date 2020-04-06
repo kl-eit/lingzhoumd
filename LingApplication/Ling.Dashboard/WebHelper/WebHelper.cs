@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Ling.Dashboard.WebHelper
@@ -20,14 +22,28 @@ namespace Ling.Dashboard.WebHelper
             controller.TempData["OperationMessage"] = JsonConvert.SerializeObject(alert);
         }
 
-        //public static void DeleteFile(string fileName, string fileDirectoryPath = "")
-        //{
-        //    string filePath = Path.Combine(ServerSettings.WEBPHYSICALUPLOADPATH, fileDirectoryPath, fileName);
-        //    if (File.Exists(filePath))
-        //    {
-        //        File.Delete(filePath);
-        //    }
-        //}
+        public static void DeleteFile(string fileName, string filePhysicalPath, string fileDirectoryPath = "")
+        {
+            string filePath = Path.Combine(filePhysicalPath, fileDirectoryPath, fileName);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+
+        public async static Task<HttpStatusCode> ClearWebApplicationCache(string method, string webURL)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(webURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+
+                HttpResponseMessage response = await client.GetAsync("Common/" + method);
+
+                // return URI of the created resource.
+                return response.StatusCode;
+            }
+        }
 
     }
 }

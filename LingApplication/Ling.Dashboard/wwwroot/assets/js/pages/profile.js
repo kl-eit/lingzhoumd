@@ -117,7 +117,7 @@ function InitChangePasswordFormValidation() {
 //TO SHOW PREVIEW OF IMAGE
 function ShowPreview(input) {
     var fileName = $('input[type=file]').val();
-    $("#hdfOldImageName").val("");
+    //$("#hdfOldImageName").val("");
     $("#hdfImageName").val(fileName);
     if (input.files && input.files[0]) {
         var ImageDir = new FileReader();
