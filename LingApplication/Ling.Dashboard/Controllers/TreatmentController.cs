@@ -34,6 +34,7 @@ namespace Ling.Dashboard.Controllers
             _treatmentsRepository = new TreatmentsRepository(iConfiguration);
             _session = new UserSession(httpContextAccessor, iConfiguration);
             _appSettings = settings.Value;
+            ViewBag.SelectedMenu = "Treatment";
         }
 
         #endregion

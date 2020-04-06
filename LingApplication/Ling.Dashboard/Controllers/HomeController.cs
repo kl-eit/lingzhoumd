@@ -10,6 +10,11 @@ namespace Ling.Dashboard.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        public HomeController()
+        {
+            ViewBag.SelectedMenu = "Dashboard";
+        }
+
         public IActionResult Index()
         {
             return View();

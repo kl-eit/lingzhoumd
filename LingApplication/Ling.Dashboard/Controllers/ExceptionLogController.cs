@@ -24,6 +24,7 @@ namespace Ling.Dashboard.Controllers
         public ExceptionLogController(IConfiguration iConfiguration)
         {
             _exceptionManagerRepository = new ExceptionManagerRepository(iConfiguration);
+            ViewBag.SelectedMenu = "ExceptionLog";
         }
         #endregion
 
