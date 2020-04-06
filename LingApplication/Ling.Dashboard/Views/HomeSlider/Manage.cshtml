@@ -12,18 +12,15 @@
     string bannerImageFileName = "", bannerVideoFileName = "";
     string webURL = Settings.Value.DashboardURL;
 
-    if (Model.FileTypeID == 1)
-    {
-        bannerimagehide = "";
-        bannervideohide = "d-none";
-        bannerImageFileName = Model.ImageName;
-    }
-    else if (Model.FileTypeID == 2)
-    {
-        bannervideohide = "";
-        bannerimagehide = "d-none";
-        bannerVideoFileName = Model.Video;
-    }
+
+    bannerimagehide = "";
+    bannervideohide = "d-none";
+    bannerImageFileName = Model.ImageName;
+
+    bannervideohide = "";
+    bannerimagehide = "d-none";
+    bannerVideoFileName = Model.Video;
+
 }
 @section PageCss{
     <link rel="stylesheet" href="@Url.Content("~/assets/css/pages/homeslidermanage.css")" type="text/css" />
@@ -93,11 +90,11 @@
                         <label for="bannerImageVedio" class="col-sm-2 col-form-label text-right">Banner</label>
                         <div class="col-sm-10 form-control-static m-auto">
                             <div class="custom-control custom-radio custom-control-inline">
-                                <input class="custom-control-input" id="chkImage" type="radio" name="ImageVideo" value="Image" @(Model.FileTypeID == 1 ? "checked" : "checked" ) />
+                                <input class="custom-control-input" id="chkImage" type="radio" name="ImageVideo" value="Image" @(bannerImageFileName != null  ? "checked" : "" ) />
                                 <label class="custom-control-label" for="chkImage">Image</label>
                             </div>
                             <div class="custom-control custom-radio custom-control-inline">
-                                <input class="custom-control-input" id="chkVideo" type="radio" name="ImageVideo" value="Video" @(Model.FileTypeID == 2 ? "checked" : "" ) />
+                                <input class="custom-control-input" id="chkVideo" type="radio" name="ImageVideo" value="Video" @(bannerVideoFileName != null? "checked" : "" ) />
                                 <label class="custom-control-label" for="chkVideo">Video</label>
                             </div>
                         </div>
@@ -114,7 +111,7 @@
 
                             if (!string.IsNullOrEmpty(bannerPicture))
                             {
-                                bannerPicture = Settings.Value.DashboardURL + Settings.Value.UploadFolderName + Settings.Value.ProfileImagePath + Model.ImageName;
+                                bannerPicture = Settings.Value.DashboardURL + Settings.Value.UploadFolderName + Settings.Value.HomeSliderImagePath + Model.ImageName;
                             }
                         }
                         <div class="col-sm-5" id="imageName">
@@ -145,7 +142,7 @@
 
                             if (!string.IsNullOrEmpty(BannerVideo))
                             {
-                                BannerVideo = Settings.Value.DashboardURL + Settings.Value.UploadFolderName + Settings.Value.ProfileImagePath + Model.Video;
+                                BannerVideo = Settings.Value.DashboardURL + Settings.Value.UploadFolderName + Settings.Value.HomeSliderImagePath + Model.Video;
                             }
                             else
                             {
@@ -160,7 +157,7 @@
                             <div class="custom-file customvideoupload @(bannerVideoFileName != "" ? "d-none" : "" )" id="dvUploadSection">
                                 <input type="file" class="custom-file-input" id="fileupload" name="fileupload" onchange="ShowPreview(this, 'bannerVideo')" />
                                 <label class="custom-file-label" for="customFile">Choose file</label>
-                                <input type="hidden" id="hdfBannerVideo" name="hdfBannerVideo" value="@bannerVideoFileName" class="bannerVideo" class="@(Model.FileTypeID == 1 ? "bannerVideo" : "" )" />
+                                <input type="hidden" id="hdfBannerVideo" name="hdfBannerVideo" value="@bannerVideoFileName" class="@(Model.FileTypeID == 1 ? "bannerVideo" : "" )" />
                             </div>
                         </div>
                     </div>

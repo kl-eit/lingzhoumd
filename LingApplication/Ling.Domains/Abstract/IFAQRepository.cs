@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Ling.Domains.Abstract
 {
-    public interface IWebSiteSettingRepository : IRepositoryBase<WebSiteSetting>
+    public interface IFAQRepository : IRepositoryBase<FAQ>
     {
     }
 }

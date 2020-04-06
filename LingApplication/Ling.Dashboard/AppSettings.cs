@@ -11,5 +11,6 @@ namespace Ling.Dashboard
         public string DashboardPhysicalUploadPath { get; set; }
         public string UploadFolderName { get; set; }
         public string ProfileImagePath { get; set; }
+        public string HomeSliderImagePath { get; set; }
     }
 }

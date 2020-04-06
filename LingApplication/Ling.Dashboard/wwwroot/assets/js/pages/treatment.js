@@ -1,45 +1,41 @@
 ﻿// PAGE LOAD EVENT
 $(document).ready(function () {
-    $('#tableHomeSlider').on('processing.dt', function (e, settings, processing) {
-        if (processing)
-            ShowBlockUI();
-        else
-            HideBlockUI();
-    }).dataTable();
+    $('#tblTreatment').dataTable();
+
     InitDataTable();
 
     $.fn.DataTable.ext.pager.numbers_length = 5;
 
-    $('#tableHomeSlider tbody').sortable({
-        items: "tr",
-        cursor: 'move',
-        opacity: 0.6,
-        update: function (event, ui) {
-            var sortOrderIDs = $(this).sortable("toArray").toString();
-            var ajaxUrl = _contentRoot + "HomeSlider/UpdateSortOrderID";
+    //$('#tblTreatment tbody').sortable({
+    //    items: "tr",
+    //    cursor: 'move',
+    //    opacity: 0.6,
+    //    update: function (event, ui) {
+    //        var sortOrderIDs = $(this).sortable("toArray").toString();
+    //        var ajaxUrl = _contentRoot + "Treatment/UpdateSortOrderID";
 
-            if (!IsNullOrEmptyString(sortOrderIDs)) {
-                $.ajax({
-                    type: "POST",
-                    url: ajaxUrl,
-                    data: {
-                        sortedRowIDs: sortOrderIDs
-                    },
-                    success: function (response) {
-                    },
-                    error: function (x, e) {
-                    }
-                });
-            }
-        }
-    });
+    //        if (!IsNullOrEmptyString(sortOrderIDs)) {
+    //            $.ajax({
+    //                type: "POST",
+    //                url: ajaxUrl,
+    //                data: {
+    //                    sortedRowIDs: sortOrderIDs
+    //                },
+    //                success: function (response) {
+    //                },
+    //                error: function (x, e) {
+    //                }
+    //            });
+    //        }
+    //    }
+    //});
 });
 
 
 // INITIALIZE DATA TABLE
 function InitDataTable() {
-    var ajaxUrl = _contentRoot + 'HomeSlider/GetHomeSlider';
-    $('#tableHomeSlider').DataTable({
+    var ajaxUrl = _contentRoot + 'Treatment/GetTreatments';
+    $('#tblTreatment').DataTable({
         "language": {
             "emptyTable": "No record found"
         },
@@ -54,31 +50,21 @@ function InitDataTable() {
             dataType: "json"
         },
         columnDefs: [
-            { "width": "5%", "targets": 1 },
-            { "width": "30%", "targets": 2 },
-            { "width": "20%", "targets": 3 },
-            { "width": "10%", "targets": 4 },
-            { "width": "12%", "targets": 5 },
-            { "width": "12%", "targets": 6 },
-            { "width": "2%", "targets": 7 }
+            { "width": "30%", "targets": 1 },
+            { "width": "20%", "targets": 2 },
+            { "width": "10%", "targets": 3 },
+            { "width": "12%", "targets": 4 },
+            { "width": "12%", "targets": 5 }
         ],
         aoColumns: [
             {
                 mDataProp: "ID",
                 visible: false
             },
+            { mDataProp: "Name", "orderable": false },
+            { mDataProp: "Description", "orderable": false },
             {
-                mDataProp: null,
-                className: 'custom-sortorder',
-                render: function (d) {
-                    return '<i class="metismenu-icon fa fa-arrows dragLink"></i>'
-                },
-                "orderable": false
-            },
-            { mDataProp: "Title", "orderable": false },
-            { mDataProp: "Content", "orderable": false },
-            {
-                "data": "IsActive", orderable: false, "targets": [5], "render": function (data, type, full, meta) {
+                "data": "IsActive", orderable: false, "targets": [3], "render": function (data, type, full, meta) {
                     if (data == true) {
                         return '<span class="badge badge rounded-capsule badge-soft-success">YES<span class="ml-1 fa fa-check" data-fa-transform="shrink-2"></span></span>';
                     }
@@ -117,10 +103,6 @@ function InitDataTable() {
                 container: 'body',
             });
             $(".dataTables_paginate .pagination").addClass('pagination-sm');
-            if (window.screen.width < 768)
-                $(".dragLink").css("display", "none");
-            else
-                $(".dragLink").css("display", "block");
         }
     });
 }

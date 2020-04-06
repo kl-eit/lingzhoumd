@@ -1,45 +1,23 @@
 ﻿// PAGE LOAD EVENT
 $(document).ready(function () {
-    $('#tableHomeSlider').on('processing.dt', function (e, settings, processing) {
+    $('#tblCMS').on('processing.dt', function (e, settings, processing) {
         if (processing)
             ShowBlockUI();
         else
             HideBlockUI();
     }).dataTable();
+
     InitDataTable();
 
     $.fn.DataTable.ext.pager.numbers_length = 5;
 
-    $('#tableHomeSlider tbody').sortable({
-        items: "tr",
-        cursor: 'move',
-        opacity: 0.6,
-        update: function (event, ui) {
-            var sortOrderIDs = $(this).sortable("toArray").toString();
-            var ajaxUrl = _contentRoot + "HomeSlider/UpdateSortOrderID";
-
-            if (!IsNullOrEmptyString(sortOrderIDs)) {
-                $.ajax({
-                    type: "POST",
-                    url: ajaxUrl,
-                    data: {
-                        sortedRowIDs: sortOrderIDs
-                    },
-                    success: function (response) {
-                    },
-                    error: function (x, e) {
-                    }
-                });
-            }
-        }
-    });
 });
 
 
 // INITIALIZE DATA TABLE
 function InitDataTable() {
-    var ajaxUrl = _contentRoot + 'HomeSlider/GetHomeSlider';
-    $('#tableHomeSlider').DataTable({
+    var ajaxUrl = _contentRoot + 'CMS/GetCMSData';
+    $('#tblCMS').DataTable({
         "language": {
             "emptyTable": "No record found"
         },
@@ -54,29 +32,16 @@ function InitDataTable() {
             dataType: "json"
         },
         columnDefs: [
-            { "width": "5%", "targets": 1 },
-            { "width": "30%", "targets": 2 },
-            { "width": "20%", "targets": 3 },
-            { "width": "10%", "targets": 4 },
-            { "width": "12%", "targets": 5 },
-            { "width": "12%", "targets": 6 },
-            { "width": "2%", "targets": 7 }
+            { "width": "35%", "targets": 0 },
+            { "width": "30%", "targets": 1 },
+            { "width": "10%", "targets": 2 },
+            { "width": "12%", "targets": 3 },
+            { "width": "12%", "targets": 4 },
+            { "width": "2%", "targets": 5 }
         ],
         aoColumns: [
-            {
-                mDataProp: "ID",
-                visible: false
-            },
-            {
-                mDataProp: null,
-                className: 'custom-sortorder',
-                render: function (d) {
-                    return '<i class="metismenu-icon fa fa-arrows dragLink"></i>'
-                },
-                "orderable": false
-            },
-            { mDataProp: "Title", "orderable": false },
-            { mDataProp: "Content", "orderable": false },
+            { mDataProp: "CMSKey", "orderable": true },
+            { mDataProp: "Title", "orderable": true },
             {
                 "data": "IsActive", orderable: false, "targets": [5], "render": function (data, type, full, meta) {
                     if (data == true) {
@@ -91,14 +56,14 @@ function InitDataTable() {
                 render: function (d) {
                     return moment(d).format("MM/DD/YYYY");
                 },
-                "orderable": false
+                "orderable": true
             },
             {
                 mDataProp: "ID",
                 className: 'text-center',
                 render: function (d) {
-                    var editUrl = _contentRoot + "HomeSlider/manage/" + d;
-                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "HomeSlider/Delete/" + d + "')";
+                    var editUrl = _contentRoot + "CMS/Manage/" + d;
+                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "CMS/Delete/" + d + "')";
                     return '<div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal custom-btn-reveal mr-3" type="button" id="dropdown' + d + '" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-h fs--1"></span></button>' +
                         '<div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown' + d + '">' +
                         '<div class="bg-white py-2"><a class="dropdown-item" href=\"' + editUrl + '\" >Edit</a>' +
@@ -116,11 +81,8 @@ function InitDataTable() {
             $('[data-toggle="tooltip"]').tooltip({
                 container: 'body',
             });
+
             $(".dataTables_paginate .pagination").addClass('pagination-sm');
-            if (window.screen.width < 768)
-                $(".dragLink").css("display", "none");
-            else
-                $(".dragLink").css("display", "block");
         }
     });
 }

@@ -98,16 +98,4 @@ namespace Ling.Common
     }
 
     #endregion
-
-    #region IMAGERESIZER
-    //public static string THUMBNAILIMAGERESIZER = "T_";
-    //public static string MEDIUMIMAGERESIZER = "M_";
-    //public static string MEDIUMROOMIMAGERESIZER = "MR_";
-    //public static string MEDIUMEVENTIMAGERESIZER = "ME_";
-    //public static string LARGEDININGIMAGERESIZER = "LD_";
-    //public static string LARGEIMAGERESIZER = "L_";
-    //public static string SMALLIMAGERESIZER = "S_";
-    //public static string SMALLHOMESLIDERIMAGERESIZER = "SH_";
-    //public static string MEDIUMSECTIONIMAGERESIZER = "SE_";
-    #endregion
 }

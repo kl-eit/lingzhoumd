@@ -1,6 +1,6 @@
 ﻿// PAGE LOAD EVENT
 $(document).ready(function () {
-    $('#tableHomeSlider').on('processing.dt', function (e, settings, processing) {
+    $('#tablefaq').on('processing.dt', function (e, settings, processing) {
         if (processing)
             ShowBlockUI();
         else
@@ -9,37 +9,13 @@ $(document).ready(function () {
     InitDataTable();
 
     $.fn.DataTable.ext.pager.numbers_length = 5;
-
-    $('#tableHomeSlider tbody').sortable({
-        items: "tr",
-        cursor: 'move',
-        opacity: 0.6,
-        update: function (event, ui) {
-            var sortOrderIDs = $(this).sortable("toArray").toString();
-            var ajaxUrl = _contentRoot + "HomeSlider/UpdateSortOrderID";
-
-            if (!IsNullOrEmptyString(sortOrderIDs)) {
-                $.ajax({
-                    type: "POST",
-                    url: ajaxUrl,
-                    data: {
-                        sortedRowIDs: sortOrderIDs
-                    },
-                    success: function (response) {
-                    },
-                    error: function (x, e) {
-                    }
-                });
-            }
-        }
-    });
 });
 
 
 // INITIALIZE DATA TABLE
 function InitDataTable() {
-    var ajaxUrl = _contentRoot + 'HomeSlider/GetHomeSlider';
-    $('#tableHomeSlider').DataTable({
+    var ajaxUrl = _contentRoot + 'faq/GetFAQList';
+    $('#tablefaq').DataTable({
         "language": {
             "emptyTable": "No record found"
         },
@@ -75,8 +51,8 @@ function InitDataTable() {
                 },
                 "orderable": false
             },
-            { mDataProp: "Title", "orderable": false },
-            { mDataProp: "Content", "orderable": false },
+            { mDataProp: "Question", "orderable": true },
+            { mDataProp: "Answer", "orderable": true},
             {
                 "data": "IsActive", orderable: false, "targets": [5], "render": function (data, type, full, meta) {
                     if (data == true) {
@@ -85,7 +61,7 @@ function InitDataTable() {
                     else return '<span class="badge badge rounded-capsule badge-soft-warning">No<span class="ml-1 fa fa-times" data-fa-transform="shrink-2"></span></span>';
                 }
             },
-            { mDataProp: "CreatedBy", "orderable": false },
+            { mDataProp: "CreatedBy", "orderable": true },
             {
                 mDataProp: "CreatedDate",
                 render: function (d) {
@@ -97,8 +73,8 @@ function InitDataTable() {
                 mDataProp: "ID",
                 className: 'text-center',
                 render: function (d) {
-                    var editUrl = _contentRoot + "HomeSlider/manage/" + d;
-                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "HomeSlider/Delete/" + d + "')";
+                    var editUrl = _contentRoot + "FAQ/manage/" + d;
+                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "FAQ/Delete/" + d + "')";
                     return '<div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal custom-btn-reveal mr-3" type="button" id="dropdown' + d + '" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-h fs--1"></span></button>' +
                         '<div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown' + d + '">' +
                         '<div class="bg-white py-2"><a class="dropdown-item" href=\"' + editUrl + '\" >Edit</a>' +
@@ -117,10 +93,6 @@ function InitDataTable() {
                 container: 'body',
             });
             $(".dataTables_paginate .pagination").addClass('pagination-sm');
-            if (window.screen.width < 768)
-                $(".dragLink").css("display", "none");
-            else
-                $(".dragLink").css("display", "block");
         }
     });
 }

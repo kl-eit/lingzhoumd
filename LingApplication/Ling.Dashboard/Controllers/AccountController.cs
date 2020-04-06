@@ -46,7 +46,7 @@ namespace Ling.Dashboard.Controllers
         #endregion
 
         #region Actions
-        
+
         /// <summary>
         /// Login
         /// </summary>
@@ -219,7 +219,8 @@ namespace Ling.Dashboard.Controllers
                 uploadedFileName = uploadedFile.FileName;
                 if (!string.IsNullOrEmpty(uploadedFileName))
                 {
-                    imageName = Guid.NewGuid().ToString() + "_" + uploadedFile.FileName;
+                    string fileExtension = Path.GetExtension(uploadedFile.FileName);
+                    imageName = Guid.NewGuid().ToString() + fileExtension;
 
                     string webURL = _appSettings.DashboardURL;
 
@@ -236,6 +237,8 @@ namespace Ling.Dashboard.Controllers
                     }
                     string imageVersions = Constants.THUMBNAILIMAGERESIZER + "," + Constants.LARGEIMAGERESIZER + "," + Constants.SMALLIMAGERESIZER + "," + Constants.MEDIUMIMAGERESIZER;
                     //imageName = WebHelper.UploadFile(imageHttpFile, sourceFilePath, imageVersions, webURL);
+                    string destinationFilePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath);
+                    CommonHelper.ResizeImage(fileSavePath, destinationFilePath, imageName, imageVersions);
                 }
             }
             else
@@ -254,8 +257,8 @@ namespace Ling.Dashboard.Controllers
             userLoginViewModel.ID = _session.LoginUserID;
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
-                //if (!string.IsNullOrEmpty(oldImageName) && !string.IsNullOrEmpty(uploadedFileName))
-                //    WebHelper.DeleteFile(oldImageName, ServerSettings.PROFILEIMAGEPATH);
+                if (!string.IsNullOrEmpty(oldImageName) && !string.IsNullOrEmpty(uploadedFileName))
+                    WebHelper.WebHelper.DeleteFile(oldImageName, _appSettings.DashboardPhysicalUploadPath, sourceFilePath);
 
                 _session.InitializeUserSession(userLoginViewModel.ID, userLoginViewModel);
                 WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
@@ -285,7 +288,7 @@ namespace Ling.Dashboard.Controllers
             }
             else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_INVALID)
             {
-               WebHelper.WebHelper.SetOperationMessage(this, "Invalid current password.", ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.WebHelper.SetOperationMessage(this, "Invalid current password.", ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
             }
             else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_INVALID)
             {
