@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Ling.Dashboard
 {
@@ -24,10 +25,12 @@ namespace Ling.Dashboard
         #region CONSTRUCTOR
 
         public IConfiguration Configuration { get; set; }
+        public IHostingEnvironment Environment { get; set; }
 
-        public Startup(IConfiguration config)
+        public Startup(IConfiguration config, IHostingEnvironment environment)
         {
             Configuration = config;
+            Environment = environment;
         }
 
         #endregion
@@ -37,13 +40,28 @@ namespace Ling.Dashboard
         // THIS METHOD GETS CALLED BY THE RUNTIME. USE THIS METHOD TO ADD SERVICES TO THE CONTAINER.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.SecurePolicy = Environment.IsDevelopment()
+                    ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+                    options.Cookie.SameSite = SameSiteMode.Lax;
+                    options.Cookie.Name = "AuthCookieAspNetCore";
+                    options.LoginPath = new PathString("/account/login");
+                    options.LogoutPath = new PathString("/logout");
+                });
+
             services.AddDistributedMemoryCache();
 
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => false;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.None;
+                options.Secure = Environment.IsDevelopment()
+                  ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
             });
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
@@ -52,15 +70,15 @@ namespace Ling.Dashboard
             services.AddSession();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<UserSession>();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddScoped<RevokeAuthenticationEvents>();
+            services.AddMvc(options => options.Filters.Add(new AuthorizeFilter())).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddAuthentication("CookieAuthentication")
-                .AddCookie("CookieAuthentication", o =>
-                 {
-                     o.Cookie.Name = "LoginCookie";
-                     o.LoginPath = new PathString("/account/login");
-                 });
+            //services.AddAuthentication("CookieAuthentication")
+            //    .AddCookie("CookieAuthentication", o =>
+            //     {
+            //         o.Cookie.Name = "LoginCookie";
+            //         o.LoginPath = new PathString("/account/login");
+            //     });
 
             services.AddCors(options =>
             {
@@ -92,11 +110,12 @@ namespace Ling.Dashboard
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
-            app.UseAuthentication();
-            //app.UseAuthorization();
+
             app.UseStaticFiles();
-            app.UseCookiePolicy();
             app.UseSession();
+            app.UseCookiePolicy();
+            app.UseAuthentication();
+
             //ADD ROUTES
             app.UseMvc(routes =>
             {
@@ -110,4 +129,6 @@ namespace Ling.Dashboard
 
         #endregion
     }
+
+
 }
