@@ -63,7 +63,7 @@ namespace Ling.Dashboard.Controllers
             string hdfBannerImageName = Request.Form["hdfBannerImage"];
             string hdfBannerVideoName = Request.Form["hdfBannerVideo"];
 
-            model.CreatedBy==model.ModifiedBy = _session.LoginUserID;
+            model.CreatedBy = model.ModifiedBy = _session.LoginUserID.ToString();
             string isActive = Request.Form["IsActive"];
 
             model.IsActive = (isActive == "on") ? true : false;
