@@ -46,7 +46,7 @@ namespace Ling.Dashboard.Controllers
         #endregion
 
         #region Actions
-        // GET: Account
+        
         /// <summary>
         /// Login
         /// </summary>
