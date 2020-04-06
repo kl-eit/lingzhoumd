@@ -13,6 +13,8 @@ namespace Ling.Dashboard.WebHelper
 {
     public class WebHelper
     {
+        private AppSettings _appSettings { get; set; }
+
         public static void SetOperationMessage(Controller controller, string message, ALERTTYPE type, ALERTMESSAGETYPE messageType)
         {
             Alert alert = new Alert();
@@ -37,13 +39,12 @@ namespace Ling.Dashboard.WebHelper
             {
                 client.BaseAddress = new Uri(webURL);
                 client.DefaultRequestHeaders.Accept.Clear();
-
-                HttpResponseMessage response = await client.GetAsync("Common/" + method);
+                HttpResponseMessage response = await client.GetAsync("Common/" + method); // return URI of the created resource.
+                return response.StatusCode;
 
                 // return URI of the created resource.
                 return response.StatusCode;
             }
         }
-
     }
 }

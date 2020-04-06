@@ -60,6 +60,7 @@ namespace Ling.Dashboard.Controllers
         {
             string oldImageName = string.Empty;
             string imageName = string.Empty;
+            string videoName = string.Empty;
             string sourceFilePath = string.Empty;
             string uploadedFileName = string.Empty;
 
@@ -73,7 +74,7 @@ namespace Ling.Dashboard.Controllers
             if (Request.Form.Files != null && Request.Form.Files.Count > 0)
             {
                 var uploadedFile = Request.Form.Files[0];
-                sourceFilePath = _appSettings.UploadFolderName + _appSettings.ProfileImagePath;
+                sourceFilePath = _appSettings.UploadFolderName + _appSettings.HomeSliderImagePath;
                 uploadedFileName = uploadedFile.FileName;
                 if (!string.IsNullOrEmpty(uploadedFileName))
                 {
@@ -84,24 +85,34 @@ namespace Ling.Dashboard.Controllers
                     {
                         Directory.CreateDirectory(fileDirectory);
                     }
-                    string fileSavePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath, imageName);
+                     string fileSavePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath, imageName);
                     using (var fileStream = new FileStream(fileSavePath, FileMode.Create))
                     {
                         uploadedFile.CopyTo(fileStream);
                     }
-                    model.ImageName = imageName;
                 }
             }
             else
             {
-                imageName = oldImageName;
+                if (!string.IsNullOrEmpty(hdfBannerImageName))
+                    imageName = hdfBannerImageName;
+                else if (!string.IsNullOrEmpty(hdfBannerVideoName))
+                    videoName = hdfBannerVideoName;
             }
-
+            if (!string.IsNullOrEmpty(hdfBannerImageName))
+            {
+                model.ImageName= imageName;
+            }
+            else if (!string.IsNullOrEmpty(hdfBannerVideoName))
+            {
+                model.Video = imageName;
+            }
             ResponseObjectForAnything responseObjectForAnything = _homeSliderRepository.Upsert(model);
             HomeSlider homeSlider = new HomeSlider();
 
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
+                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
                 return RedirectToAction("Index", "HomeSlider");
             }
             else
@@ -121,7 +132,6 @@ namespace Ling.Dashboard.Controllers
                 WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
             return View();
         }
-
 
         public ActionResult UpdateSortOrderID(string sortedRowIDs)
         {

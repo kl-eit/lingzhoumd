@@ -1,22 +1,10 @@
 ﻿$(document).ready(function () {
-    $('#tblExceptions').on('processing.dt', function (e, settings, processing) {
+    $('#tblwebsitesettings').on('processing.dt', function (e, settings, processing) {
         if (processing)
             ShowBlockUI();
         else
             HideBlockUI();
     }).dataTable();
-
-    $('#chkLogs').on('click', function (event) {
-        $("#chkErrors").prop('checked', false);
-        $("#chkLogs").prop('checked', true);
-        InitDataTable();
-    });
-
-    $('#chkErrors').on('click', function (event) {
-        $("#chkLogs").prop('checked', false);
-        $("#chkErrors").prop('checked', true);
-        InitDataTable();
-    });
 
     InitDataTable();
     $.fn.DataTable.ext.pager.numbers_length = 5;
@@ -24,9 +12,8 @@
 
 // INITIALIZE DATA TABLE
 function InitDataTable() {
-    var logSelection = $('input[name="ExceptionLog"]:checked').val();
-    var ajaxUrl = _contentRoot + 'ExceptionLog/GetExceptionsLogs';
-    $('#tblExceptions').DataTable({
+    var ajaxUrl = _contentRoot + 'WebsiteSetting/GetAllWebSiteSetting';
+    $('#tblwebsitesettings').DataTable({
         "language": {
             "emptyTable": "No record found"
         },
@@ -36,28 +23,23 @@ function InitDataTable() {
         orderMulti: false,
         serverSide: true,
         columnDefs: [
-            { "width": "10%", "targets": 0 },
-            { "width": "20%", "targets": 1 },
-            { "width": "20%", "targets": 2 },
-            { "width": "15%", "targets": 3 },
-            { "width": "15%", "targets": 4 },
-            { "width": "2%", "targets": 5 }
+            { "width": "20%", "targets": 0 },
+            { "width": "35%", "targets": 1 },
+            { "width": "15%", "targets": 2 },
+            { "width": "20%", "targets": 3 },
+            { "width": "2%", "targets": 4 }
         ],
         ajax: {
             type: "POST",
             url: ajaxUrl,
-            data: { errorType: logSelection },
             dataType: "json"
         },
         aoColumns: [
-            { mDataProp: "ID", "orderable": true },
-            { mDataProp: "ClassName", "orderable": true },
-            { mDataProp: "MethodName", "orderable": true },
+            { mDataProp: "Name", "orderable": true },
+            { mDataProp: "Value", "orderable": true },
+            { mDataProp: "ModifiedBy", "orderable": true },
             {
-                mDataProp: "ErrorTypeCode", "orderable": true
-            },
-            {
-                mDataProp: "CreatedDate",
+                mDataProp: "ModifiedDate",
                 render: function (d) {
                     return moment(d).format("MM/DD/YYYY");
                 },
@@ -65,13 +47,12 @@ function InitDataTable() {
             },
             {
                 mDataProp: "ID",
+                className: 'text-center',
                 render: function (d) {
-                    var viewUrl = "ShowExceptionLogModalByID(" + d + ");";
-                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "ExceptionLog/Delete/" + d + "')";
+                    var editUrl = _contentRoot + "WebsiteSetting/Manage/" + d;
                     return '<div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal custom-btn-reveal mr-3" type="button" id="dropdown' + d + '" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-h fs--1"></span></button>' +
                         '<div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown' + d + '">' +
-                        '<div class="bg-white py-2"><a class="dropdown-item" href="javascript:void(0);" onclick=\"' + viewUrl + '\" >View</a>' +
-                        '<div class="dropdown-divider"></div><a class="dropdown-item text-danger" href="javascript:void(0);" onclick=\"' + deleteUrl + '\">Delete</a>' +
+                        '<div class="bg-white py-2"><a class="dropdown-item" href=\"' + editUrl + '\" >Edit</a>' +
                         '</div></div></div>';
                 },
                 "orderable": false
@@ -97,11 +78,11 @@ function ShowExceptionLogModalByID(id) {
             data: { id: id },
             success: function (response) {
                 $("#viewExceptionDetailModal").modal("show");
-                if (response != null && response.resultCode == "SUCCESS") {
-                    $('#dvExceptionMessage').html("<b>Message : </b>" + response.resultObject.errorMessage);
+                if (response != null && response.ResultCode == "SUCCESS") {
+                    $('#dvExceptionMessage').html("<b>Message : </b>" + response.ResultObject.ErrorMessage);
                     $('#dvStackTrace').hide();
-                    if (response.resultObject.stackTrace.length > 0) {
-                        $('#dvStackTrace').html(response.resultObject.stackTrace).show();
+                    if (response.ResultObject.StackTrace.length > 0) {
+                        $('#dvStackTrace').html(response.ResultObject.StackTrace).show();
                     }
                 }
             },
@@ -110,4 +91,31 @@ function ShowExceptionLogModalByID(id) {
             }
         });
     }
+}
+
+
+function GetAllWebSiteSetting(pageIndex, pageSize, searchText) {
+
+    var searchText = $("#searchText").val();
+    var optionselected = $("#drp_index option:selected").val();
+    pageSize = optionselected;
+
+    var ajaxURL = _contentRoot + 'WebsiteSetting/GetAllWebSiteSetting';
+
+    ShowBlockUI();
+    ajaxObject = $.ajax({
+        url: ajaxURL,
+        data: {
+            pPageIndex: parseInt(pageIndex),
+            pPageSize: parseInt(pageSize),
+            pSearch: searchText
+        },
+        success: function (response) {
+            HideBlockUI();
+            $("#dvListContainer").empty().html(response);
+        },
+        error: function () {
+        }
+    });
+
 }
