@@ -58,7 +58,6 @@ namespace Ling.Dashboard.Controllers
         [HttpPost]
         public ActionResult Manage(HomeSlider model)
         {
-            string oldImageName = string.Empty;
             string imageName = string.Empty;
             string videoName = string.Empty;
             string sourceFilePath = string.Empty;
@@ -90,6 +89,9 @@ namespace Ling.Dashboard.Controllers
                     {
                         uploadedFile.CopyTo(fileStream);
                     }
+                    string imageVersions = Constants.THUMBNAILIMAGERESIZER + "," + Constants.LARGEIMAGERESIZER + "," + Constants.SMALLIMAGERESIZER + "," + Constants.MEDIUMIMAGERESIZER;
+                    string destinationFilePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath);
+                    CommonHelper.ResizeImage(fileSavePath, destinationFilePath, imageName, imageVersions);
                 }
             }
             else

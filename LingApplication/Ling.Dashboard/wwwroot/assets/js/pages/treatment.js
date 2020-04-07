@@ -1,40 +1,21 @@
 ﻿// PAGE LOAD EVENT
 $(document).ready(function () {
-    $('#tblTreatment').dataTable();
+    $('#tblTreatment').on('processing.dt', function (e, settings, processing) {
+        if (processing)
+            ShowBlockUI();
+        else
+            HideBlockUI();
+    }).dataTable();
 
     InitDataTable();
 
     $.fn.DataTable.ext.pager.numbers_length = 5;
-
-    //$('#tblTreatment tbody').sortable({
-    //    items: "tr",
-    //    cursor: 'move',
-    //    opacity: 0.6,
-    //    update: function (event, ui) {
-    //        var sortOrderIDs = $(this).sortable("toArray").toString();
-    //        var ajaxUrl = _contentRoot + "Treatment/UpdateSortOrderID";
-
-    //        if (!IsNullOrEmptyString(sortOrderIDs)) {
-    //            $.ajax({
-    //                type: "POST",
-    //                url: ajaxUrl,
-    //                data: {
-    //                    sortedRowIDs: sortOrderIDs
-    //                },
-    //                success: function (response) {
-    //                },
-    //                error: function (x, e) {
-    //                }
-    //            });
-    //        }
-    //    }
-    //});
 });
 
 
 // INITIALIZE DATA TABLE
 function InitDataTable() {
-    var ajaxUrl = _contentRoot + 'Treatment/GetTreatments';
+    var ajaxUrl = _contentRoot + 'Treatment/GetTreatmentsList';
     $('#tblTreatment').DataTable({
         "language": {
             "emptyTable": "No record found"
@@ -50,11 +31,11 @@ function InitDataTable() {
             dataType: "json"
         },
         columnDefs: [
-            { "width": "30%", "targets": 1 },
+            { "width": "20%", "targets": 1 },
             { "width": "20%", "targets": 2 },
-            { "width": "10%", "targets": 3 },
-            { "width": "12%", "targets": 4 },
-            { "width": "12%", "targets": 5 }
+            { "width": "15%", "targets": 3 },
+            { "width": "15%", "targets": 4 },
+            { "width": "15%", "targets": 5 }
         ],
         aoColumns: [
             {
@@ -83,8 +64,8 @@ function InitDataTable() {
                 mDataProp: "ID",
                 className: 'text-center',
                 render: function (d) {
-                    var editUrl = _contentRoot + "HomeSlider/manage/" + d;
-                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "HomeSlider/Delete/" + d + "')";
+                    var editUrl = _contentRoot + "Treatment/manage/" + d;
+                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "Treatment/Delete/" + d + "')";
                     return '<div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal custom-btn-reveal mr-3" type="button" id="dropdown' + d + '" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-h fs--1"></span></button>' +
                         '<div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown' + d + '">' +
                         '<div class="bg-white py-2"><a class="dropdown-item" href=\"' + editUrl + '\" >Edit</a>' +
