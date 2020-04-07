@@ -82,6 +82,11 @@ namespace Ling.Dashboard.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult UpdateSortOrderID(string sortedRowIDs)
+        {
+            ResponseObjectForAnything responseObjectForAnything = _faqRepository.UpdateSortOrderID(sortedRowIDs, _session.LoginUserID);
+            return Json(responseObjectForAnything, new Newtonsoft.Json.JsonSerializerSettings());
+        }
         #endregion
 
         #region Method

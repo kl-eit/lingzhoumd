@@ -136,6 +136,30 @@ namespace Ling.Domains.Concrete
             throw new NotImplementedException();
         }
 
+        public ResponseObjectForAnything UpdateSortOrderID(string pSortedRowIDs, int pUserID)
+        {
+            ResponseObjectForAnything responseObjectForAnything = new ResponseObjectForAnything();
+            try
+            {
+                DbCommand dbCommand = sqldb.GetStoredProcCommand("FAQ_UpdateSortOrderID");
+                sqldb.AddInParameter(dbCommand, "@SortedRowIDs", DbType.String, CommonHelper.ToDB<string>(pSortedRowIDs));
+                sqldb.AddInParameter(dbCommand, "@UserID", DbType.Int32, CommonHelper.ToDB<Int32>(pUserID));
+
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_SUCCESS;
+                responseObjectForAnything.ResultObjectID = Convert.ToInt32(sqldb.ExecuteScalar(dbCommand));
+
+            }
+            catch (Exception ex)
+            {
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_ERROR;
+                responseObjectForAnything.ResultMessage = ex.Message;
+                ExceptionLog exLog = new ExceptionLog(ex.Message, ex.StackTrace, this.ToString(), "UpdateSortOrderID", "E");
+                ExceptionManagerRepository.PublishException(exLog);
+
+            }
+            return responseObjectForAnything;
+        }
+
         public ResponseObjectForAnything Upsert(FAQ pEntity)
         {
             ResponseObjectForAnything responseObjectForAnything = new ResponseObjectForAnything();

@@ -10,6 +10,30 @@ $(document).ready(function () {
     InitDataTable();
 
     $.fn.DataTable.ext.pager.numbers_length = 5;
+
+    $('#tablefaq tbody').sortable({
+        items: "tr",
+        cursor: 'move',
+        opacity: 0.6,
+        update: function (event, ui) {
+            var sortOrderIDs = $(this).sortable("toArray").toString();
+            var ajaxUrl = _contentRoot + "FAQ/UpdateSortOrderID";
+
+            if (!IsNullOrEmptyString(sortOrderIDs)) {
+                $.ajax({
+                    type: "POST",
+                    url: ajaxUrl,
+                    data: {
+                        sortedRowIDs: sortOrderIDs
+                    },
+                    success: function (response) {
+                    },
+                    error: function (x, e) {
+                    }
+                });
+            }
+        }
+    });
 });
 
 

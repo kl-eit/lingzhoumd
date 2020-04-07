@@ -199,6 +199,7 @@ namespace Ling.Domains.Concrete
             }
             return responseObjectForAnything;
         }
+
         public ResponseObjectForAnything SelectActiveSlides()
         {
             ResponseObjectForAnything responseObjectForAnything = new ResponseObjectForAnything();
