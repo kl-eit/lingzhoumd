@@ -9,7 +9,7 @@
         <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
         <div class="row text-white align-items-center no-gutters">
             <div class="col">
-                <h4 class="text-white mb-0">faq</h4>
+                <h4 class="text-white mb-0">FAQ</h4>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
@@ -35,7 +35,7 @@
     <div class="col-lg-12">
         <div class="card mb-3">
             <div class="card-header">
-                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">@(Model.ID > 0 ? "Edit" : "Add") faq</h5>
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">@(Model.ID > 0 ? "Edit" : "Add") FAQ</h5>
             </div>
             <div class="card-body bg-light">
                 @using (Html.BeginForm("Manage", "FAQ", FormMethod.Post, new { id = "frm_FAQManage", @class = "form-horizontal", enctype = "multipart/form-data" }))
@@ -44,15 +44,15 @@
 
                     <div class="form-group row">
                         <label for="txtPageKey" class="col-sm-2 col-form-label text-right">Question</label>
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <input type="text" name="Question" id="txtquestion" class="form-control" maxlength="100" value="@Model.Question" placeholder="Question"/>
                         </div>
                     </div>
 
                     <div class="form-group row">
                         <label for="txtTitle" class="col-sm-2 col-form-label text-right">Answer</label>
-                        <div class="col-sm-6">
-                            <input type="text" name="Answer" id="txtAnswer" class="form-control" maxlength="100" value="@Model.Answer" placeholder="Answer" />
+                        <div class="col-sm-8">
+                            <textarea class="form-control" name="Answer" id="txtAnswer" rows="5" placeholder="Answer">@Model.Answer</textarea>
                         </div>
                     </div>
 

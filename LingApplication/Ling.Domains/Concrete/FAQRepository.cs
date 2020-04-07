@@ -70,7 +70,8 @@ namespace Ling.Domains.Concrete
                             entity.CreatedDate = CommonHelper.FromDB<DateTime>(iReader["CreatedDate"]);
                             entity.ModifiedBy = CommonHelper.FromDB<String>(iReader["ModifiedBy"]);
                             entity.ModifiedDate = CommonHelper.FromDB<DateTime>(iReader["ModifiedDate"]);
-                           
+                            entity.TotalCount = CommonHelper.FromDB<int>(iReader["TotalRecord"]);
+
                             entityList.Add(entity);
                         }
                     }

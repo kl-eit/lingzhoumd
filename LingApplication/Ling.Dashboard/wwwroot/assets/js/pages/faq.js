@@ -6,6 +6,7 @@ $(document).ready(function () {
         else
             HideBlockUI();
     }).dataTable();
+
     InitDataTable();
 
     $.fn.DataTable.ext.pager.numbers_length = 5;
@@ -52,22 +53,28 @@ function InitDataTable() {
                 "orderable": false
             },
             { mDataProp: "Question", "orderable": true },
-            { mDataProp: "Answer", "orderable": true},
             {
-                "data": "IsActive", orderable: false, "targets": [5], "render": function (data, type, full, meta) {
+                mDataProp: "Answer", "orderable": false, "render": function (data, type, full, meta) {
+                    return data.length > 100 ?
+                        data.substr(0, 100) + '…' :
+                        data;
+                }
+            },
+            {
+                "data": "IsActive", orderable: true, "targets": [5], "render": function (data, type, full, meta) {
                     if (data == true) {
                         return '<span class="badge badge rounded-capsule badge-soft-success">YES<span class="ml-1 fa fa-check" data-fa-transform="shrink-2"></span></span>';
                     }
                     else return '<span class="badge badge rounded-capsule badge-soft-warning">No<span class="ml-1 fa fa-times" data-fa-transform="shrink-2"></span></span>';
                 }
             },
-            { mDataProp: "CreatedBy", "orderable": true },
+            { mDataProp: "CreatedBy", "orderable": false },
             {
                 mDataProp: "CreatedDate",
                 render: function (d) {
                     return moment(d).format("MM/DD/YYYY");
                 },
-                "orderable": false
+                "orderable": true
             },
             {
                 mDataProp: "ID",
