@@ -1,62 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Ling.Common;
 using Ling.Dashboard.Session;
 using Ling.Domains.Abstract;
+using Ling.Domains.Concrete;
 using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Ling.Domains.Concrete;
-using Microsoft.AspNetCore.Authorization;
-using System.IO;
 
 namespace Ling.Dashboard.Controllers
 {
-    [Authorize]
-    public class TreatmentController : Controller
+    public class BlogController : Controller
     {
         #region Declaration
-
-        ITreatmentsRepository _treatmentsRepository;
+        IBlogsRepository _blogRepository;
         UserSession _session;
         private AppSettings _appSettings { get; set; }
-
         #endregion
 
         #region Constructor
-        public TreatmentController(IHttpContextAccessor httpContextAccessor, IConfiguration iConfiguration, IOptions<AppSettings> settings)
+        public BlogController(IHttpContextAccessor httpContextAccessor, IConfiguration iConfiguration, IOptions<AppSettings> settings)
         {
-            _treatmentsRepository = new TreatmentsRepository(iConfiguration);
+            _blogRepository = new BlogsRepository(iConfiguration);
             _session = new UserSession(httpContextAccessor, iConfiguration);
             _appSettings = settings.Value;
-            ViewBag.SelectedMenu = "Treatment";
+            ViewBag.SelectedMenu = "Blog";
         }
         #endregion
 
         #region Actions
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
 
         public ActionResult Manage(int id = 0)
         {
-            Treatments treatments = new Treatments();
-            ResponseObjectForAnything responseObjectForAnything = _treatmentsRepository.SelectByID(id);
+            Blogs blogs = new Blogs();
+            ResponseObjectForAnything responseObjectForAnything = _blogRepository.SelectByID(id);
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
-                treatments = (Treatments)responseObjectForAnything.ResultObject;
+                blogs = (Blogs)responseObjectForAnything.ResultObject;
             }
-            return View(treatments);
+            return View(blogs);
         }
 
         [HttpPost]
-        public ActionResult Manage(Treatments model)
+        public ActionResult Manage(Blogs model)
         {
             string imageName = string.Empty;
             string sourceFilePath = string.Empty;
@@ -70,7 +66,7 @@ namespace Ling.Dashboard.Controllers
             if (Request.Form.Files != null && Request.Form.Files.Count > 0)
             {
                 var uploadedFile = Request.Form.Files[0];
-                sourceFilePath = _appSettings.UploadFolderName + _appSettings.TreatmentImagePath;
+                sourceFilePath = _appSettings.UploadFolderName + _appSettings.BlogImagePath;
 
                 uploadedFileName = uploadedFile.FileName;
                 if (!string.IsNullOrEmpty(uploadedFileName))
@@ -92,7 +88,7 @@ namespace Ling.Dashboard.Controllers
                         uploadedFile.CopyTo(fileStream);
                     }
                     string imageVersions = Constants.THUMBNAILIMAGERESIZER + "," + Constants.LARGEIMAGERESIZER + "," + Constants.SMALLIMAGERESIZER + "," + Constants.MEDIUMIMAGERESIZER;
-                    string destinationFilePath = Path.Combine(_appSettings.TreatmentImagePath, sourceFilePath);
+                    string destinationFilePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath);
                     CommonHelper.ResizeImage(fileSavePath, destinationFilePath, imageName, imageVersions);
                 }
             }
@@ -102,7 +98,7 @@ namespace Ling.Dashboard.Controllers
                     imageName = hdfImageName;
             }
             model.ImageName = imageName;
-            ResponseObjectForAnything responseObjectForAnything = _treatmentsRepository.Upsert(model);
+            ResponseObjectForAnything responseObjectForAnything = _blogRepository.Upsert(model);
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
                 WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
@@ -116,7 +112,7 @@ namespace Ling.Dashboard.Controllers
 
         public ActionResult Delete(int id)
         {
-            ResponseObjectForAnything responseObjectForAnything = _treatmentsRepository.Delete(id);
+            ResponseObjectForAnything responseObjectForAnything = _blogRepository.Delete(id);
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
                 WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_DELETE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
@@ -126,17 +122,18 @@ namespace Ling.Dashboard.Controllers
                 WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
             return View();
         }
+
         #endregion
 
         #region Methods
-        public List<Treatments> GetTreatments(int pPageIndex = 1, int pPageSize = 20, string pSearch = "")
+        public List<Blogs> GetBlogs(int pPageIndex = 1, int pPageSize = 20, string pSearch = "")
         {
-            List<Treatments> entityList = new List<Treatments>();
-            ResponseObjectForAnything responseObjectForAnything = _treatmentsRepository.Select(pPageIndex, pPageSize, pSearch);
+            List<Blogs> entityList = new List<Blogs>();
+            ResponseObjectForAnything responseObjectForAnything = _blogRepository.Select(pPageIndex, pPageSize, pSearch);
 
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
-                entityList = (List<Treatments>)responseObjectForAnything.ResultObject;
+                entityList = (List<Blogs>)responseObjectForAnything.ResultObject;
             }
             return entityList;
 
@@ -144,7 +141,7 @@ namespace Ling.Dashboard.Controllers
         #endregion
 
         #region Ajax
-        public JsonResult GetTreatmentsList()
+        public JsonResult GetBlogList()
         {
             JsonResult result;
             string search = Request.Form["search[value]"];
@@ -158,12 +155,12 @@ namespace Ling.Dashboard.Controllers
             int pageNumber = (start + length) / length;
             int recsPerPage = length;
 
-            List<Treatments> treatmentsList = GetTreatments(pageNumber, length, search);
+            List<Blogs> blogList = GetBlogs(pageNumber, length, search);
 
-            if (treatmentsList != null && treatmentsList.Count > 0)
+            if (blogList != null && blogList.Count > 0)
             {
-                totalRecords = treatmentsList.FirstOrDefault().TotalCount;
-                result = this.Json(new { draw = Convert.ToInt32(draw), recordsTotal = totalRecords, recordsFiltered = totalRecords, data = treatmentsList }, new Newtonsoft.Json.JsonSerializerSettings());
+                totalRecords = blogList.FirstOrDefault().TotalCount;
+                result = this.Json(new { draw = Convert.ToInt32(draw), recordsTotal = totalRecords, recordsFiltered = totalRecords, data = blogList }, new Newtonsoft.Json.JsonSerializerSettings());
             }
             else
             {

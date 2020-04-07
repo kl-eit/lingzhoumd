@@ -13,5 +13,6 @@ namespace Ling.Dashboard
         public string ProfileImagePath { get; set; }
         public string HomeSliderImagePath { get; set; }
         public string TreatmentImagePath { get; set; }
+        public string BlogImagePath { get; set; }
     }
 }

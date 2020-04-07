@@ -1,6 +1,6 @@
 ﻿// PAGE LOAD EVENT
 $(document).ready(function () {
-    $('#tblTreatment').on('processing.dt', function (e, settings, processing) {
+    $('#tblBlog').on('processing.dt', function (e, settings, processing) {
         if (processing)
             ShowBlockUI();
         else
@@ -12,11 +12,10 @@ $(document).ready(function () {
     $.fn.DataTable.ext.pager.numbers_length = 5;
 });
 
-
 // INITIALIZE DATA TABLE
 function InitDataTable() {
-    var ajaxUrl = _contentRoot + 'Treatment/GetTreatmentsList';
-    $('#tblTreatment').DataTable({
+    var ajaxUrl = _contentRoot + 'Blog/GetBlogList';
+    $('#tblBlog').DataTable({
         "language": {
             "emptyTable": "No record found"
         },
@@ -31,10 +30,10 @@ function InitDataTable() {
             dataType: "json"
         },
         columnDefs: [
-            { "width": "20%", "targets": 1 },
+            { "width": "10%", "targets": 1 },
             { "width": "20%", "targets": 2 },
-            { "width": "15%", "targets": 3 },
-            { "width": "15%", "targets": 4 },
+            { "width": "20%", "targets": 3 },
+            { "width": "10%", "targets": 4 },
             { "width": "15%", "targets": 5 }
         ],
         aoColumns: [
@@ -42,7 +41,8 @@ function InitDataTable() {
                 mDataProp: "ID",
                 visible: false
             },
-            { mDataProp: "Name", "orderable": false },
+            { mDataProp: "Slug", "orderable": false },
+            { mDataProp: "Title", "orderable": false },
             {
                 mDataProp: "Description", "orderable": false, "render": function (data, type, full, meta) {
                     return data.length > 100 ?
@@ -70,8 +70,8 @@ function InitDataTable() {
                 mDataProp: "ID",
                 className: 'text-center',
                 render: function (d) {
-                    var editUrl = _contentRoot + "Treatment/manage/" + d;
-                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "Treatment/Delete/" + d + "')";
+                    var editUrl = _contentRoot + "blog/manage/" + d;
+                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "blog/Delete/" + d + "')";
                     return '<div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal custom-btn-reveal mr-3" type="button" id="dropdown' + d + '" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-h fs--1"></span></button>' +
                         '<div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown' + d + '">' +
                         '<div class="bg-white py-2"><a class="dropdown-item" href=\"' + editUrl + '\" >Edit</a>' +

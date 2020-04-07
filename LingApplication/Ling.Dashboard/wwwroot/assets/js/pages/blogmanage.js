@@ -6,20 +6,22 @@ $(document).ready(function () {
 
 // INITIALIZATION FORM VALIDATION
 function InitFormValidation() {
-    $("#frmTreatment").validate({
+    $("#frmBlog").validate({
         ignore: [],
         rules: {
-            Name: { required: true },
+            Slug: { required: true },
+            Title: { required: true },
             Description: { required: true },
-            hdfTreatmentImage: {
+            hdfBlogImage: {
                 required: true,
                 extension: "png|jpeg|jpg"
             }
         },
         messages: {
-            Name: "Please enter name",
+            Slug: "Please enter slug",
+            Title: "Please enter title",
             Description: "Please enter description",
-            hdfTreatmentImage: {
+            hdfBlogImage: {
                 required: "Please upload image",
                 extension: "Only image allowed (png, jpeg, jpg)"
             }
@@ -28,7 +30,7 @@ function InitFormValidation() {
         errorClass: 'invalid-feedback',
         highlight: function (element) {
             debugger
-            if ($(element).attr("name") == "hdfTreatmentImage") {
+            if ($(element).attr("name") == "hdfBlogImage") {
                 $(element).closest("#imageName").find(".thumbnail").css("border-color", "#dd4b39 !important");
                 $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
             }
@@ -38,7 +40,7 @@ function InitFormValidation() {
             }
         },
         unhighlight: function (element) {
-            if ($(element).attr("name") == "hdfTreatmentImage") {
+            if ($(element).attr("name") == "hdfBlogImage") {
                 $(element).closest("#imageName").find(".thumbnail").css("border-color", "#00a65a !important");
             }
         },
@@ -48,7 +50,7 @@ function InitFormValidation() {
         },
         errorPlacement: function (error, element) {
             debugger
-            if (element.attr("name") == "hdfTreatmentImage") {
+            if (element.attr("name") == "hdfBlogImage") {
                 error.insertAfter(element.closest(".validate"));
             }
             else {
@@ -58,27 +60,25 @@ function InitFormValidation() {
     });
 
     $("#btnSave").click(function () {
-        if ($("#frmTreatment").valid()) {
+        if ($("#frmBlog").valid()) {
             ShowBlockUI();
-            $("#frmTreatment")[0].submit();
+            $("#frmBlog")[0].submit();
         }
     });
 }
-function ShowPreview(input, previewFor) {
-    if (previewFor == "bannerImage") {
-        var fileName = $('input[name="fileImage"]').val();
-        $("#hdfTreatmentImage").val(fileName);
-        if (input.files.length > 0) {
-            var ImageDir = new FileReader();
-            ImageDir.onload = function (e) {
-                $("#imagePreview").attr("src", e.target.result);
-                $("#imagePreview").css("width", '100% !important');
-            }
-            ImageDir.readAsDataURL(input.files[0]);
-        } else {
-            $("#imageName").find(".fileinput-preview ").html('<img src="' + _defaultImage + '" id="imagePreview" name="BannerImage" onerror="this.src = ' + _defaultImage + '"  class="img-responsive" style="height:100% !important;width: 400px !important;" />');
+function ShowPreview(input) {
+    var fileName = $('input[name="fileImage"]').val();
+    $("#hdfBlogImage").val(fileName);
+    if (input.files.length > 0) {
+        var ImageDir = new FileReader();
+        ImageDir.onload = function (e) {
+            $("#imagePreview").attr("src", e.target.result);
+            $("#imagePreview").css("width", '100% !important');
         }
-        var validator = $("#frmTreatment").validate();
-        validator.element("#hdfTreatmentImage");
+        ImageDir.readAsDataURL(input.files[0]);
+    } else {
+        $("#imageName").find(".fileinput-preview").html('<img src="' + _defaultImage + '" id="imagePreview" name="BannerImage" onerror="this.src = ' + _defaultImage + '"  class="img-responsive" style="height:100% !important;width: 400px !important;" />');
     }
+    var validator = $("#frmBlog").validate();
+    validator.element("#hdfBlogImage");
 }

@@ -1,22 +1,22 @@
 ﻿// PAGE LOAD EVENT
 $(document).ready(function () {
-    $('#tblTreatment').on('processing.dt', function (e, settings, processing) {
-        if (processing)
-            ShowBlockUI();
-        else
-            HideBlockUI();
-    }).dataTable();
 
     InitDataTable();
+
+    //$('#tblContactInquiries').on('processing.dt', function (e, settings, processing) {
+    //    if (processing)
+    //        ShowBlockUI();
+    //    else
+    //        HideBlockUI();
+    //}).dataTable();
 
     $.fn.DataTable.ext.pager.numbers_length = 5;
 });
 
-
 // INITIALIZE DATA TABLE
 function InitDataTable() {
-    var ajaxUrl = _contentRoot + 'Treatment/GetTreatmentsList';
-    $('#tblTreatment').DataTable({
+    var ajaxUrl = _contentRoot + 'Home/GetContactInquiryList';
+    $('#tblContactInquiries').DataTable({
         "language": {
             "emptyTable": "No record found"
         },
@@ -31,10 +31,10 @@ function InitDataTable() {
             dataType: "json"
         },
         columnDefs: [
-            { "width": "20%", "targets": 1 },
+            { "width": "10%", "targets": 1 },
             { "width": "20%", "targets": 2 },
-            { "width": "15%", "targets": 3 },
-            { "width": "15%", "targets": 4 },
+            { "width": "20%", "targets": 3 },
+            { "width": "10%", "targets": 4 },
             { "width": "15%", "targets": 5 }
         ],
         aoColumns: [
@@ -43,22 +43,25 @@ function InitDataTable() {
                 visible: false
             },
             { mDataProp: "Name", "orderable": false },
+            { mDataProp: "EmailAddress", "orderable": false },
             {
-                mDataProp: "Description", "orderable": false, "render": function (data, type, full, meta) {
+                mDataProp: "Subject", "orderable": false, "render": function (data, type, full, meta) {
                     return data.length > 100 ?
                         data.substr(0, 100) + '…' :
                         data;
-                } 
-            },
-            {
-                "data": "IsActive", orderable: false, "targets": [3], "render": function (data, type, full, meta) {
-                    if (data == true) {
-                        return '<span class="badge badge rounded-capsule badge-soft-success">YES<span class="ml-1 fa fa-check" data-fa-transform="shrink-2"></span></span>';
-                    }
-                    else return '<span class="badge badge rounded-capsule badge-soft-warning">No<span class="ml-1 fa fa-times" data-fa-transform="shrink-2"></span></span>';
                 }
             },
-            { mDataProp: "CreatedBy", "orderable": false },
+            {
+                mDataProp: "Message", "orderable": false
+            },
+            {
+                "data": "Status", orderable: false, "render": function (data, type, full, meta) {
+                    if (data == true) {
+                        return '<span class="badge badge rounded-capsule badge-soft-success">New<span class="ml-1 fa fa-check" data-fa-transform="shrink-2"></span></span>';
+                    }
+                    else return '<span class="badge badge rounded-capsule badge-soft-warning">Old<span class="ml-1 fa fa-times" data-fa-transform="shrink-2"></span></span>';
+                }
+            },
             {
                 mDataProp: "CreatedDate",
                 render: function (d) {
@@ -70,12 +73,10 @@ function InitDataTable() {
                 mDataProp: "ID",
                 className: 'text-center',
                 render: function (d) {
-                    var editUrl = _contentRoot + "Treatment/manage/" + d;
-                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "Treatment/Delete/" + d + "')";
+                    var editUrl = _contentRoot + "blog/manage/" + d;
                     return '<div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal custom-btn-reveal mr-3" type="button" id="dropdown' + d + '" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-h fs--1"></span></button>' +
                         '<div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown' + d + '">' +
-                        '<div class="bg-white py-2"><a class="dropdown-item" href=\"' + editUrl + '\" >Edit</a>' +
-                        '<div class="dropdown-divider"></div><a class="dropdown-item text-danger" href="javascript:void(0);" onclick=\"' + deleteUrl + '\">Delete</a>' +
+                        '<div class="bg-white py-2"><a class="dropdown-item" href=\"' + editUrl + '\" >Reply</a>' +
                         '</div></div></div>';
                 },
                 "orderable": false
