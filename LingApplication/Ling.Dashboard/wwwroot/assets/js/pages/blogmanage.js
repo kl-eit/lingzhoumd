@@ -1,6 +1,7 @@
 ﻿
 // DOCUMENT LOAD EVENT IT WILL OCCURE ON PAGE LOAD
 $(document).ready(function () {
+    InitSummernote();
     InitFormValidation();
 
     InitCategoryValidation();
@@ -13,7 +14,6 @@ function InitFormValidation() {
         rules: {
             Slug: { required: true },
             Title: { required: true },
-            Description: { required: true },
             hdfBlogImage: {
                 required: true,
                 extension: "png|jpeg|jpg"
@@ -25,7 +25,6 @@ function InitFormValidation() {
         messages: {
             Slug: "Please enter slug",
             Title: "Please enter title",
-            Description: "Please enter description",
             hdfBlogImage: {
                 required: "Please upload image",
                 extension: "Only image allowed (png, jpeg, jpg)"
@@ -57,7 +56,6 @@ function InitFormValidation() {
             $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
         },
         errorPlacement: function (error, element) {
-            debugger
             if (element.attr("name") == "hdfBlogImage") {
                 error.insertAfter(element.closest(".validate"));
             }
@@ -68,9 +66,24 @@ function InitFormValidation() {
     });
 
     $("#btnSave").click(function () {
-        if ($("#frmBlog").valid()) {
-            ShowBlockUI();
-            $("#frmBlog")[0].submit();
+        var isValidSummernote = true;
+        if ($("#txtDescription").summernote('isEmpty'))
+            isValidSummernote = false;
+
+        if ($("#frmBlog").valid() && isValidSummernote) {
+            $("#spnSummernoteError").hide();
+            $(".note-editor").css('margin-bottom', '14px');
+            $("#dvDescription").removeClass("has-error").addClass("has-success");
+            $('.summernote').val($('.summernote').summernote('code'));
+            $("#frmBlog").submit();
+        }
+        else {
+            if (!isValidSummernote) {
+                $("#spnSummernoteError").show();
+                $("#dvDescription").removeClass("has-success").addClass("has-error");
+                $(".note-editor").css('margin-bottom', '1px');
+                $(".note-editor").css('border-color', '#dd4b39');
+            }
         }
     });
 }
@@ -159,4 +172,39 @@ function SaveCategory() {
             }
         });
     }
+}
+
+// INITIALIZATION SUMMERNOTE
+function InitSummernote() {
+    $('#txtDescription').summernote({
+        minHeight: 300,
+        'empty': ('<p><br/></p>', '<p><br></p>'),
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['clear', ['clear']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'hr']],
+            ['view', ['fullscreen', 'codeview']],
+            ['help', ['help']]
+        ]
+    });
+
+    $("#txtDescription").on('summernote.change', function () {
+        $("#spnSummernoteError").hide();
+        $("#dvDescription").removeClass("has-error").addClass('has-success');;
+        $(".note-editor").css('margin-bottom', '14px');
+        $(".note-editor").css('border-color', '#00a65a');
+
+        if ($("#txtDescription").summernote('isEmpty')) {
+            $("#spnSummernoteError").show();
+            $("#dvDescription").removeClass("has-success").addClass("has-error");
+            $(".note-editor").css('margin-bottom', '1px');
+            $(".note-editor").css('border-color', '#dd4b39');
+        }
+    });
 }

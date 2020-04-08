@@ -54,15 +54,14 @@ function InitDataTable() {
             url: ajaxUrl,
             dataType: "json"
         },
-        columnDefs: [
-            { "width": "5%", "targets": 1 },
-            { "width": "30%", "targets": 2 },
-            { "width": "20%", "targets": 3 },
-            { "width": "10%", "targets": 4 },
-            { "width": "12%", "targets": 5 },
-            { "width": "12%", "targets": 6 },
-            { "width": "2%", "targets": 7 }
-        ],
+        //columnDefs: [
+        //    { "width": "5%", "targets": 1 },
+        //    { "width": "30%", "targets": 2 },
+        //    { "width": "20%", "targets": 3 },
+        //    { "width": "10%", "targets": 4 },
+        //    { "width": "12%", "targets": 5 },
+        //    { "width": "12%", "targets": 6 }
+        //],
         aoColumns: [
             {
                 mDataProp: "ID",
@@ -77,13 +76,13 @@ function InitDataTable() {
                 "orderable": false
             },
             { mDataProp: "Question", "orderable": true },
-            {
-                mDataProp: "Answer", "orderable": false, "render": function (data, type, full, meta) {
-                    return data.length > 100 ?
-                        data.substr(0, 100) + '…' :
-                        data;
-                }
-            },
+            //{
+            //    mDataProp: "Answer", "orderable": false, "render": function (data, type, full, meta) {
+            //        return data.length > 100 ?
+            //            data.substr(0, 100) + '…' :
+            //            data;
+            //    }
+            //},
             {
                 "data": "IsActive", orderable: true, "targets": [5], "render": function (data, type, full, meta) {
                     if (data == true) {

@@ -30,27 +30,17 @@ function InitDataTable() {
             dataType: "json"
         },
         columnDefs: [
-            { "width": "30%", "targets": 1 },
-            { "width": "30%", "targets": 2 },
-            { "width": "10%", "targets": 3 },
-            { "width": "10%", "targets": 4 },
-            { "width": "10%", "targets": 5 },
-            { "width": "5%", "targets": 6 }
+            { "width": "20%", "targets": 0 },
+            { "width": "20%", "targets": 1 },
+            { "width": "20%", "targets": 3 },
+            { "width": "20%", "targets": 4 }
         ],
         aoColumns: [
             {
                 mDataProp: "ID",
                 visible: false
             },
-            { mDataProp: "Slug", "orderable": false },
             { mDataProp: "Title", "orderable": false },
-            //{
-            //    mDataProp: "Description", "orderable": false, "render": function (data, type, full, meta) {
-            //        return data.length > 100 ?
-            //            data.substr(0, 100) + '…' :
-            //            data;
-            //    } 
-            //},
             {
                 "data": "IsActive", orderable: false, "targets": [3], "render": function (data, type, full, meta) {
                     if (data == true) {

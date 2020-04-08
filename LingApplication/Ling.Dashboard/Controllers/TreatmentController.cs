@@ -92,7 +92,7 @@ namespace Ling.Dashboard.Controllers
                         uploadedFile.CopyTo(fileStream);
                     }
                     string imageVersions = Constants.THUMBNAILIMAGERESIZER + "," + Constants.LARGEIMAGERESIZER + "," + Constants.SMALLIMAGERESIZER + "," + Constants.MEDIUMIMAGERESIZER;
-                    string destinationFilePath = Path.Combine(_appSettings.TreatmentImagePath, sourceFilePath);
+                    string destinationFilePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath);
                     CommonHelper.ResizeImage(fileSavePath, destinationFilePath, imageName, imageVersions);
                 }
             }

@@ -10,13 +10,15 @@
     blogImageUrl = Model.ImageName;
     string webURL = Settings.Value.DashboardURL;
 }
-
+@section PageCss{
+    <link href="@Url.Content("~/assets/plugins/summernote/summernote.css")" rel="stylesheet" />
+}
 <div class="card mb-3">
     <div class="card-body rounded-soft bg-gradient">
         <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
         <div class="row text-white align-items-center no-gutters">
             <div class="col">
-                <h4 class="text-white mb-0">Blog</h4>
+                <h4 class="text-white mb-0">Blogs</h4>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
@@ -24,7 +26,7 @@
                             <a href="@Url.Content("~/Home/Index")">Home</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="@Url.Content("~/Treatment/Index")">Blog</a>
+                            <a href="@Url.Content("~/Treatment/Index")">Blogs</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">@(Model.ID > 0 ? "Edit" : "Add")</li>
                     </ol>
@@ -108,14 +110,14 @@
                                     </span>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="Description" class="col-sm-2 col-form-label text-right">Description</label>
+                    <div class="form-group row" id="dvDescription">
+                        <label for="txtAreaDescription" class="col-sm-2 col-form-label text-right">Description</label>
                         <div class="col-sm-8">
-                            <textarea name="Description" id="Description" rows="8" class="form-control" placeholder="Description">@Model.Description</textarea>
+                            <textarea name="Description" class="form-control summernote" id="txtDescription">@Model.Description</textarea>
+                            <span id="spnSummernoteError" class="text-error-validation text-danger" style="display:none;font-size: 85%;color: #e63757;">Please enter description</span>
                         </div>
                     </div>
 
@@ -184,5 +186,6 @@
     @*<script src="@Url.Content("~/assets/js/jquery-ui.js")" type="text/javascript"></script>*@
     <script src="@Url.Content("~/assets/plugins/jquery-validation-1.16.0/jquery.validate.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/assets/plugins/jquery-validation-1.16.0/additional-methods.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/plugins/summernote/summernote.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/assets/js/pages/blogmanage.js")"></script>
 }
