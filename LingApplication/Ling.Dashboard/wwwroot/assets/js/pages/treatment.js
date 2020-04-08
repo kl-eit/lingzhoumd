@@ -31,18 +31,14 @@ function InitDataTable() {
             dataType: "json"
         },
         columnDefs: [
-            { "width": "20%", "targets": 1 },
-            { "width": "20%", "targets": 2 },
-            { "width": "15%", "targets": 3 },
-            { "width": "15%", "targets": 4 },
-            { "width": "15%", "targets": 5 }
+            { "width": "5%", "targets": 6 }
         ],
         aoColumns: [
             {
                 mDataProp: "ID",
                 visible: false
             },
-            { mDataProp: "Name", "orderable": false },
+            { mDataProp: "Name", "orderable": true },
             {
                 mDataProp: "Description", "orderable": false, "render": function (data, type, full, meta) {
                     return data.length > 100 ?
@@ -51,7 +47,7 @@ function InitDataTable() {
                 } 
             },
             {
-                "data": "IsActive", orderable: false, "targets": [3], "render": function (data, type, full, meta) {
+                "data": "IsActive", orderable: true, "targets": [3], "render": function (data, type, full, meta) {
                     if (data == true) {
                         return '<span class="badge badge rounded-capsule badge-soft-success">YES<span class="ml-1 fa fa-check" data-fa-transform="shrink-2"></span></span>';
                     }
@@ -64,7 +60,7 @@ function InitDataTable() {
                 render: function (d) {
                     return moment(d).format("MM/DD/YYYY");
                 },
-                "orderable": false
+                "orderable": true
             },
             {
                 mDataProp: "ID",

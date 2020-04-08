@@ -2,6 +2,8 @@
 // DOCUMENT LOAD EVENT IT WILL OCCURE ON PAGE LOAD
 $(document).ready(function () {
     InitFormValidation();
+
+    InitCategoryValidation();
 });
 
 // INITIALIZATION FORM VALIDATION
@@ -15,7 +17,10 @@ function InitFormValidation() {
             hdfBlogImage: {
                 required: true,
                 extension: "png|jpeg|jpg"
-            }
+            },
+            MetaTitle: { required: true },
+            MetaDescription: { required: true },
+            BlogCategoryID: { required: true }
         },
         messages: {
             Slug: "Please enter slug",
@@ -24,7 +29,10 @@ function InitFormValidation() {
             hdfBlogImage: {
                 required: "Please upload image",
                 extension: "Only image allowed (png, jpeg, jpg)"
-            }
+            },
+            MetaTitle: "Please select meta title",
+            MetaDescription: "Please select meta description",
+            BlogCategoryID: "Please select category",
         },
         errorElement: 'span',
         errorClass: 'invalid-feedback',
@@ -66,6 +74,17 @@ function InitFormValidation() {
         }
     });
 }
+
+function convertToSlug(ele) {
+    var $slug = '';
+    var trimmed = $.trim($(ele).val());
+    $slug = trimmed.replace(/[^a-z0-9-]/gi, '-').
+        replace(/-+/g, '-').
+        replace(/^-|-$/g, '');
+
+    $('#txtSlug').val($slug.toLowerCase());
+}
+
 function ShowPreview(input) {
     var fileName = $('input[name="fileImage"]').val();
     $("#hdfBlogImage").val(fileName);
@@ -81,4 +100,63 @@ function ShowPreview(input) {
     }
     var validator = $("#frmBlog").validate();
     validator.element("#hdfBlogImage");
+}
+
+function ShowCategoryModal() {
+    $('#CategoryModal').modal('show');
+}
+
+// INITIALIZATION CATEGORY FORM VALIDATION
+function InitCategoryValidation() {
+    $("#formCategory").validate({
+        ignore: [],
+        rules: {
+            txtCategory: { required: true }
+        },
+        messages: {
+            txtCategory: "Please enter category"
+        },
+        errorElement: 'span',
+        errorClass: 'invalid-feedback',
+        highlight: function (element) {
+            $(element).removeClass('is-valid').addClass('is-invalid');
+            $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+        },
+        unhighlight: function (element) {
+        },
+        success: function (element, object) {
+            $(object).removeClass('is-invalid').addClass('is-valid');
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        },
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.closest(".form-control"));
+        }
+    });
+}
+
+function SaveCategory() {
+    if ($("#formCategory").valid()) {
+
+        var data = new FormData();
+        data.append("CategoryName", $('#txtCategory').val());
+        laddaContext.start();
+        var ajaxUrl = _contentRoot + "GetCompanyDetailsByID";
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: data,
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $(".divCompanyDetails").html(response.ResultObjectHTML);
+                $("#hdnCompanyName").val(response.ResultObject.CompanyName);
+                $("#ddlGroupType").val(response.ResultObject.FeeModelTypeID);
+                $("#CategoryModal").modal('hide');
+            },
+            error: function (x, e) {
+
+            }
+        });
+    }
 }

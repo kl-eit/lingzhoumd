@@ -43,10 +43,18 @@ namespace Ling.Dashboard.Controllers
         public ActionResult Manage(int id = 0)
         {
             Blogs blogs = new Blogs();
+            List<BlogCategory> blogCategories = new List<BlogCategory>();
+            ResponseObjectForAnything responseObjectForCategory = _blogRepository.GetBlogCategoryList();
+            if (responseObjectForCategory.ResultCode == Constants.RESPONSE_SUCCESS)
+            {
+                blogCategories = (List<BlogCategory>)responseObjectForCategory.ResultObject;
+            }
+
             ResponseObjectForAnything responseObjectForAnything = _blogRepository.SelectByID(id);
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
                 blogs = (Blogs)responseObjectForAnything.ResultObject;
+                blogs.CategoryList = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(blogCategories, "ID", "BlogCategoryName");
             }
             return View(blogs);
         }
@@ -103,6 +111,10 @@ namespace Ling.Dashboard.Controllers
             {
                 WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
                 return RedirectToAction("Index");
+            }
+            else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
+            {
+                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_EXISTS, ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
             }
             else
                 WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);

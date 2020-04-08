@@ -7,6 +7,9 @@ namespace Ling.Domains.ViewModel
 {
     public class DashboardViewModel
     {
+        public int TotalFAQ { get; set; }
+        public int TotalContactInquiry { get; set; }
+        public int TotalBlog { get; set; }
         public List<ContactInquiry> ContactInquiryList { get; set; }
 
         public DashboardViewModel()

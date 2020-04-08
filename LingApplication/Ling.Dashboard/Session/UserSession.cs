@@ -114,6 +114,7 @@ namespace Ling.Dashboard.Session
             if (userModel != null)
             {
                 LoginUserID = userModel.ID;
+                LoginUserName = userModel.UserName;
             }
         }
     }

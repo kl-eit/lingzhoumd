@@ -94,5 +94,44 @@ namespace Ling.Domains.Concrete
             }
             return responseObjectForAnything;
         }
+
+        public ResponseObjectForAnything FAQ_Inquiry_Blog_Count()
+        {
+            ResponseObjectForAnything responseObjectForAnything = new ResponseObjectForAnything();
+            DashboardViewModel entity = new DashboardViewModel(); ;
+            try
+            {
+                DbCommand dbCommand = sqldb.GetStoredProcCommand("Dashboard_S");
+
+                IDataReader iReader = sqldb.ExecuteReader(dbCommand);
+
+                if (!iReader.Equals(null))
+                {
+                    using (iReader)
+                    {
+                        while (iReader.Read())
+                        {
+                            entity.TotalFAQ = CommonHelper.FromDB<Int32>(iReader["TotalFAQ"]);
+                            entity.TotalContactInquiry = CommonHelper.FromDB<Int32>(iReader["TotalContactInquiry"]);
+                            entity.TotalBlog = CommonHelper.FromDB<Int32>(iReader["TotalBlog"]);
+                        }
+                    }
+                }
+
+                if (!iReader.IsClosed)
+                    iReader.Close();
+
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_SUCCESS;
+                responseObjectForAnything.ResultObject = entity;
+            }
+            catch (Exception ex)
+            {
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_ERROR;
+                responseObjectForAnything.ResultMessage = ex.Message;
+                ExceptionLog exLog = new ExceptionLog(ex.Message, ex.StackTrace, this.ToString(), "FAQ_Inquiry_Blog_Count", "E");
+                ExceptionManagerRepository.PublishException(exLog);
+            }
+            return responseObjectForAnything;
+        }
     }
 }

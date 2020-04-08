@@ -3,14 +3,20 @@ $(document).ready(function () {
 
     InitDataTable();
 
-    //$('#tblContactInquiries').on('processing.dt', function (e, settings, processing) {
-    //    if (processing)
-    //        ShowBlockUI();
-    //    else
-    //        HideBlockUI();
-    //}).dataTable();
+    $('#tblContactInquiries').on('processing.dt', function (e, settings, processing) {
+        if (processing)
+            ShowBlockUI();
+        else
+            HideBlockUI();
+    }).dataTable();
 
     $.fn.DataTable.ext.pager.numbers_length = 5;
+
+    var table = $('#tblContactInquiries').DataTable();
+
+    $('#txtGlobalSearch').on('keyup', function () {
+        table.search(this.value).draw();
+    });
 });
 
 // INITIALIZE DATA TABLE
@@ -20,6 +26,7 @@ function InitDataTable() {
         "language": {
             "emptyTable": "No record found"
         },
+        order: [[6, 'desc']],
         paging: true,
         filter: true,
         destroy: true,
@@ -31,11 +38,7 @@ function InitDataTable() {
             dataType: "json"
         },
         columnDefs: [
-            { "width": "10%", "targets": 1 },
-            { "width": "20%", "targets": 2 },
-            { "width": "20%", "targets": 3 },
-            { "width": "10%", "targets": 4 },
-            { "width": "15%", "targets": 5 }
+            { "width": "5%", "targets": 6 }
         ],
         aoColumns: [
             {
@@ -55,7 +58,7 @@ function InitDataTable() {
                 mDataProp: "Message", "orderable": false
             },
             {
-                "data": "Status", orderable: false, "render": function (data, type, full, meta) {
+                "data": "Status", orderable: true, "render": function (data, type, full, meta) {
                     if (data == true) {
                         return '<span class="badge badge rounded-capsule badge-soft-success">New<span class="ml-1 fa fa-check" data-fa-transform="shrink-2"></span></span>';
                     }
@@ -67,7 +70,7 @@ function InitDataTable() {
                 render: function (d) {
                     return moment(d).format("MM/DD/YYYY");
                 },
-                "orderable": false
+                "orderable": true
             },
             {
                 mDataProp: "ID",

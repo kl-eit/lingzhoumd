@@ -129,10 +129,10 @@ namespace Ling.Dashboard.Controllers
         #endregion
 
         #region Methods
-        public List<Treatments> GetTreatments(int pPageIndex = 1, int pPageSize = 20, string pSearch = "")
+        public List<Treatments> GetTreatments(int pPageIndex = 1, int pPageSize = 20, string pSearch = "", int pSortColumn = 0, string pSortOrder = "")
         {
             List<Treatments> entityList = new List<Treatments>();
-            ResponseObjectForAnything responseObjectForAnything = _treatmentsRepository.Select(pPageIndex, pPageSize, pSearch);
+            ResponseObjectForAnything responseObjectForAnything = _treatmentsRepository.Select(pPageIndex, pPageSize, pSearch, pSortColumn, pSortOrder);
 
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
@@ -150,7 +150,7 @@ namespace Ling.Dashboard.Controllers
             string search = Request.Form["search[value]"];
             string draw = Request.Form["draw"];
             int start = Convert.ToInt32(Request.Form["start"]);
-            int length = Convert.ToInt32(Request.Form["length"]);
+            int length = Convert.ToInt32(Request.Form["length"]);                                                                       
             int sortColumn = Convert.ToInt32(Request.Form["order[0][column]"]);
             string sortOrder = Request.Form["order[0][dir]"];
 
@@ -158,7 +158,7 @@ namespace Ling.Dashboard.Controllers
             int pageNumber = (start + length) / length;
             int recsPerPage = length;
 
-            List<Treatments> treatmentsList = GetTreatments(pageNumber, length, search);
+            List<Treatments> treatmentsList = GetTreatments(pageNumber, length, search, sortColumn, sortOrder);
 
             if (treatmentsList != null && treatmentsList.Count > 0)
             {

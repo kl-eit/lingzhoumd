@@ -8,6 +8,7 @@ using Ling.Domains.Abstract;
 using Ling.Domains.Concrete;
 using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
+using Ling.Domains.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -35,14 +36,21 @@ namespace Ling.Dashboard.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            ViewBag.LoginUserName = _session.LoginUserName;
+            DashboardViewModel model = new DashboardViewModel();
+            ResponseObjectForAnything responseObjectForAnything = _dashboardRepository.FAQ_Inquiry_Blog_Count();
+            if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
+            {
+                model = (DashboardViewModel)responseObjectForAnything.ResultObject;
+            }
+            return View(model);
         }
 
         #region Methods
-        public List<ContactInquiry> GetContactInquiries(int pPageIndex = 1, int pPageSize = 20, string pSearch = "")
+        public List<ContactInquiry> GetContactInquiries(int pPageIndex = 1, int pPageSize = 20, string pSearch = "", int pSortColumn = 0, string pSortOrder = "")
         {
             List<ContactInquiry> entityList = new List<ContactInquiry>();
-            ResponseObjectForAnything responseObjectForAnything = _dashboardRepository.GetContactInquiry(pPageIndex, pPageSize, pSearch);
+            ResponseObjectForAnything responseObjectForAnything = _dashboardRepository.GetContactInquiry(pPageIndex, pPageSize, pSearch, pSortColumn, pSortOrder);
 
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
@@ -54,6 +62,7 @@ namespace Ling.Dashboard.Controllers
         #endregion
 
         #region Ajax
+        [HttpPost]
         public JsonResult GetContactInquiryList()
         {
             JsonResult result;
@@ -68,7 +77,7 @@ namespace Ling.Dashboard.Controllers
             int pageNumber = (start + length) / length;
             int recsPerPage = length;
 
-            List<ContactInquiry> contactInquiryList = GetContactInquiries(pageNumber, length, search);
+            List<ContactInquiry> contactInquiryList = GetContactInquiries(pageNumber, length, search, sortColumn, sortOrder);
 
             if (contactInquiryList != null && contactInquiryList.Count > 0)
             {

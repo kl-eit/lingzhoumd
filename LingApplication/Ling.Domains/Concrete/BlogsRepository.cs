@@ -148,24 +148,72 @@ namespace Ling.Domains.Concrete
 
                 DbCommand dbCommand = sqldb.GetStoredProcCommand("Blogs_Upsert");
                 sqldb.AddInParameter(dbCommand, "@ID", DbType.Int32, CommonHelper.ToDB<Int32>(pEntity.ID));
+                sqldb.AddInParameter(dbCommand, "@BlogCategoryID", DbType.Int32, CommonHelper.ToDB<Int32>(pEntity.BlogCategoryID));
                 sqldb.AddInParameter(dbCommand, "@Slug", DbType.String, CommonHelper.ToDB<String>(pEntity.Slug));
                 sqldb.AddInParameter(dbCommand, "@Title", DbType.String, CommonHelper.ToDB<String>(pEntity.Title));
                 sqldb.AddInParameter(dbCommand, "@Description", DbType.String, CommonHelper.ToDB<String>(pEntity.Description));
                 sqldb.AddInParameter(dbCommand, "@ImageName", DbType.String, CommonHelper.ToDB<String>(pEntity.ImageName));
+                sqldb.AddInParameter(dbCommand, "@MetaTitle", DbType.String, CommonHelper.ToDB<String>(pEntity.MetaTitle));
+                sqldb.AddInParameter(dbCommand, "@MetaDescription", DbType.String, CommonHelper.ToDB<String>(pEntity.MetaDescription));
                 sqldb.AddInParameter(dbCommand, "@IsActive", DbType.Boolean, CommonHelper.ToDB<Boolean>(pEntity.IsActive));
                 sqldb.AddInParameter(dbCommand, "@CreatedBy", DbType.Int32, CommonHelper.ToDB<Int32>(Convert.ToInt32(pEntity.CreatedBy)));
                 sqldb.AddInParameter(dbCommand, "@CreatedDate", DbType.DateTime, CommonHelper.ToDB<DateTime>(pEntity.CreatedDate));
                 sqldb.AddInParameter(dbCommand, "@ModifiedBy", DbType.Int32, CommonHelper.ToDB<Int32>(Convert.ToInt32(pEntity.ModifiedBy)));
                 sqldb.AddInParameter(dbCommand, "@ModifiedDate", DbType.DateTime, CommonHelper.ToDB<DateTime>(pEntity.ModifiedDate));
 
-                responseObjectForAnything.ResultCode = Constants.RESPONSE_SUCCESS;
                 responseObjectForAnything.ResultObjectID = CommonHelper.ConvertTo<Int32>(sqldb.ExecuteScalar(dbCommand));
+                if (responseObjectForAnything.ResultObjectID == -1)
+                {
+                    responseObjectForAnything.ResultCode = Constants.RESPONSE_EXISTS;
+                }
+                else
+                {
+                    responseObjectForAnything.ResultCode = Constants.RESPONSE_SUCCESS;
+                }
             }
             catch (Exception ex)
             {
                 responseObjectForAnything.ResultCode = Constants.RESPONSE_ERROR;
                 responseObjectForAnything.ResultMessage = ex.Message;
                 ExceptionLog exLog = new ExceptionLog(ex.Message, ex.StackTrace, this.ToString(), "Upsert", "E");
+                ExceptionManagerRepository.PublishException(exLog);
+            }
+            return responseObjectForAnything;
+        }
+
+        public ResponseObjectForAnything GetBlogCategoryList()
+        {
+            ResponseObjectForAnything responseObjectForAnything = new ResponseObjectForAnything();
+            List<BlogCategory> entityList = new List<BlogCategory>();
+            try
+            {
+                DbCommand dbCommand = sqldb.GetStoredProcCommand("BlogCategory_S");
+
+                IDataReader iReader = sqldb.ExecuteReader(dbCommand);
+                if (!iReader.Equals(null))
+                {
+                    using (iReader)
+                    {
+                        while (iReader.Read())
+                        {
+                            BlogCategory model = new BlogCategory();
+                            model.ID = CommonHelper.FromDB<Int32>(iReader["ID"]);
+                            model.BlogCategoryName = CommonHelper.FromDB<String>(iReader["BlogCategoryName"]);
+                            entityList.Add(model);
+                        }
+                    }
+                }
+                if (!iReader.IsClosed)
+                    iReader.Close();
+
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_SUCCESS;
+                responseObjectForAnything.ResultObject = entityList;
+            }
+            catch (Exception ex)
+            {
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_ERROR;
+                responseObjectForAnything.ResultMessage = ex.Message;
+                ExceptionLog exLog = new ExceptionLog(ex.Message, ex.StackTrace, this.ToString(), "GetBlogCategoryList", "E");
                 ExceptionManagerRepository.PublishException(exLog);
             }
             return responseObjectForAnything;
