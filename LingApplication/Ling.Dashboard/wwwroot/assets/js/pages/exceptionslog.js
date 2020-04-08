@@ -35,14 +35,6 @@ function InitDataTable() {
         destroy: true,
         orderMulti: false,
         serverSide: true,
-        columnDefs: [
-            { "width": "10%", "targets": 0 },
-            { "width": "20%", "targets": 1 },
-            { "width": "20%", "targets": 2 },
-            { "width": "15%", "targets": 3 },
-            { "width": "15%", "targets": 4 },
-            { "width": "2%", "targets": 5 }
-        ],
         ajax: {
             type: "POST",
             url: ajaxUrl,
@@ -59,7 +51,7 @@ function InitDataTable() {
             {
                 mDataProp: "CreatedDate",
                 render: function (d) {
-                    return moment(d).format("MM/DD/YYYY");
+                    return moment(d).format("MM/DD/YYYY HH:mm");
                 },
                 "orderable": true
             },

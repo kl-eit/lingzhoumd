@@ -2,6 +2,7 @@
 // DOCUMENT LOAD EVENT IT WILL OCCURE ON PAGE LOAD
 $(document).ready(function () {
     InitFormValidation();
+    InitSummernote();
 });
 
 // INITIALIZATION FORM VALIDATION
@@ -58,9 +59,24 @@ function InitFormValidation() {
     });
 
     $("#btnSave").click(function () {
-        if ($("#frmTreatment").valid()) {
-            ShowBlockUI();
-            $("#frmTreatment")[0].submit();
+        var isValidSummernote = true;
+        if ($("#txtDescription").summernote('isEmpty'))
+            isValidSummernote = false;
+
+        if ($("#frmTreatment").valid() && isValidSummernote) {
+            $("#spnSummernoteError").hide();
+            $(".note-editor").css('margin-bottom', '14px');
+            $("#dvDescription").removeClass("has-error").addClass("has-success");
+            $('.summernote').val($('.summernote').summernote('code'));
+            $("#frmTreatment").submit();
+        }
+        else {
+            if (!isValidSummernote) {
+                $("#spnSummernoteError").show();
+                $("#dvDescription").removeClass("has-success").addClass("has-error");
+                $(".note-editor").css('margin-bottom', '1px');
+                $(".note-editor").css('border-color', '#dd4b39');
+            }
         }
     });
 }
@@ -81,4 +97,38 @@ function ShowPreview(input, previewFor) {
         var validator = $("#frmTreatment").validate();
         validator.element("#hdfTreatmentImage");
     }
+}
+// INITIALIZATION SUMMERNOTE
+function InitSummernote() {
+    $('#txtDescription').summernote({
+        minHeight: 300,
+        'empty': ('<p><br/></p>', '<p><br></p>'),
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['clear', ['clear']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'hr']],
+            ['view', ['fullscreen', 'codeview']],
+            ['help', ['help']]
+        ]
+    });
+
+    $("#txtDescription").on('summernote.change', function () {
+        $("#spnSummernoteError").hide();
+        $("#dvDescription").removeClass("has-error").addClass('has-success');;
+        $(".note-editor").css('margin-bottom', '14px');
+        $(".note-editor").css('border-color', '#00a65a');
+
+        if ($("#txtDescription").summernote('isEmpty')) {
+            $("#spnSummernoteError").show();
+            $("#dvDescription").removeClass("has-success").addClass("has-error");
+            $(".note-editor").css('margin-bottom', '1px');
+            $(".note-editor").css('border-color', '#dd4b39');
+        }
+    });
 }
