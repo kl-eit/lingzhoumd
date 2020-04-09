@@ -45,10 +45,10 @@ function InitDataTable() {
                 mDataProp: "ID",
                 visible: false
             },
-            { mDataProp: "Name", "orderable": false },
-            { mDataProp: "EmailAddress", "orderable": false },
+            { mDataProp: "Name", "orderable": true },
+            { mDataProp: "EmailAddress", "orderable": true },
             {
-                mDataProp: "Subject", "orderable": false, "render": function (data, type, full, meta) {
+                mDataProp: "Subject", "orderable": true, "render": function (data, type, full, meta) {
                     return data.length > 100 ?
                         data.substr(0, 100) + '…' :
                         data;
@@ -57,9 +57,9 @@ function InitDataTable() {
             {
                 "data": "Status", orderable: true, "render": function (data, type, full, meta) {
                     if (data == true) {
-                        return '<span class="badge badge rounded-capsule badge-soft-success">New<span class="ml-1 fa fa-check" data-fa-transform="shrink-2"></span></span>';
+                        return '<span class="badge badge rounded-capsule badge-soft-success">Read<span class="ml-1 fa fa-check" data-fa-transform="shrink-2"></span></span>';
                     }
-                    else return '<span class="badge badge rounded-capsule badge-soft-warning">Old<span class="ml-1 fa fa-times" data-fa-transform="shrink-2"></span></span>';
+                    else return '<span class="badge badge rounded-capsule badge-soft-warning">New<span class="ml-1 fa fa-times" data-fa-transform="shrink-2"></span></span>';
                 }
             },
             {
@@ -73,10 +73,12 @@ function InitDataTable() {
                 mDataProp: "ID",
                 className: 'text-center',
                 render: function (d) {
-                    var editUrl = _contentRoot + "blog/manage/" + d;
+                    var viewUrl = "ShowContactInquiryModalByID(" + d + ");";
+                    var editUrl = "UpdateStatus(" + d + ");";
                     return '<div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal custom-btn-reveal mr-3" type="button" id="dropdown' + d + '" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-h fs--1"></span></button>' +
                         '<div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown' + d + '">' +
-                        '<div class="bg-white py-2"><a class="dropdown-item" href=\"' + editUrl + '\" >View</a>' +
+                        '<div class="bg-white py-2"><a class="dropdown-item"  href="javascript:void(0);" onclick=\"' + viewUrl + '\" >View</a>' +
+                        '<div class="bg-white py-2"><a class="dropdown-item"  href="javascript:void(0);" onclick=\"' + editUrl + '\" >Mark As Read</a>' +
                         '</div></div></div>';
                 },
                 "orderable": false
@@ -93,4 +95,41 @@ function InitDataTable() {
             $(".dataTables_paginate .pagination").addClass('pagination-sm');
         }
     });
+}
+function ShowContactInquiryModalByID(id) {
+    if (id > 0) {
+        ShowBlockUI();
+        var ajaxUrl = _contentRoot + 'Home/SelectContactInquiryByID';
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: { id: id },
+            success: function (response) {
+                HideBlockUI();
+                $("#viewContactInquiryDetailModal").modal("show");
+                if (response != null && response.resultCode == "SUCCESS") {
+                    $('#dvMessage').html("<b>Message : </b>" + response.resultObject.message);
+                }
+            },
+            error: function (x, e) {
+                HideBlockUI();
+                $("#viewContactInquiryDetailModal").modal("hide");
+            }
+        });
+    }
+}
+
+
+function UpdateStatus(id) {
+    if (id > 0) {
+        ShowBlockUI();
+        var ajaxUrl = _contentRoot + 'Home/UpdateStatusByID';
+        $.ajax({
+            type: "POST",
+            url: ajaxUrl,
+            data: { id: id },
+            success: function (response) {
+            }
+        });
+    }
 }

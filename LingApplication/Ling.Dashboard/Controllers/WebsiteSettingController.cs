@@ -28,6 +28,7 @@ namespace Ling.Dashboard.Controllers
             _websiteSettingRepository = new WebsiteSettingRepository(iConfiguration);
             _session = new UserSession(httpContextAccessor, iConfiguration);
             _appSettings = settings.Value;
+            ViewBag.SelectedMenu = "WebsiteSetting";
         }
         #endregion
 

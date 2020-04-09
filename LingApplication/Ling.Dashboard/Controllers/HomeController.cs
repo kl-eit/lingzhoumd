@@ -46,6 +46,27 @@ namespace Ling.Dashboard.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public ActionResult SelectContactInquiryByID(int id)
+        {
+            string response = string.Empty;
+            if (Request.IsAjaxRequest())
+            {
+                ResponseObjectForAnything responseObjectForAnything = _dashboardRepository.SelectByID(id);
+                return Json(responseObjectForAnything);
+            }
+            return Content(response);
+        }
+
+        [HttpPost]
+        public ActionResult UpdateStatusByID(int id)
+        {
+            string response = string.Empty;
+            ResponseObjectForAnything responseObjectForAnything = _dashboardRepository.UpdateStatusByID(id);
+            return Content(response);
+
+        }
+
         #region Methods
         public List<ContactInquiry> GetContactInquiries(int pPageIndex = 1, int pPageSize = 20, string pSearch = "", int pSortColumn = 0, string pSortOrder = "")
         {

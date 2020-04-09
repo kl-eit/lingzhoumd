@@ -75,7 +75,7 @@ function InitDataTable() {
                 },
                 "orderable": false
             },
-            { mDataProp: "Question", "orderable": true },
+            { mDataProp: "Question", "orderable": false },
             //{
             //    mDataProp: "Answer", "orderable": false, "render": function (data, type, full, meta) {
             //        return data.length > 100 ?
@@ -84,7 +84,7 @@ function InitDataTable() {
             //    }
             //},
             {
-                "data": "IsActive", orderable: true, "targets": [5], "render": function (data, type, full, meta) {
+                "data": "IsActive", orderable: false, "targets": [5], "render": function (data, type, full, meta) {
                     if (data == true) {
                         return '<span class="badge badge rounded-capsule badge-soft-success">YES<span class="ml-1 fa fa-check" data-fa-transform="shrink-2"></span></span>';
                     }
@@ -97,7 +97,7 @@ function InitDataTable() {
                 render: function (d) {
                     return moment(d).format("MM/DD/YYYY");
                 },
-                "orderable": true
+                "orderable": false
             },
             {
                 mDataProp: "ID",

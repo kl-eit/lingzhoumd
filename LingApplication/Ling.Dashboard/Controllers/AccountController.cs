@@ -181,7 +181,8 @@ namespace Ling.Dashboard.Controllers
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Account");
+            return View();
+            //return RedirectToAction("Login", "Account");
         }
 
         [Route("profile")]
