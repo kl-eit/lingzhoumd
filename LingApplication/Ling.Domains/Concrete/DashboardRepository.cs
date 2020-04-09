@@ -108,5 +108,68 @@ namespace Ling.Domains.Concrete
             }
             return responseObjectForAnything;
         }
+
+        /// <summary>
+        /// Fetch ExceptionLog by ID
+        /// </summary>
+        /// <param name="pID">ID object foe select</param>
+        /// <returns></returns>
+        public ResponseObjectForAnything SelectByID(int pID)
+        {
+            ResponseObjectForAnything responseObjectForAnything = new ResponseObjectForAnything();
+            ContactInquiry entity = null;
+            try
+            {
+                DbCommand dbcommand = dbStatic.GetStoredProcCommand("ContactInquiry_S_By_ID");
+                dbStatic.AddInParameter(dbcommand, "@ID", DbType.Int32, CommonHelper.ToDB<Int32>(pID));
+                IDataReader iReader = dbStatic.ExecuteReader(dbcommand);
+                if (!iReader.Equals(null))
+                {
+                    using (iReader)
+                    {
+                        while (iReader.Read())
+                        {
+                            entity = new ContactInquiry();
+                            entity.ID = CommonHelper.FromDB<Int32>(iReader["ID"]);
+                            entity.Message= CommonHelper.FromDB<String>(iReader["Message"]);
+                        }
+                    }
+                }
+                if (!iReader.IsClosed)
+                {
+                    iReader.Close();
+                }
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_SUCCESS;
+                responseObjectForAnything.ResultObject = entity;
+            }
+            catch (Exception ex)
+            {
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_ERROR;
+                responseObjectForAnything.ResultMessage = ex.Message;
+                ExceptionLog exLog = new ExceptionLog(ex.Message, ex.StackTrace, this.ToString(), "SelectByID", "E");
+                ExceptionManagerRepository.PublishException(exLog);
+            }
+            return responseObjectForAnything;
+        }
+
+        public ResponseObjectForAnything UpdateStatusByID(int pID)
+        {
+            ResponseObjectForAnything responseObjectForAnything = new ResponseObjectForAnything();
+            try
+            {
+                DbCommand dbcommand = dbStatic.GetStoredProcCommand("ConactInquiry_Status_U");
+                dbStatic.AddInParameter(dbcommand, "@ID", DbType.Int32, CommonHelper.ToDB<Int32>(pID));
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_SUCCESS;
+                responseObjectForAnything.ResultObjectID = CommonHelper.ConvertTo<Int32>(sqldb.ExecuteScalar(dbcommand));
+            }
+            catch (Exception ex)
+            {
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_ERROR;
+                responseObjectForAnything.ResultMessage = ex.Message;
+                ExceptionLog exLog = new ExceptionLog(ex.Message, ex.StackTrace, this.ToString(), "SelectByID", "E");
+                ExceptionManagerRepository.PublishException(exLog);
+            }
+            return responseObjectForAnything;
+        }
     }
 }

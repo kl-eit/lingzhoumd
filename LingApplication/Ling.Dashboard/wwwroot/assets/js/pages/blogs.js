@@ -38,9 +38,9 @@ function InitDataTable() {
                 mDataProp: "ID",
                 visible: false
             },
-            { mDataProp: "Title", "orderable": false },
+            { mDataProp: "Title", "orderable": true },
             {
-                "data": "IsActive", orderable: false, "targets": [3], "render": function (data, type, full, meta) {
+                "data": "IsActive", orderable: true, "targets": [3], "render": function (data, type, full, meta) {
                     if (data == true) {
                         return '<span class="badge badge rounded-capsule badge-soft-success">YES<span class="ml-1 fa fa-check" data-fa-transform="shrink-2"></span></span>';
                     }
@@ -53,7 +53,7 @@ function InitDataTable() {
                 render: function (d) {
                     return moment(d).format("MM/DD/YYYY");
                 },
-                "orderable": false
+                "orderable": true
             },
             {
                 mDataProp: "ID",

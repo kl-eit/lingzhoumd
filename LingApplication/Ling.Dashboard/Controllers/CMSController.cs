@@ -29,6 +29,7 @@ namespace Ling.Dashboard.Controllers
             _cmsRepository = new CMSRepository(iConfiguration);
             _session = new UserSession(httpContextAccessor, iConfiguration);
             _appSettings = settings.Value;
+            ViewBag.SelectedMenu = "CMS";
         }
         #endregion
 

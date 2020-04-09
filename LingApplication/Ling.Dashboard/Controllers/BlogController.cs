@@ -138,10 +138,10 @@ namespace Ling.Dashboard.Controllers
         #endregion
 
         #region Methods
-        public List<Blogs> GetBlogs(int pPageIndex = 1, int pPageSize = 20, string pSearch = "")
+        public List<Blogs> GetBlogs(int pPageIndex = 1, int pPageSize = 20, string pSearch = "", int pOrderColumn = 0, string pCurrentOrder = "asc")
         {
             List<Blogs> entityList = new List<Blogs>();
-            ResponseObjectForAnything responseObjectForAnything = _blogRepository.Select(pPageIndex, pPageSize, pSearch);
+            ResponseObjectForAnything responseObjectForAnything = _blogRepository.Select(pPageIndex, pPageSize, pSearch, pOrderColumn, pCurrentOrder);
 
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
@@ -167,7 +167,7 @@ namespace Ling.Dashboard.Controllers
             int pageNumber = (start + length) / length;
             int recsPerPage = length;
 
-            List<Blogs> blogList = GetBlogs(pageNumber, length, search);
+            List<Blogs> blogList = GetBlogs(pageNumber, length, search, sortColumn, sortOrder);
 
             if (blogList != null && blogList.Count > 0)
             {

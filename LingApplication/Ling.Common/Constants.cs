@@ -93,5 +93,15 @@ namespace Ling.Common
         Admin = 1
     }
 
+    public enum ProfileKeys
+    {
+        Profile_Philosophy = 1,
+        Profile_Pic = 2,
+        Profile_Education = 3,
+        Profile_Training = 4,
+        Profile_Certificate = 5,
+        Profile_Medicalintrest = 6
+    }
+
     #endregion
 }

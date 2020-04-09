@@ -38,9 +38,8 @@ namespace Ling.Dashboard.Controllers
         #endregion
 
         #region Actions
-        public ActionResult Index()
+        public IActionResult Index()
         {
-
             return View();
         }
 
