@@ -85,6 +85,33 @@ namespace Ling.Dashboard.Session
             }
         }
 
+        public string LoginUserAvtar
+        {
+            get
+            {
+                string retVal = string.Empty;
+                if (_session.GetString(Constants.USERSESSION_USERAVATAR) != null)
+                {
+                    retVal = Convert.ToString(_session.GetString(Constants.USERSESSION_USERAVATAR));
+                }
+                else
+                {
+                    int authUserID = GetAuthCookieUserID();
+                    if (authUserID > 0)
+                    {
+                        InitializeUserSession(authUserID);
+                        retVal = Convert.ToString(_session.GetString(Constants.USERSESSION_USERAVATAR));
+                    }
+                }
+
+                return retVal;
+            }
+            set
+            {
+                _session.SetString(Constants.USERSESSION_USERAVATAR, value.ToString());
+            }
+        }
+
         public int GetAuthCookieUserID()
         {
             int id = 0;
@@ -115,6 +142,7 @@ namespace Ling.Dashboard.Session
             {
                 LoginUserID = userModel.ID;
                 LoginUserName = userModel.UserName;
+                LoginUserAvtar = userModel.Avatar;
             }
         }
     }

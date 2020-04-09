@@ -19,6 +19,8 @@
             $("div.dataTables_wrapper div.dataTables_filter input").keyup();
         }
     });
+
+    SetLoginUserAvtar();
 });
 
 
@@ -41,4 +43,13 @@ function IsNullOrEmptyString(e) {
 function ShowGlobalConfirmDeleteModal(pDeleteActionUrl) {
     $("#btnGlobalDelete").attr("href", pDeleteActionUrl);
     $("#globalConfirmDeleteModal").modal("show");
+}
+
+function SetLoginUserAvtar() {
+    var userAvtar = localStorage.getItem('avtar');
+    if (IsNullOrEmptyString(userAvtar)) {
+        localStorage.setItem('avtar', $('#hdnLoginUserAvtar').val());
+    } else {
+        $('#profile-avtar').attr('src', userAvtar);
+    }
 }

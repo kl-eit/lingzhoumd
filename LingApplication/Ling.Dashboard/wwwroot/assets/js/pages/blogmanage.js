@@ -5,6 +5,12 @@ $(document).ready(function () {
     InitFormValidation();
 
     InitCategoryValidation();
+
+    $('#CategoryModal').on('hide.bs.modal', function (e) {
+        $('#txtCategory').removeClass('is-valid is-invalid').val('');
+        $('#txtCategory').parents('.form-group').removeClass('has-error has-success');
+        $('#txtCategory-error').remove();
+    })
 });
 
 // INITIALIZATION FORM VALIDATION
@@ -148,12 +154,12 @@ function InitCategoryValidation() {
 }
 
 function SaveCategory() {
+
     if ($("#formCategory").valid()) {
 
         var data = new FormData();
-        data.append("CategoryName", $('#txtCategory').val());
-        laddaContext.start();
-        var ajaxUrl = _contentRoot + "GetCompanyDetailsByID";
+        data.append("BlogCategoryName", $('#txtCategory').val());
+        var ajaxUrl = _contentRoot + "Blog/SaveBlogCategory";
         $.ajax({
             type: "POST",
             url: ajaxUrl,
@@ -162,10 +168,19 @@ function SaveCategory() {
             contentType: false,
             processData: false,
             success: function (response) {
-                $(".divCompanyDetails").html(response.ResultObjectHTML);
-                $("#hdnCompanyName").val(response.ResultObject.CompanyName);
-                $("#ddlGroupType").val(response.ResultObject.FeeModelTypeID);
-                $("#CategoryModal").modal('hide');
+                if (response.ResultCode == "SUCCESS") {
+                    $('#BlogCategoryID')
+                        .append($("<option></option>")
+                            .attr("value", response.ResultObjectID)
+                            .text($('#txtCategory').val()));
+
+                    $('#BlogCategoryID').val(response.ResultObjectID);
+                    $('#CategoryModal').modal('hide');
+
+                } else {
+
+                }
+
             },
             error: function (x, e) {
 
@@ -188,7 +203,7 @@ function InitSummernote() {
             ['para', ['ul', 'ol', 'paragraph']],
             ['height', ['height']],
             ['table', ['table']],
-            ['insert', ['link', 'picture', 'hr']],
+            ['insert', ['link', 'picture', 'hr', 'video']],
             ['view', ['fullscreen', 'codeview']],
             ['help', ['help']]
         ]
@@ -207,4 +222,10 @@ function InitSummernote() {
             $(".note-editor").css('border-color', '#dd4b39');
         }
     });
+
+    $('.note-modal .modal-header').addClass('bg-gradient');
+    $('.note-modal .modal-header h4').each(function () {
+        $(this).insertBefore($(this).parent().find('button'));
+    });
 }
+

@@ -112,7 +112,7 @@ function InitSummernote() {
             ['para', ['ul', 'ol', 'paragraph']],
             ['height', ['height']],
             ['table', ['table']],
-            ['insert', ['link', 'picture', 'hr']],
+            ['insert', ['link', 'picture', 'hr', 'video']],
             ['view', ['fullscreen', 'codeview']],
             ['help', ['help']]
         ]
@@ -130,5 +130,10 @@ function InitSummernote() {
             $(".note-editor").css('margin-bottom', '1px');
             $(".note-editor").css('border-color', '#dd4b39');
         }
+    });
+
+    $('.note-modal .modal-header').addClass('bg-gradient');
+    $('.note-modal .modal-header h4').each(function () {
+        $(this).insertBefore($(this).parent().find('button'));
     });
 }

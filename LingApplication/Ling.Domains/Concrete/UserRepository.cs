@@ -217,6 +217,7 @@ namespace Ling.Domains.Concrete
                             entity.UserName = CommonHelper.FromDB<String>(iReader["UserName"]);
                             entity.Email = CommonHelper.FromDB<String>(iReader["Email"]);
                             entity.Role = CommonHelper.FromDB<String>(iReader["Role"]);
+                            entity.Avatar = CommonHelper.FromDB<String>(iReader["Avatar"]);
 
                             recordCount++;
                         }
@@ -270,6 +271,7 @@ namespace Ling.Domains.Concrete
                             entity.UserName = CommonHelper.FromDB<string>(iReader["UserName"]);
                             entity.Email = CommonHelper.FromDB<string>(iReader["Email"]);
                             entity.Role = CommonHelper.FromDB<string>(iReader["RoleName"]);
+                            entity.Avatar = CommonHelper.FromDB<string>(iReader["Avatar"]);
                         }
                     }
                 }

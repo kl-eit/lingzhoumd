@@ -218,5 +218,34 @@ namespace Ling.Domains.Concrete
             }
             return responseObjectForAnything;
         }
+
+        public ResponseObjectForAnything SaveBlogCategory(BlogCategory pEntity)
+        {
+            ResponseObjectForAnything responseObjectForAnything = new ResponseObjectForAnything();
+            try
+            {
+                DbCommand dbCommand = sqldb.GetStoredProcCommand("BlogCategory_Upsert");
+                sqldb.AddInParameter(dbCommand, "@BlogCategoryName", DbType.String, CommonHelper.ToDB<String>(pEntity.BlogCategoryName));
+                sqldb.AddInParameter(dbCommand, "@CreatedBy", DbType.String, CommonHelper.ToDB<String>(pEntity.CreatedBy));
+                
+                responseObjectForAnything.ResultObjectID = CommonHelper.ConvertTo<Int32>(sqldb.ExecuteScalar(dbCommand));
+                if (responseObjectForAnything.ResultObjectID == -1)
+                {
+                    responseObjectForAnything.ResultCode = Constants.RESPONSE_EXISTS;
+                }
+                else
+                {
+                    responseObjectForAnything.ResultCode = Constants.RESPONSE_SUCCESS;
+                }
+            }
+            catch (Exception ex)
+            {
+                responseObjectForAnything.ResultCode = Constants.RESPONSE_ERROR;
+                responseObjectForAnything.ResultMessage = ex.Message;
+                ExceptionLog exLog = new ExceptionLog(ex.Message, ex.StackTrace, this.ToString(), "SaveBlogCategory", "E");
+                ExceptionManagerRepository.PublishException(exLog);
+            }
+            return responseObjectForAnything;
+        }
     }
 }

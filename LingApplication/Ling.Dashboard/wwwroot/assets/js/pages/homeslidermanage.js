@@ -11,6 +11,7 @@
             $("#hdfBannerImage").removeClass("bannerImage");
             $("#hdfBannerVideo").addClass("bannerVideo");
             $('#imagePreview').attr("name", "BannerImage");
+            $("#hdfBannerVideo").val('');
 
         } else if ($('input[name=ImageVideo]:checked').val() == "Video") {
             $("#dvBannerImage").addClass("d-none");
@@ -20,6 +21,7 @@
             $("#hdfBannerVideo").removeClass("bannerVideo");
             $("#hdfBannerImage").addClass("bannerImage");
             $('#fileupload').attr("name", "fileupload");
+            $("#hdfBannerImage").val('');
         }
     });
 

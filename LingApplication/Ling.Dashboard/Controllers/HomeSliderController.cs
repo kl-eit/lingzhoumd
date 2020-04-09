@@ -84,14 +84,17 @@ namespace Ling.Dashboard.Controllers
                     {
                         Directory.CreateDirectory(fileDirectory);
                     }
-                     string fileSavePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath, imageName);
+                    string fileSavePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath, imageName);
                     using (var fileStream = new FileStream(fileSavePath, FileMode.Create))
                     {
                         uploadedFile.CopyTo(fileStream);
                     }
-                    string imageVersions = Constants.THUMBNAILIMAGERESIZER + "," + Constants.LARGEIMAGERESIZER + "," + Constants.SMALLIMAGERESIZER + "," + Constants.MEDIUMIMAGERESIZER;
-                    string destinationFilePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath);
-                    CommonHelper.ResizeImage(fileSavePath, destinationFilePath, imageName, imageVersions);
+                    if (!string.IsNullOrEmpty(hdfBannerImageName))
+                    {
+                        string imageVersions = Constants.THUMBNAILIMAGERESIZER + "," + Constants.LARGEIMAGERESIZER + "," + Constants.SMALLIMAGERESIZER + "," + Constants.MEDIUMIMAGERESIZER;
+                        string destinationFilePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath);
+                        CommonHelper.ResizeImage(fileSavePath, destinationFilePath, imageName, imageVersions);
+                    }
                 }
             }
             else
@@ -103,7 +106,7 @@ namespace Ling.Dashboard.Controllers
             }
             if (!string.IsNullOrEmpty(hdfBannerImageName))
             {
-                model.ImageName= imageName;
+                model.ImageName = imageName;
             }
             else if (!string.IsNullOrEmpty(hdfBannerVideoName))
             {

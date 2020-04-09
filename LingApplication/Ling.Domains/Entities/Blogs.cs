@@ -29,5 +29,7 @@ namespace Ling.Domains.Entities
     {
         public int ID { get; set; }
         public string BlogCategoryName { get; set; }
+        public string CreatedBy { get; set; }
+
     }
 }

@@ -70,9 +70,6 @@
                     <div class="form-group row">
                         <label for="Category" class="col-sm-2 col-form-label text-right">Category</label>
                         <div class="col-sm-6">
-                            @*<select class="form-control" name="Category" id="ddlCategory">
-                        <option value="value">text</option>
-                    </select>*@
                             @Html.DropDownListFor(Model => Model.BlogCategoryID, new SelectList(Model.CategoryList, "Value", "Text"), "Select Category", new { @class = "form-control" })
                         </div>
                         <div class="col-md-4">
@@ -163,7 +160,7 @@
 <div class="modal fade" id="CategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+            <div class="modal-header bg-gradient">
                 <h5 class="modal-title" id="exampleModalLabel">Add Category</h5><button class="close" type="button" data-dismiss="modal" aria-label="Close"><span class="font-weight-light" aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">

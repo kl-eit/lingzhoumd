@@ -181,6 +181,19 @@ namespace Ling.Dashboard.Controllers
             return result;
 
         }
+
+        public JsonResult SaveBlogCategory(BlogCategory blogCategory)
+        {
+            JsonResult result;
+
+
+            //blogCategory.BlogCategoryName = fc["CategoryName"];
+            blogCategory.CreatedBy = _session.LoginUserName;
+            ResponseObjectForAnything responseObject = _blogRepository.SaveBlogCategory(blogCategory);
+            result = this.Json(responseObject, new Newtonsoft.Json.JsonSerializerSettings());
+            return result;
+        }
+
         #endregion
     }
 }

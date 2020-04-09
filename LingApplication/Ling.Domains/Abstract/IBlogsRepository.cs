@@ -9,5 +9,6 @@ namespace Ling.Domains.Abstract
     public interface IBlogsRepository : IRepositoryBase<Blogs>
     {
         ResponseObjectForAnything GetBlogCategoryList();
+        ResponseObjectForAnything SaveBlogCategory(BlogCategory pEntity);
     }
 }
