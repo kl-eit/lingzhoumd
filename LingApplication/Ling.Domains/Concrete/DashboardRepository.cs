@@ -155,14 +155,12 @@ namespace Ling.Domains.Concrete
         public ResponseObjectForAnything UpdateStatusByID(int pID)
         {
             ResponseObjectForAnything responseObjectForAnything = new ResponseObjectForAnything();
-            ContactInquiry entity = null;
             try
             {
                 DbCommand dbcommand = dbStatic.GetStoredProcCommand("ConactInquiry_Status_U");
                 dbStatic.AddInParameter(dbcommand, "@ID", DbType.Int32, CommonHelper.ToDB<Int32>(pID));
-                IDataReader iReader = dbStatic.ExecuteReader(dbcommand);
                 responseObjectForAnything.ResultCode = Constants.RESPONSE_SUCCESS;
-                responseObjectForAnything.ResultObject = entity;
+                responseObjectForAnything.ResultObjectID = CommonHelper.ConvertTo<Int32>(sqldb.ExecuteScalar(dbcommand));
             }
             catch (Exception ex)
             {

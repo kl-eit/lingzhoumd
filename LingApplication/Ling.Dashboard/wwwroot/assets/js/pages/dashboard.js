@@ -129,6 +129,11 @@ function UpdateStatus(id) {
             url: ajaxUrl,
             data: { id: id },
             success: function (response) {
+                if (response.ResultCode == "SUCCESS") {
+                    var table = $('#tblContactInquiries').DataTable();
+
+                    table.draw();
+                }
             }
         });
     }

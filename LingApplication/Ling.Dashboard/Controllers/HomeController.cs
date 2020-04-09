@@ -58,14 +58,7 @@ namespace Ling.Dashboard.Controllers
             return Content(response);
         }
 
-        [HttpPost]
-        public ActionResult UpdateStatusByID(int id)
-        {
-            string response = string.Empty;
-            ResponseObjectForAnything responseObjectForAnything = _dashboardRepository.UpdateStatusByID(id);
-            return Content(response);
-
-        }
+       
 
         #region Methods
         public List<ContactInquiry> GetContactInquiries(int pPageIndex = 1, int pPageSize = 20, string pSearch = "", int pSortColumn = 0, string pSortOrder = "")
@@ -109,6 +102,16 @@ namespace Ling.Dashboard.Controllers
             {
                 result = this.Json(new { draw = Convert.ToInt32(draw), recordsTotal = totalRecords, recordsFiltered = totalRecords, data = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
+            return result;
+
+        }
+
+        [HttpPost]
+        public JsonResult UpdateStatusByID(int id)
+        {
+            JsonResult result;
+            ResponseObjectForAnything responseObjectForAnything = _dashboardRepository.UpdateStatusByID(id);
+            result = this.Json(responseObjectForAnything, new Newtonsoft.Json.JsonSerializerSettings());
             return result;
 
         }
