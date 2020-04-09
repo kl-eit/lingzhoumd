@@ -114,11 +114,11 @@ namespace Ling.Dashboard.Controllers
 
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
-                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
                 return RedirectToAction("Index", "HomeSlider");
             }
             else
-                WebHelper.WebHelper.SetOperationMessage(this, "Unable To Perform Operation!", ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, "Unable To Perform Operation!", ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
             return View(model);
         }
 
@@ -127,11 +127,11 @@ namespace Ling.Dashboard.Controllers
             ResponseObjectForAnything responseObjectForAnything = _homeSliderRepository.Delete(id);
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
-                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_DELETE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, Constants.ALERT_DELETE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
                 return RedirectToAction("Index");
             }
             else
-                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
             return View();
         }
 

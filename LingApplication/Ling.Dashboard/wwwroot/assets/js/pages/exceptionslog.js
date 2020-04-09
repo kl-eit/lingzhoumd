@@ -30,6 +30,7 @@ function InitDataTable() {
         "language": {
             "emptyTable": "No record found"
         },
+        order: [[0, "desc"]],
         paging: true,
         filter: true,
         destroy: true,
@@ -82,12 +83,14 @@ function InitDataTable() {
 
 function ShowExceptionLogModalByID(id) {
     if (id > 0) {
+        ShowBlockUI();
         var ajaxUrl = _contentRoot + 'ExceptionLog/SelectExceptionMessageByID';
         $.ajax({
             type: "POST",
             url: ajaxUrl,
             data: { id: id },
             success: function (response) {
+                HideBlockUI();
                 $("#viewExceptionDetailModal").modal("show");
                 if (response != null && response.resultCode == "SUCCESS") {
                     $('#dvExceptionMessage').html("<b>Message : </b>" + response.resultObject.errorMessage);
@@ -98,6 +101,7 @@ function ShowExceptionLogModalByID(id) {
                 }
             },
             error: function (x, e) {
+                HideBlockUI();
                 $("#viewExceptionDetailModal").modal("hide");
             }
         });

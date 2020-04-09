@@ -12,7 +12,7 @@ namespace Ling.Common
         public static int PAGE_SIZE = 10;
         public static string IMAGE_NOT_FOUND = "/assets/images/no-image.png";
         public static string USER_IMAGE_NOT_FOUND = "/assets/images/user-placeholder-image.jpg";
-        public static string SLIDE_IMAGE_NOT_FOUND = "/assets/images/placeholder-slide-image.png";
+        public static string SLIDE_IMAGE_NOT_FOUND = "/assets/images/slide-placeholder-image.png";
 
         #region FOR RESPONSE OBJECT STATUS
 
@@ -40,9 +40,7 @@ namespace Ling.Common
         public static string ALERT_EMAIL_EXISTS = "Email address already exists!";
         public static string ALERT_NAME_EXISTS = "Name already exists!";
         public static string ALERT_CURRENT_PASSWORD = "Invalid current password!";
-        public static string ALERT_RECORD_IS_IN_USE_DELETE = "Unable to delete due to record is already use in another place!";
-        public static string ALERT_REQUEST_PROPOSAL_SAVE = "Proposal submitted successfully!";
-
+        
         #endregion
 
         #region USER SESSION VARIABLES
@@ -61,8 +59,6 @@ namespace Ling.Common
         #region IMAGERESIZER
         public static string THUMBNAILIMAGERESIZER = "T_";
         public static string MEDIUMIMAGERESIZER = "M_";
-        public static string MEDIUMROOMIMAGERESIZER = "MR_";
-        public static string MEDIUMEVENTIMAGERESIZER = "ME_";
         public static string LARGEIMAGERESIZER = "L_";
         public static string SMALLIMAGERESIZER = "S_";
         public static string SMALLHOMESLIDERIMAGERESIZER = "SH_";

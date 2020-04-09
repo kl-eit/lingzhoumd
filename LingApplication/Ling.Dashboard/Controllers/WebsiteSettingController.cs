@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Ling.Common;
 using Ling.Dashboard.Session;
 using Ling.Domains.Abstract;
@@ -20,7 +18,6 @@ namespace Ling.Dashboard.Controllers
     {
         #region Declaration
         IWebSiteSettingRepository _websiteSettingRepository;
-        public bool isNewEntry;
         UserSession _session;
         private AppSettings _appSettings { get; set; }
         #endregion
@@ -63,15 +60,15 @@ namespace Ling.Dashboard.Controllers
             ResponseObjectForAnything responseObjectForAnything = _websiteSettingRepository.Upsert(model);
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
-                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
-                //WebsiteSettingHelper.ClearWebCache();
-                //WebHelper.ClearWebApplicationCache("ClearWebCache");
+                WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
+                WebsiteSettingHelper.ClearWebCache();
+                WebHelper.ClearWebApplicationCache("ClearWebCache", "https://localhost:44324/");
                 return RedirectToAction("Index", "WebsiteSetting");
             }
             else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_EXISTS)
-                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_EXISTS, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, Constants.ALERT_EXISTS, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
             else
-                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
 
             return View(model);
         }
@@ -112,9 +109,9 @@ namespace Ling.Dashboard.Controllers
         {
             WebsiteSettingHelper.ClearBrowserCache();
             WebsiteSettingHelper.ClearWebCache();
-            WebHelper.WebHelper.ClearWebApplicationCache("ClearWebCache", "https://localhost:44324/");
-            WebHelper.WebHelper.ClearWebApplicationCache("ClearBrowserCache", "https://localhost:44324/");
-            WebHelper.WebHelper.SetOperationMessage(this, "Browser cache has been cleared!", ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
+            WebHelper.ClearWebApplicationCache("ClearWebCache", "https://localhost:44324/");
+            WebHelper.ClearWebApplicationCache("ClearBrowserCache", "https://localhost:44324/");
+            WebHelper.SetOperationMessage(this, "Browser cache has been cleared!", ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
             return RedirectToAction("Index");
         }
 
@@ -130,11 +127,11 @@ namespace Ling.Dashboard.Controllers
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
                 WebsiteSettingHelper.ClearWebCache();
-                WebHelper.WebHelper.ClearWebApplicationCache("ClearWebCache", "https://localhost:44324/");
-                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_DELETE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.ClearWebApplicationCache("ClearWebCache", "https://localhost:44324/");
+                WebHelper.SetOperationMessage(this, Constants.ALERT_DELETE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
             }
             else
-                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
 
             return RedirectToAction("Index");
         }

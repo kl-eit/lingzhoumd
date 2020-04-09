@@ -26,7 +26,7 @@ function InitDataTable() {
         "language": {
             "emptyTable": "No record found"
         },
-        order: [[6, 'desc']],
+        order: [[5, 'desc']],
         paging: true,
         filter: true,
         destroy: true,
@@ -55,9 +55,6 @@ function InitDataTable() {
                 }
             },
             {
-                mDataProp: "Message", "orderable": false
-            },
-            {
                 "data": "Status", orderable: true, "render": function (data, type, full, meta) {
                     if (data == true) {
                         return '<span class="badge badge rounded-capsule badge-soft-success">New<span class="ml-1 fa fa-check" data-fa-transform="shrink-2"></span></span>';
@@ -79,7 +76,7 @@ function InitDataTable() {
                     var editUrl = _contentRoot + "blog/manage/" + d;
                     return '<div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal custom-btn-reveal mr-3" type="button" id="dropdown' + d + '" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-h fs--1"></span></button>' +
                         '<div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown' + d + '">' +
-                        '<div class="bg-white py-2"><a class="dropdown-item" href=\"' + editUrl + '\" >Reply</a>' +
+                        '<div class="bg-white py-2"><a class="dropdown-item" href=\"' + editUrl + '\" >View</a>' +
                         '</div></div></div>';
                 },
                 "orderable": false

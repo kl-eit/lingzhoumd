@@ -258,19 +258,19 @@ namespace Ling.Dashboard.Controllers
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
                 if (!string.IsNullOrEmpty(oldImageName) && !string.IsNullOrEmpty(uploadedFileName))
-                    WebHelper.WebHelper.DeleteFile(oldImageName, _appSettings.DashboardPhysicalUploadPath, sourceFilePath);
+                    WebHelper.DeleteFile(oldImageName, _appSettings.DashboardPhysicalUploadPath, sourceFilePath);
 
                 _session.InitializeUserSession(userLoginViewModel.ID, userLoginViewModel);
-                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
                 return RedirectToAction("MyProfile", "Account");
 
             }
             else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_EXISTS)
-                WebHelper.WebHelper.SetOperationMessage(this, "Username already exists!", ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, "Username already exists!", ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
             else if (responseObjectForAnything.ResultCode == Constants.RESPONCE_EMAIL_EXISTS)
-                WebHelper.WebHelper.SetOperationMessage(this, "Email already exists!", ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, "Email already exists!", ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
             else
-                WebHelper.WebHelper.SetOperationMessage(this, "Unable To Perform Operation!", ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, "Unable To Perform Operation!", ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
 
             return View(model);
         }
@@ -284,15 +284,15 @@ namespace Ling.Dashboard.Controllers
 
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
-                WebHelper.WebHelper.SetOperationMessage(this, "Password changed successfully!", ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, "Password changed successfully!", ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
             }
             else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_INVALID)
             {
-                WebHelper.WebHelper.SetOperationMessage(this, "Invalid current password.", ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, "Invalid current password.", ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
             }
             else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_INVALID)
             {
-                WebHelper.WebHelper.SetOperationMessage(this, responseObjectForAnything.ResultMessage, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
+                WebHelper.SetOperationMessage(this, responseObjectForAnything.ResultMessage, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
             }
 
             return RedirectToAction("MyProfile", "Account");

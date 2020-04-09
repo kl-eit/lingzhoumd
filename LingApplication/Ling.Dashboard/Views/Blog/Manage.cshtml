@@ -54,22 +54,6 @@
                     <input type="hidden" name="hdfImageName" id="hdfImageName" value="@Model.ImageName" />
 
                     <div class="form-group row">
-                        <label for="Category" class="col-sm-2 col-form-label text-right">Category</label>
-                        <div class="col-sm-6">
-                            @*<select class="form-control" name="Category" id="ddlCategory">
-                                    <option value="value">text</option>
-                                </select>*@
-                            @Html.DropDownListFor(Model => Model.BlogCategoryID, new SelectList(Model.CategoryList, "Value", "Text"), "Select Category", new { @class = "form-control" })
-                        </div>
-                        <div class="col-md-4">
-                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal" onclick="ShowCategoryModal();">
-                                <i class="fa fa-plus fa-w-14"></i>
-                                New Category
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
                         <label for="Title" class="col-sm-2 col-form-label text-right">Title</label>
                         <div class="col-sm-6">
                             <input type="text" name="Title" id="txtTitle" class="form-control" maxlength="255" onkeyup="convertToSlug(this);" value="@Model.Title" placeholder="Title" />
@@ -82,6 +66,24 @@
                             <input type="text" name="Slug" id="txtSlug" readonly="readonly" class="form-control" maxlength="150" value="@Model.Slug" placeholder="Slug" />
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label for="Category" class="col-sm-2 col-form-label text-right">Category</label>
+                        <div class="col-sm-6">
+                            @*<select class="form-control" name="Category" id="ddlCategory">
+                        <option value="value">text</option>
+                    </select>*@
+                            @Html.DropDownListFor(Model => Model.BlogCategoryID, new SelectList(Model.CategoryList, "Value", "Text"), "Select Category", new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#exampleModal" onclick="ShowCategoryModal();">
+                                <i class="fa fa-plus fa-w-14"></i>
+                                New Category
+                            </button>
+                        </div>
+                    </div>
+
+
 
                     <div class="form-group row" id="dvImage">
                         <label class="col-sm-2 col-form-label text-right">&nbsp;Image</label>
@@ -100,7 +102,7 @@
                         <div class="col-sm-5" id="imageName">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                                    <img src="@Picture" id="imagePreview" name="ImageName" onerror="this.src = '@Constants.SLIDE_IMAGE_NOT_FOUND'" class="img-responsive" style="width:100%;" />
+                                    <img src="@Picture" id="imagePreview" name="ImageName" onerror="this.src = '@Constants.IMAGE_NOT_FOUND'" class="img-responsive" style="width:100%;" />
                                 </div>
                                 <div class="validate">
                                     <span class="btn btn-primary btn-sm btn-file">
@@ -115,7 +117,7 @@
 
                     <div class="form-group row" id="dvDescription">
                         <label for="txtAreaDescription" class="col-sm-2 col-form-label text-right">Description</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-10">
                             <textarea name="Description" class="form-control summernote" id="txtDescription">@Model.Description</textarea>
                             <span id="spnSummernoteError" class="text-error-validation text-danger" style="display:none;font-size: 85%;color: #e63757;">Please enter description</span>
                         </div>
@@ -130,8 +132,8 @@
 
                     <div class="form-group row">
                         <label for="txtMetaDescription" class="col-sm-2 col-form-label text-right">Meta Description</label>
-                        <div class="col-sm-8">
-                            <textarea name="MetaDescription" id="txtMetaDescription" rows="8" class="form-control" placeholder="Meta Description">@Model.MetaDescription</textarea>
+                        <div class="col-sm-6">
+                            <textarea name="MetaDescription" id="txtMetaDescription" rows="3" class="form-control" placeholder="Meta Description">@Model.MetaDescription</textarea>
                         </div>
                     </div>
 
@@ -161,7 +163,7 @@
 <div class="modal fade" id="CategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="exampleModalLabel">Add Category</h5><button class="close" type="button" data-dismiss="modal" aria-label="Close"><span class="font-weight-light" aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
@@ -175,7 +177,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary btn-sm" type="button" data-dismiss="modal">Close</button>
+                <button class="btn btn-light  btn-sm" type="button" data-dismiss="modal">Close</button>
                 <button class="btn btn-primary btn-sm" type="button" id="btnSaveCategory" onclick="SaveCategory();">Save changes</button>
             </div>
         </div>

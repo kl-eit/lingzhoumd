@@ -16,6 +16,7 @@ namespace Ling.Domains.Helper
             _websiteSettingList = null;
             _homeSliderList = null;
         }
+        
         #region Browser Cache
 
         public static string _globalTokenID;

@@ -52,12 +52,12 @@ namespace Ling.Dashboard.Controllers
             ResponseObjectForAnything responseObjectForAnything = _exceptionManagerRepository.Delete(id);
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
-                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_DELETE, ALERTTYPE.Success,
+                WebHelper.SetOperationMessage(this, Constants.ALERT_DELETE, ALERTTYPE.Success,
                     ALERTMESSAGETYPE.TextWithClose);
                 return RedirectToAction("Index");
             }
             else
-                WebHelper.WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error,
+                WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error,
                     ALERTMESSAGETYPE.TextWithClose);
 
             return View();

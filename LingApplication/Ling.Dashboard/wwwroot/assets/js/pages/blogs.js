@@ -30,10 +30,8 @@ function InitDataTable() {
             dataType: "json"
         },
         columnDefs: [
-            { "width": "20%", "targets": 0 },
-            { "width": "20%", "targets": 1 },
-            { "width": "20%", "targets": 3 },
-            { "width": "20%", "targets": 4 }
+            { "width": "50%", "targets": 0 }
+            
         ],
         aoColumns: [
             {

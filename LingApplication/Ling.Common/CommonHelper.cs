@@ -27,23 +27,15 @@ namespace Ling.Common
             return value == null ? (object)DBNull.Value : value;
         }
 
+        // THIS IS USED WHEN WE HAVE CONVERT VARIABLE OR OBJECT TO SPECIFIC TYPE
         public static T ConvertTo<T>(object value)
         {
             return value == null ? default(T) : (T)Convert.ChangeType(value, typeof(T));
         }
 
+        // THIS IS USED WHEN WE HAVE RESIZE IMAGE FOR SPECIFIC SIZE
         public static void ResizeImage(string sourcePath, string destinationPath, string genratedFilename, string imageVersions)
         {
-            //Dictionary<string, string> versions = new Dictionary<string, string>();
-            //Define the versions to generate
-            //versions.Add(Constants.THUMBNAILIMAGERESIZER, "maxwidth=100&maxheight=100&crop=auto&format=jpg"); //Crop to square thumbnail
-            //versions.Add(Constants.LARGEIMAGERESIZER, "maxwidth=375&maxheight=500&format=jpg&mode=max&quality=50"); //Fit inside 1900x1200 area
-            //versions.Add(Constants.MEDIUMIMAGERESIZER, "width=200&height=200&crop=auto&format=jpg");
-            //versions.Add(Constants.MEDIUMROOMIMAGERESIZER, "width=368&height=226&crop=auto&format=jpg"); //Fit inside 368x226 area
-            //versions.Add(Constants.MEDIUMEVENTIMAGERESIZER, "width=368&height=226&crop=auto&format=jpg"); //Fit inside 368x226 area
-            //versions.Add(Constants.SMALLIMAGERESIZER, "width=64&height=64&crop=auto&format=jpg"); //Fit inside 1900x1200 area
-            //versions.Add(Constants.SMALLHOMESLIDERIMAGERESIZER, "width=500&height=175&format=jpg"); //Fit inside 500x175 area
-
             var img = Image.FromFile(sourcePath);
 
             var splitString = "";
@@ -62,17 +54,17 @@ namespace Ling.Common
                     scaleImage.SaveAs(destinationPath + Constants.MEDIUMIMAGERESIZER + genratedFilename);
                 }
 
-                if (splitString == Constants.MEDIUMROOMIMAGERESIZER)
-                {
-                    var scaleImage = ImageResize.Scale(img, 368, 226);
-                    scaleImage.SaveAs(destinationPath + Constants.MEDIUMROOMIMAGERESIZER + genratedFilename);
-                }
+                //if (splitString == Constants.MEDIUMROOMIMAGERESIZER)
+                //{
+                //    var scaleImage = ImageResize.Scale(img, 368, 226);
+                //    scaleImage.SaveAs(destinationPath + Constants.MEDIUMROOMIMAGERESIZER + genratedFilename);
+                //}
 
-                if (splitString == Constants.MEDIUMEVENTIMAGERESIZER)
-                {
-                    var scaleImage = ImageResize.Scale(img, 368, 226);
-                    scaleImage.SaveAs(destinationPath + Constants.MEDIUMEVENTIMAGERESIZER + genratedFilename);
-                }
+                //if (splitString == Constants.MEDIUMEVENTIMAGERESIZER)
+                //{
+                //    var scaleImage = ImageResize.Scale(img, 368, 226);
+                //    scaleImage.SaveAs(destinationPath + Constants.MEDIUMEVENTIMAGERESIZER + genratedFilename);
+                //}
 
                 if (splitString == Constants.LARGEIMAGERESIZER)
                 {

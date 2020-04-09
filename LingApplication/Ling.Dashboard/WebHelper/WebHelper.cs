@@ -9,7 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Ling.Dashboard.WebHelper
+namespace Ling.Dashboard
 {
     public class WebHelper
     {

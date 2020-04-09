@@ -60,7 +60,7 @@
                     </div>
                     <div class="form-group row" id="dvDescription">
                         <label for="txtAreaDescription" class="col-sm-2 col-form-label text-right">Description</label>
-                        <div class="col-sm-8">
+                        <div class="col-sm-10">
                             <textarea name="Description" class="form-control summernote" id="txtDescription">@Model.Description</textarea>
                             <span id="spnSummernoteError" class="text-error-validation text-danger" style="display:none;font-size: 85%;color: #e63757;">Please enter description</span>
                         </div>
@@ -82,7 +82,7 @@
                         <div class="col-sm-5" id="imageName">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="fileinput-preview thumbnail" data-trigger="fileinput">
-                                    <img src="@Picture" id="imagePreview" name="ImageName" onerror="this.src = '@Constants.SLIDE_IMAGE_NOT_FOUND'" class="img-responsive" style="width:100%;" />
+                                    <img src="@Picture" id="imagePreview" name="ImageName" onerror="this.src = '@Constants.IMAGE_NOT_FOUND'" class="img-responsive" style="width:100%;" />
                                 </div>
                                 <div class="validate">
                                     <span class="btn btn-primary btn-sm btn-file">
