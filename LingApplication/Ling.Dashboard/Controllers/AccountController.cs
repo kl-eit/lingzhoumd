@@ -12,7 +12,6 @@ using Ling.Domains.ResponseObject;
 using Ling.Domains.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using static Ling.Common.Constants;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
@@ -258,6 +257,7 @@ namespace Ling.Dashboard.Controllers
             userLoginViewModel.ID = _session.LoginUserID;
             userLoginViewModel.UserName = model.UserName;
             userLoginViewModel.Avatar = imageName;
+            userLoginViewModel.Name = model.Name;
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
                 if (!string.IsNullOrEmpty(oldImageName) && !string.IsNullOrEmpty(uploadedFileName))

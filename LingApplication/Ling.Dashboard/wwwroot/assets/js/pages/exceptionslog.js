@@ -1,11 +1,4 @@
 ﻿$(document).ready(function () {
-    $('#tblExceptions').on('processing.dt', function (e, settings, processing) {
-        if (processing)
-            ShowBlockUI();
-        else
-            HideBlockUI();
-    }).dataTable();
-
     $('#chkLogs').on('click', function (event) {
         $("#chkErrors").prop('checked', false);
         $("#chkLogs").prop('checked', true);
@@ -27,8 +20,10 @@ function InitDataTable() {
     var logSelection = $('input[name="ExceptionLog"]:checked').val();
     var ajaxUrl = _contentRoot + 'ExceptionLog/GetExceptionsLogs';
     $('#tblExceptions').DataTable({
+        "processing": true,
         "language": {
-            "emptyTable": "No record found"
+            "emptyTable": "No record found",
+            "sProcessing": "<div style='border: 'none';padding: '2px';backgroundColor: 'none';opacity: 1'><h3 style='margin: 10px 0px;'><img class='loading-image-radius' src='/assets/images/loader (2).gif')/></h3></div>"
         },
         order: [[0, "desc"]],
         paging: true,

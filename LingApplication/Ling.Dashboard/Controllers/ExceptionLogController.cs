@@ -9,6 +9,7 @@ using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using static Ling.Common.Constants;
 
@@ -26,6 +27,17 @@ namespace Ling.Dashboard.Controllers
         {
             _exceptionManagerRepository = new ExceptionManagerRepository(iConfiguration);
             ViewBag.SelectedMenu = "ExceptionLog";
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            var controller = context.Controller as Controller;
+            if (controller != null)
+            {
+                controller.ViewBag.SelectedMenu = "ExceptionLog";
+            }
         }
         #endregion
 

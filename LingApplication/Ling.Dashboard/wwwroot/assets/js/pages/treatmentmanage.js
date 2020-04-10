@@ -28,7 +28,7 @@ function InitFormValidation() {
         errorElement: 'span',
         errorClass: 'invalid-feedback',
         highlight: function (element) {
-            debugger
+            
             if ($(element).attr("name") == "hdfTreatmentImage") {
                 $(element).closest("#imageName").find(".thumbnail").css("border-color", "#dd4b39 !important");
                 $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
@@ -48,7 +48,7 @@ function InitFormValidation() {
             $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
         },
         errorPlacement: function (error, element) {
-            debugger
+            
             if (element.attr("name") == "hdfTreatmentImage") {
                 error.insertAfter(element.closest(".validate"));
             }

@@ -3,20 +3,8 @@ $(document).ready(function () {
 
     InitDataTable();
 
-    //$('#tblContactInquiries').on('processing.dt', function (e, settings, processing) {
-    //    if (processing)
-    //        ShowBlockUI();
-    //    else
-    //        HideBlockUI();
-    //}).dataTable();
-
     $.fn.DataTable.ext.pager.numbers_length = 5;
 
-    var table = $('#tblContactInquiries').DataTable();
-
-    $('#txtGlobalSearch').on('keyup', function () {
-        table.search(this.value).draw();
-    });
 });
 
 // INITIALIZE DATA TABLE
@@ -87,7 +75,6 @@ function InitDataTable() {
             }
         ],
         "fnCreatedRow": function (row, data, index) {
-            debugger;
             $(row).attr('id', data.ID);
         },
         select: true,

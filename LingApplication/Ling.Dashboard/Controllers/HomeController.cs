@@ -48,7 +48,7 @@ namespace Ling.Dashboard.Controllers
         public IActionResult Index()
         {
             ViewBag.LoginUserAvatar = _session.LoginUserAvtar;
-            ViewBag.LoginUserName = _session.LoginUserName;
+            ViewBag.LoginUserFirstName = _session.LoginUserFirstName;
             DashboardViewModel model = new DashboardViewModel();
             ResponseObjectForAnything responseObjectForAnything = _dashboardRepository.FAQ_Inquiry_Blog_Count();
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)

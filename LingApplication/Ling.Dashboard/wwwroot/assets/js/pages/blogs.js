@@ -1,11 +1,11 @@
 ﻿// PAGE LOAD EVENT
 $(document).ready(function () {
-    $('#tblBlog').on('processing.dt', function (e, settings, processing) {
-        if (processing)
-            ShowBlockUI();
-        else
-            HideBlockUI();
-    }).dataTable();
+    //$('#tblBlog').on('processing.dt', function (e, settings, processing) {
+    //    if (processing)
+    //        ShowBlockUI();
+    //    else
+    //        HideBlockUI();
+    //}).dataTable();
 
     InitDataTable();
 
@@ -16,8 +16,10 @@ $(document).ready(function () {
 function InitDataTable() {
     var ajaxUrl = _contentRoot + 'Blog/GetBlogList';
     $('#tblBlog').DataTable({
+        "processing": true,
         "language": {
-            "emptyTable": "No record found"
+            "emptyTable": "No record found",
+            "sProcessing": "<div style='border: 'none';padding: '2px';backgroundColor: 'none';opacity: 1'><h3 style='margin: 10px 0px;'><img class='loading-image-radius' src='/assets/images/loader (2).gif')/></h3></div>"
         },
         paging: true,
         filter: true,

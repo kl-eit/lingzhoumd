@@ -12,9 +12,7 @@ using Ling.Domains.ResponseObject;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Ling.Domains.ViewModel;
-using System.IO;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Ling.Dashboard.Controllers
 {
@@ -34,7 +32,17 @@ namespace Ling.Dashboard.Controllers
             _cmsRepository = new CMSRepository(iConfiguration);
             _session = new UserSession(httpContextAccessor, iConfiguration);
             _appSettings = settings.Value;
-            ViewBag.SelectedMenu = "CMS";
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            var controller = context.Controller as Controller;
+            if (controller != null)
+            {
+                controller.ViewBag.SelectedMenu = "Pages";
+            }
         }
         #endregion
 

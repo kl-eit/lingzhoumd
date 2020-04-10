@@ -11,6 +11,7 @@ using Ling.Domains.ResponseObject;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -34,6 +35,17 @@ namespace Ling.Dashboard.Controllers
             _session = new UserSession(httpContextAccessor, iConfiguration);
             _appSettings = settings.Value;
             ViewBag.SelectedMenu = "FAQ";
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            var controller = context.Controller as Controller;
+            if (controller != null)
+            {
+                controller.ViewBag.SelectedMenu = "FAQ";
+            }
         }
         #endregion
 
@@ -93,9 +105,9 @@ namespace Ling.Dashboard.Controllers
         #endregion
 
         #region Method
-        public List<FAQ> GetAllFAQ(int pPageIndex = 1, int pPageSize = 20, string pSearchText = "", int pOrderColumn = 0, string pCurrentOrder = "asc")
+        public List<FAQ> GetAllFAQ(string pSearchText = "")
         {
-            ResponseObjectForAnything responseObjectForAnything = _faqRepository.Select(pPageIndex, pPageSize, pSearchText, pOrderColumn, pCurrentOrder);
+            ResponseObjectForAnything responseObjectForAnything = _faqRepository.Select(0, 0, pSearchText);
 
             List<FAQ> exceptionLogsList = (List<FAQ>)responseObjectForAnything.ResultObject;
 
@@ -109,16 +121,10 @@ namespace Ling.Dashboard.Controllers
             JsonResult result;
             string search = Request.Form["search[value]"];
             string draw = Request.Form["draw"];
-            int start = Convert.ToInt32(Request.Form["start"]);
-            int length = Convert.ToInt32(Request.Form["length"]);
-            int sortColumn = Convert.ToInt32(Request.Form["order[0][column]"]);
-            string sortOrder = Request.Form["order[0][dir]"];
 
             int totalRecords = 0;
-            int pageNumber = (start + length) / length;
-            int recsPerPage = length;
 
-            List<FAQ> FAQsList = GetAllFAQ(pageNumber, length, search, sortColumn, sortOrder);
+            List<FAQ> FAQsList = GetAllFAQ(search);
 
             if (FAQsList != null && FAQsList.Count > 0)
             {
