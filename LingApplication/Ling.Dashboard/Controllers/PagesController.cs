@@ -14,6 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Ling.Domains.ViewModel;
+using Microsoft.AspNetCore.Authorization;
+using System.IO;
 
 namespace Ling.Dashboard.Controllers
 {
