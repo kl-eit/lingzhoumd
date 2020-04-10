@@ -43,7 +43,6 @@ function InitFormValidation() {
         errorElement: 'span',
         errorClass: 'invalid-feedback',
         highlight: function (element) {
-            debugger
             if ($(element).attr("name") == "hdfBlogImage") {
                 $(element).closest("#imageName").find(".thumbnail").css("border-color", "#dd4b39 !important");
                 $(element).closest('.form-group').removeClass('has-success').addClass('has-error');

@@ -257,6 +257,7 @@ namespace Ling.Dashboard.Controllers
             userLoginViewModel.ID = _session.LoginUserID;
             userLoginViewModel.UserName = model.UserName;
             userLoginViewModel.Avatar = imageName;
+            userLoginViewModel.Name = model.Name;
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
                 if (!string.IsNullOrEmpty(oldImageName) && !string.IsNullOrEmpty(uploadedFileName))

@@ -75,7 +75,6 @@ function InitDataTable() {
             }
         ],
         "fnCreatedRow": function (row, data, index) {
-            debugger;
             $(row).attr('id', data.ID);
         },
         select: true,
