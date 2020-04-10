@@ -10,6 +10,7 @@ $(document).ready(function () {
         $('#txtCategory').removeClass('is-valid is-invalid').val('');
         $('#txtCategory').parents('.form-group').removeClass('has-error has-success');
         $('#txtCategory-error').remove();
+        $('#categoryExists').addClass('d-none');
     })
 });
 
@@ -94,6 +95,7 @@ function InitFormValidation() {
     });
 }
 
+// CONVERT BLOG TITLE TO SLUG
 function convertToSlug(ele) {
     var $slug = '';
     var trimmed = $.trim($(ele).val());
@@ -156,7 +158,6 @@ function InitCategoryValidation() {
 function SaveCategory() {
 
     if ($("#formCategory").valid()) {
-        ShowBlockUI();
         var data = new FormData();
         data.append("BlogCategoryName", $('#txtCategory').val());
         var ajaxUrl = _contentRoot + "Blog/SaveBlogCategory";
@@ -178,8 +179,8 @@ function SaveCategory() {
                     $('#BlogCategoryID').val(response.ResultObjectID);
                     $('#CategoryModal').modal('hide');
 
-                } else {
-
+                } else if (response.ResultCode == "EXISTS") {
+                    $('#categoryExists').removeClass('d-none');
                 }
 
             },

@@ -1,11 +1,4 @@
 ﻿$(document).ready(function () {
-    $('#tblwebsitesettings').on('processing.dt', function (e, settings, processing) {
-        if (processing)
-            ShowBlockUI();
-        else
-            HideBlockUI();
-    }).dataTable();
-
     InitDataTable();
     $.fn.DataTable.ext.pager.numbers_length = 5;
 });
@@ -14,8 +7,10 @@
 function InitDataTable() {
     var ajaxUrl = _contentRoot + 'WebsiteSetting/GetAllWebSiteSetting';
     $('#tblwebsitesettings').DataTable({
+        "processing": true,
         "language": {
-            "emptyTable": "No record found"
+            "emptyTable": "No record found",
+            "sProcessing": "<div style='border: 'none';padding: '2px';backgroundColor: 'none';opacity: 1'><h3 style='margin: 10px 0px;'><img class='loading-image-radius' src='/assets/images/loader (2).gif')/></h3></div>"
         },
         paging: true,
         filter: true,

@@ -12,7 +12,6 @@ using Ling.Domains.ResponseObject;
 using Ling.Domains.ViewModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using static Ling.Common.Constants;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;

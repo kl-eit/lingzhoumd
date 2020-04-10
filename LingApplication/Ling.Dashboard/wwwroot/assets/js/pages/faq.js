@@ -1,12 +1,5 @@
 ﻿// PAGE LOAD EVENT
 $(document).ready(function () {
-    $('#tablefaq').on('processing.dt', function (e, settings, processing) {
-        if (processing)
-            ShowBlockUI();
-        else
-            HideBlockUI();
-    }).dataTable();
-
     InitDataTable();
 
     $.fn.DataTable.ext.pager.numbers_length = 5;
@@ -41,10 +34,12 @@ $(document).ready(function () {
 function InitDataTable() {
     var ajaxUrl = _contentRoot + 'faq/GetFAQList';
     $('#tablefaq').DataTable({
+        "processing": true,
         "language": {
-            "emptyTable": "No record found"
+            "emptyTable": "No record found",
+            "sProcessing": "<div style='border: 'none';padding: '2px';backgroundColor: 'none';opacity: 1'><h3 style='margin: 10px 0px;'><img class='loading-image-radius' src='/assets/images/loader (2).gif')/></h3></div>"
         },
-        paging: true,
+        paging: false,
         filter: true,
         destroy: true,
         orderMulti: false,
@@ -54,14 +49,9 @@ function InitDataTable() {
             url: ajaxUrl,
             dataType: "json"
         },
-        //columnDefs: [
-        //    { "width": "5%", "targets": 1 },
-        //    { "width": "30%", "targets": 2 },
-        //    { "width": "20%", "targets": 3 },
-        //    { "width": "10%", "targets": 4 },
-        //    { "width": "12%", "targets": 5 },
-        //    { "width": "12%", "targets": 6 }
-        //],
+        columnDefs: [
+            { "width": "5%", "targets": 6 }
+        ],
         aoColumns: [
             {
                 mDataProp: "ID",
@@ -76,13 +66,6 @@ function InitDataTable() {
                 "orderable": false
             },
             { mDataProp: "Question", "orderable": false },
-            //{
-            //    mDataProp: "Answer", "orderable": false, "render": function (data, type, full, meta) {
-            //        return data.length > 100 ?
-            //            data.substr(0, 100) + '…' :
-            //            data;
-            //    }
-            //},
             {
                 "data": "IsActive", orderable: false, "targets": [5], "render": function (data, type, full, meta) {
                     if (data == true) {
@@ -123,6 +106,7 @@ function InitDataTable() {
                 container: 'body',
             });
             $(".dataTables_paginate .pagination").addClass('pagination-sm');
+            $('#tablefaq_wrapper').addClass('mt-2');
         }
     });
 }

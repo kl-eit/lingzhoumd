@@ -11,6 +11,7 @@ using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -30,7 +31,17 @@ namespace Ling.Dashboard.Controllers
             _blogRepository = new BlogsRepository(iConfiguration);
             _session = new UserSession(httpContextAccessor, iConfiguration);
             _appSettings = settings.Value;
-            ViewBag.SelectedMenu = "Blog";
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            var controller = context.Controller as Controller;
+            if (controller != null)
+            {
+                controller.ViewBag.SelectedMenu = "Blog";
+            }
         }
         #endregion
 
@@ -43,12 +54,8 @@ namespace Ling.Dashboard.Controllers
         public ActionResult Manage(int id = 0)
         {
             Blogs blogs = new Blogs();
-            List<BlogCategory> blogCategories = new List<BlogCategory>();
-            ResponseObjectForAnything responseObjectForCategory = _blogRepository.GetBlogCategoryList();
-            if (responseObjectForCategory.ResultCode == Constants.RESPONSE_SUCCESS)
-            {
-                blogCategories = (List<BlogCategory>)responseObjectForCategory.ResultObject;
-            }
+
+            List<BlogCategory> blogCategories = BindBlogCategry();
 
             ResponseObjectForAnything responseObjectForAnything = _blogRepository.SelectByID(id);
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
@@ -112,8 +119,10 @@ namespace Ling.Dashboard.Controllers
                 WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
                 return RedirectToAction("Index");
             }
-            else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
+            else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_EXISTS)
             {
+                List<BlogCategory> blogCategories = BindBlogCategry();
+                model.CategoryList = new Microsoft.AspNetCore.Mvc.Rendering.SelectList(blogCategories, "ID", "BlogCategoryName");
                 WebHelper.SetOperationMessage(this, Constants.ALERT_EXISTS, ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
             }
             else
@@ -150,6 +159,18 @@ namespace Ling.Dashboard.Controllers
             return entityList;
 
         }
+
+        private List<BlogCategory> BindBlogCategry()
+        {
+            List<BlogCategory> blogCategories = new List<BlogCategory>();
+            ResponseObjectForAnything responseObjectForCategory = _blogRepository.GetBlogCategoryList();
+            if (responseObjectForCategory.ResultCode == Constants.RESPONSE_SUCCESS)
+            {
+                blogCategories = (List<BlogCategory>)responseObjectForCategory.ResultObject;
+            }
+
+            return blogCategories;
+        }
         #endregion
 
         #region Ajax
@@ -185,9 +206,6 @@ namespace Ling.Dashboard.Controllers
         public JsonResult SaveBlogCategory(BlogCategory blogCategory)
         {
             JsonResult result;
-
-
-            //blogCategory.BlogCategoryName = fc["CategoryName"];
             blogCategory.CreatedBy = _session.LoginUserName;
             ResponseObjectForAnything responseObject = _blogRepository.SaveBlogCategory(blogCategory);
             result = this.Json(responseObject, new Newtonsoft.Json.JsonSerializerSettings());

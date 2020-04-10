@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using Ling.Domains.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using System.IO;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Ling.Dashboard.Controllers
 {
@@ -34,7 +35,17 @@ namespace Ling.Dashboard.Controllers
             _treatmentsRepository = new TreatmentsRepository(iConfiguration);
             _session = new UserSession(httpContextAccessor, iConfiguration);
             _appSettings = settings.Value;
-            ViewBag.SelectedMenu = "Treatment";
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            var controller = context.Controller as Controller;
+            if (controller != null)
+            {
+                controller.ViewBag.SelectedMenu = "Treatment";
+            }
         }
         #endregion
 

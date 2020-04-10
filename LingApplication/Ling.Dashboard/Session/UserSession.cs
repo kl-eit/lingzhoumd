@@ -81,7 +81,34 @@ namespace Ling.Dashboard.Session
             }
             set
             {
-                _session.SetString(Constants.USERSESSION_USERNAME,value.ToString());
+                _session.SetString(Constants.USERSESSION_USERNAME, value.ToString());
+            }
+        }
+
+        public string LoginUserFirstName
+        {
+            get
+            {
+                string retVal = string.Empty;
+                if (_session.GetString(Constants.USERSESSION_USERFIRSTNAME) != null)
+                {
+                    retVal = Convert.ToString(_session.GetString(Constants.USERSESSION_USERFIRSTNAME));
+                }
+                else
+                {
+                    int authUserID = GetAuthCookieUserID();
+                    if (authUserID > 0)
+                    {
+                        InitializeUserSession(authUserID);
+                        retVal = Convert.ToString(_session.GetString(Constants.USERSESSION_USERFIRSTNAME));
+                    }
+                }
+
+                return retVal;
+            }
+            set
+            {
+                _session.SetString(Constants.USERSESSION_USERFIRSTNAME, value.ToString());
             }
         }
 
@@ -143,6 +170,7 @@ namespace Ling.Dashboard.Session
                 LoginUserID = userModel.ID;
                 LoginUserName = userModel.UserName;
                 LoginUserAvtar = userModel.Avatar;
+                LoginUserFirstName = !string.IsNullOrEmpty(userModel.Name) ? userModel.Name.Split(' ')[0] : string.Empty;
             }
         }
     }
@@ -150,7 +178,8 @@ namespace Ling.Dashboard.Session
     public static class HttpRequestExtensions
     {
         private const string RequestedWithHeader = "X-Requested-With";
-        private const string XmlHttpRequest = "XMLHttpRequest"; public static bool IsAjaxRequest(this HttpRequest request)
+        private const string XmlHttpRequest = "XMLHttpRequest";
+        public static bool IsAjaxRequest(this HttpRequest request)
         {
             if (request == null)
             {
