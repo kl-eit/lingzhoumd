@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Ling.Domains.ViewModel;
 
 namespace Ling.Dashboard.Controllers
 {
