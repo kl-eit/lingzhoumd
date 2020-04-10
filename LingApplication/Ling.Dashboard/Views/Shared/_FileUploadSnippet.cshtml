@@ -1,0 +1,93 @@
+﻿<div class="modal modalImageUpload">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#3c8dbc;color:#fff;">
+                <h4 class="modal-title">Image</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="frmImageUpload" action="" method="post">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-4 control-label">Upload image</label>
+                        <div class="col-md-6">
+                            <input type="file" name="ImageUpload" id="ImageUpload" data-filename-placement="inside" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnUploadImage" data-style="expand-left" data-plugin="ladda">Upload</button>
+                <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modalVideoUpload">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00a65a;color:#fff;">
+                <h4 class="modal-title">Video</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="frmVideoUpload" action="" method="post">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-4 control-label">Upload Video</label>
+                        <div class="col-md-6">
+                            <input type="file" name="VideoUpload" id="VideoUpload" data-filename-placement="inside" />
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                        <label for="inputEmail3" class="col-md-4 control-label">Width</label>
+                        <div class="col-xs-12 col-md-3" id="dvSearchText">
+                            <div class="input-group">
+                                <input type="text" class="form-control input-sm" placeholder="Width" name="Width" id="Width">
+                                <div class="input-group-btn"><button class="btn btn-sm btn-default" id="btnWidth" type="submit">PX</button></div>
+                            </div>
+                        </div>
+                    </div>*@
+                    @*<div class="form-group">
+                        <label class="col-md-4 control-label">Align</label>
+                        <div class="col-xs-12 col-md-5">
+                            <div class="btn-group" role="group">
+                                <button type="button" value="left" class="btn btn-default btnAlign">Left</button>
+                                <button type="button" value="none" id="btnAlignMiddle" class="btn btn-default btnAlign">Middle</button>
+                                <button type="button" value="right" class="btn btn-default btnAlign">Right</button>
+                            </div>
+                        </div>
+                    </div>*@
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnUploadVideo" data-style="expand-left" data-plugin="ladda">Upload</button>
+                <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade modalFileUpload">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#00c0ef;color:#fff;">
+                <h4 class="modal-title">Attach a file</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="frmFileUpload" action="" method="post">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-md-4 control-label">Upload File</label>
+                        <div class="col-md-6">
+                            <input type="file" name="FileUpload" id="FileUpload" data-filename-placement="inside" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" id="btnUploadFile" data-style="expand-left" data-plugin="ladda">Upload</button>
+                <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

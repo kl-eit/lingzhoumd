@@ -100,7 +100,7 @@ namespace Ling.Common
         Profile_Education = 3,
         Profile_Training = 4,
         Profile_Certificate = 5,
-        Profile_Medicalintrest = 6
+        Profile_MedicalInterest = 6
     }
 
     #endregion

@@ -7,15 +7,16 @@ using Ling.Dashboard.Session;
 using Ling.Domains.Concrete;
 using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using static Ling.Common.Constants;
 
 namespace Ling.Dashboard.Controllers
 {
+    [Authorize]
     public class ExceptionLogController : Controller
     {
-
         #region Declaration
         ExceptionManagerRepository _exceptionManagerRepository;
         #endregion

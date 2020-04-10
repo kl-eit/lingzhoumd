@@ -8,6 +8,7 @@ using Ling.Domains.Abstract;
 using Ling.Domains.Concrete;
 using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.Options;
 
 namespace Ling.Dashboard.Controllers
 {
+    [Authorize]
     public class CMSController : Controller
     {
         #region Declaration

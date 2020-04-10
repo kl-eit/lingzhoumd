@@ -1,5 +1,6 @@
 ﻿using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
+using Ling.Domains.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,5 +12,9 @@ namespace Ling.Domains.Abstract
         ResponseObjectForAnything SelectByCMSKey(string pCmskey);
 
         ResponseObjectForAnything SelectActiveCMSKey();
+
+        ResponseObjectForAnything ProfileUpsert(ProfileViewModel pEntity);
+
+        ResponseObjectForAnything SelectProfile();
     }
 }

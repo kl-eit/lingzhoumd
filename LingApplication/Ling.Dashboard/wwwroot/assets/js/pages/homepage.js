@@ -1,9 +1,8 @@
 ﻿// DOCUMENT LOAD EVENT IT WILL OCCURE ON PAGE LOAD
 $(document).ready(function () {
-    var selectedMenu = $("#hdnSelectedMenu").val();
-    $("#li" + selectedMenu).addClass("active");
 
-    InitSummernoteForSectionOne();
+    InitSectionValidation();
+    InitSummernoteForPhilosophy();
     $("#btnSavePhilosophy").click(function () {
         var isValidSummernote = true;
         if ($("#txtPhilosophyContent").summernote('isEmpty'))
@@ -16,17 +15,9 @@ $(document).ready(function () {
             $("#dvPhilosophyContent .note-editor").css('margin-bottom', '14px');
             $("#dvPhilosophyContent").removeClass("has-error").addClass("has-success");
             $('#txtPhilosophyContent.summernote').val($('#txtPhilosophyContent.summernote').summernote('code'));
-            $("#dvSectionOneImage").removeClass("has-error").addClass("has-success");
             $("#frm_home").submit();
         }
         else {
-            $("#frm_home .form-control").removeAttr('disabled');
-            if ($('#SectionOneMediaWrapper').html().trim() === "") {
-                $("#spnSectionOneUploadImage").show();
-                $('#dvSectionOneImage .fileuploader-theme-dragdrop').addClass('has-error');
-                $('#dvSectionOneImage').addClass('has-error');
-            }
-
             if (!isValidSummernote) {
                 $("#spnPhilosophyContentSummernoteError").show();
                 $("#dvPhilosophyContent").removeClass("has-success").addClass("has-error");
@@ -34,104 +25,176 @@ $(document).ready(function () {
                 $("#dvPhilosophyContent .note-editor").css('border-color', '#dd4b39');
             }
         }
-
     });
 
-    InitSummernoteForSectionTwo();
-    $("#btnSaveSectionTwo").click(function () {
+    $("#btnSaveProfileImage").click(function () {
+            $("#dvImage").removeClass("has-error").addClass("has-success");
+            $("#frm_home").submit();
+        //}
+        //else {
+        //    if ($('#SectionFourMediaWrapper').html().trim() === "") {
+        //        $("#spnSectionFourUploadImage").show();
+        //        $('#dvImage .fileuploader-theme-dragdrop').addClass('has-error');
+        //        $('#dvImage').addClass('has-error');
+        //    }
+        //}
+    });
+
+    InitSummernoteForEducation();
+    $("#btnSaveEducation").click(function () {
         var isValidSummernote = true;
-        if ($("#txtSectionTwoDescription").summernote('isEmpty'))
+        if ($("#txtEducationContent").summernote('isEmpty'))
             isValidSummernote = false;
 
         $("#frm_home .form-control").not($(this).closest('.no-gutters').find('.form-control')).attr('disabled', 'disabled');
         if ($("#frm_home").valid() && isValidSummernote) {
             $("#frm_home .form-control").removeAttr('disabled');
-            $("#spnSectionTwoSummernoteError").hide();
-            $("#dvSectionTwoContent .note-editor").css('margin-bottom', '14px');
-            $("#dvSectionTwoContent").removeClass("has-error").addClass("has-success");
-            $('#txtSectionTwoDescription.summernote').val($('#txtSectionTwoDescription.summernote').summernote('code'));
-            CreateImageJson();
+            $("#spnEducationContentSummernoteError").hide();
+            $("#dvEducationContent .note-editor").css('margin-bottom', '14px');
+            $("#dvEducationContent").removeClass("has-error").addClass("has-success");
+            $('#txtEducationContent.summernote').val($('#txtEducationContent.summernote').summernote('code'));
             $("#frm_home").submit();
         }
         else {
             $("#frm_home .form-control").removeAttr('disabled');
             if (!isValidSummernote) {
-                $("#spnSectionTwoSummernoteError").show();
-                $("#dvSectionTwoContent").removeClass("has-success").addClass("has-error");
-                $("#dvSectionTwoContent .note-editor").css('margin-bottom', '1px');
-                $("#dvSectionTwoContent .note-editor").css('border-color', '#dd4b39');
+                $("#spnEducationContentSummernoteError").show();
+                $("#dvEducationContent").removeClass("has-success").addClass("has-error");
+                $("#dvEducationContent .note-editor").css('margin-bottom', '1px');
+                $("#dvEducationContent .note-editor").css('border-color', '#dd4b39');
             }
         }
 
     });
 
-    InitSummernoteForSectionThree();
-    InitSectionThreeFileUpload();
-    $("#btnSaveSection_three").click(function () {
+    InitSummernoteForTraining();
+    $("#btnSaveTraining").click(function () {
         var isValidSummernote = true;
-        if ($("#txtSectionThreeDescription").summernote('isEmpty'))
+        if ($("#txtTrainingContent").summernote('isEmpty'))
             isValidSummernote = false;
 
         $("#frm_home .form-control").not($(this).closest('.no-gutters').find('.form-control')).attr('disabled', 'disabled');
-        if ($("#frm_home").valid() && isValidSummernote && $('#SectionThreeMediaWrapper').html().trim() !== "") {
+        if ($("#frm_home").valid() && isValidSummernote) {
             $("#frm_home .form-control").removeAttr('disabled');
-            $("#spnSectionThreeSummernoteError").hide();
-            $("#dvSectionThreeContent .note-editor").css('margin-bottom', '14px');
-            $("#dvSectionThreeContent").removeClass("has-error").addClass("has-success");
-            $('#txtSectionThreeDescription.summernote').val($('#txtSectionThreeDescription.summernote').summernote('code'));
-            $("#dvSectionThreeImage").removeClass("has-error").addClass("has-success");
-            CreateImageJson();
+            $("#spnTrainingContentSummernoteError").hide();
+            $("#dvTrainingContent .note-editor").css('margin-bottom', '14px');
+            $("#dvTrainingContent").removeClass("has-error").addClass("has-success");
+            $('#txtTrainingContent.summernote').val($('#txtTrainingContent.summernote').summernote('code'));
             $("#frm_home").submit();
         }
         else {
             $("#frm_home .form-control").removeAttr('disabled');
-            if ($('#SectionThreeMediaWrapper').html().trim() === "") {
-                $("#spnSectionThreeUploadImage").show();
-                $('#dvSectionThreeImage .fileuploader-theme-dragdrop').addClass('has-error');
-                $('#dvSectionThreeImage').addClass('has-error');
-            }
-
             if (!isValidSummernote) {
-                $("#spnSectionThreeSummernoteError").show();
-                $("#dvSectionThreeContent").removeClass("has-success").addClass("has-error");
-                $("#dvSectionThreeImage").removeClass("has-success").addClass("has-error");
-                $("#dvSectionThreeContent .note-editor").css('margin-bottom', '1px');
-                $("#dvSectionThreeContent .note-editor").css('border-color', '#dd4b39');
+                $("#spnTrainingContentSummernoteError").show();
+                $("#dvTrainingContent").removeClass("has-success").addClass("has-error");
+                $("#dvTrainingContent .note-editor").css('margin-bottom', '1px');
+                $("#dvTrainingContent .note-editor").css('border-color', '#dd4b39');
             }
         }
     });
 
-    InitSectionFourFileUpload();
-    $("#btnSaveSectionFour").click(function () {
-        if ($('#SectionFourMediaWrapper').html().trim() !== "") {
-            $("#dvSectionFourImage").removeClass("has-error").addClass("has-success");
-            CreateImageJson();
-            $("#frm_home").submit();
-        }
-        else {
-            if ($('#SectionFourMediaWrapper').html().trim() === "") {
-                $("#spnSectionFourUploadImage").show();
-                $('#dvSectionFourImage .fileuploader-theme-dragdrop').addClass('has-error');
-                $('#dvSectionFourImage').addClass('has-error');
-            }
-        }
-    });
+    InitSummernoteForCertificate();
+    $("#btnSaveCertificate").click(function () {
+        var isValidSummernote = true;
+        if ($("#txtCertificateContent").summernote('isEmpty'))
+            isValidSummernote = false;
 
-    $("#btnSaveSectionFive").click(function () {
         $("#frm_home .form-control").not($(this).closest('.no-gutters').find('.form-control')).attr('disabled', 'disabled');
-        if ($("#frm_home").valid()) {
+        if ($("#frm_home").valid() && isValidSummernote) {
             $("#frm_home .form-control").removeAttr('disabled');
-            CreateImageJson();
+            $("#spnCertificateContentSummernoteError").hide();
+            $("#dvCertificateContent .note-editor").css('margin-bottom', '14px');
+            $("#dvCertificateContent").removeClass("has-error").addClass("has-success");
+            $('#txtCertificateContent.summernote').val($('#txtCertificateContent.summernote').summernote('code'));
             $("#frm_home").submit();
         }
         else {
             $("#frm_home .form-control").removeAttr('disabled');
+            if (!isValidSummernote) {
+                $("#spnCertificateContentSummernoteError").show();
+                $("#dvCertificateContent").removeClass("has-success").addClass("has-error");
+                $("#dvCertificateContent .note-editor").css('margin-bottom', '1px');
+                $("#dvCertificateContent .note-editor").css('border-color', '#dd4b39');
+            }
+        }
+    });
+
+    InitSummernoteForMedical();
+    $("#btnSaveMedical").click(function () {
+        var isValidSummernote = true;
+        if ($("#txtMedicalContent").summernote('isEmpty'))
+            isValidSummernote = false;
+
+        $("#frm_home .form-control").not($(this).closest('.no-gutters').find('.form-control')).attr('disabled', 'disabled');
+        if ($("#frm_home").valid() && isValidSummernote) {
+            $("#frm_home .form-control").removeAttr('disabled');
+            $("#spnMedicalContentSummernoteError").hide();
+            $("#dvMedicalContent .note-editor").css('margin-bottom', '14px');
+            $("#dvMedicalContent").removeClass("has-error").addClass("has-success");
+            $('#txtMedicalContent.summernote').val($('#txtMedicalContent.summernote').summernote('code'));
+            $("#frm_home").submit();
+        }
+        else {
+            $("#frm_home .form-control").removeAttr('disabled');
+            if (!isValidSummernote) {
+                $("#spnMedicalContentSummernoteError").show();
+                $("#dvMedicalContent").removeClass("has-success").addClass("has-error");
+                $("#dvMedicalContent .note-editor").css('margin-bottom', '1px');
+                $("#dvMedicalContent .note-editor").css('border-color', '#dd4b39');
+            }
         }
     });
 });
 
+// INITIALIZATION FORM VALIDATION
+function InitSectionValidation() {
+    $("#frm_home").validate({
+        ignore: '.note-editable',
+        rules: {
+            PhilosophyTitle: { required: true },
+            EducationTitle: { required: true },
+            TrainingTitle: { required: true },
+            CertificateTitle: { required: true },
+            MedicalTitle: { required: true }
+        },
+        messages: {
+            PhilosophyTitle: "Please enter title",
+            EducationTitle: "Please enter title",
+            TrainingTitle: "Please enter title",
+            EducationTitle: "Please enter title",
+            CertificateTitle: "Please enter title",
+            MedicalTitle: "Please enter title"
+        },
+        errorElement: 'span',
+        errorClass: 'invalid-feedback',
+        highlight: function (element) {
+            if ($(element).attr("name") == "hdfProfileImage") {
+                $(element).closest("#imageName").find(".thumbnail").css("border-color", "#dd4b39 !important");
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            }
+            else {
+                $(element).removeClass('is-valid').addClass('is-invalid');
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            }
+        },
+        unhighlight: function (element) {
+            if ($(element).attr("name") == "hdfProfileImage") {
+                $(element).closest("#imageName").find(".thumbnail").css("border-color", "#00a65a !important");
+            }
+        },
+        success: function (element, object) {
+            $(object).removeClass('is-invalid').addClass('is-valid');
+            $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+        },
+        errorPlacement: function (error, element) {
+            error.insertAfter(element.closest(".form-control"));
+        },
+        onsubmit: false
+    });
+}
+
 // INITIALIZATION SUMMERNOTE
-function InitSummernoteForSectionOne() {
+function InitSummernoteForPhilosophy() {
     $('#txtPhilosophyContent').summernote({
         minHeight: 400,
         'empty': ('<p><br/></p>', '<p><br></p>'),
@@ -164,4 +227,162 @@ function InitSummernoteForSectionOne() {
         }
     });
 
+}
+
+// INITIALIZATION SUMMERNOTE
+function InitSummernoteForEducation() {
+    $('#txtEducationContent').summernote({
+        minHeight: 400,
+        'empty': ('<p><br/></p>', '<p><br></p>'),
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['clear', ['clear']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'hr']],
+            ['view', ['fullscreen', 'codeview']],
+            ['help', ['help']]
+        ]
+    });
+
+    $("#txtEducationContent").on('summernote.change', function () {
+        $("#spnEducationContentSummernoteError").hide();
+        $("#dvEducationContent").removeClass("has-error").addClass('has-success');;
+        $("#dvEducationContent .note-editor").css('margin-bottom', '14px');
+        $("#dvEducationContent .note-editor").css('border-color', '#00a65a');
+
+        if ($("#txtEducationContent").summernote('isEmpty')) {
+            $("#spnEducationContentSummernoteError").show();
+            $("#dvEducationContent").removeClass("has-success").addClass("has-error");
+            $("#dvEducationContent .note-editor").css('margin-bottom', '1px');
+            $("#dvEducationContent .note-editor").css('border-color', '#dd4b39');
+        }
+    });
+}
+
+// INITIALIZATION SUMMERNOTE
+function InitSummernoteForTraining() {
+    $('#txtTrainingContent').summernote({
+        minHeight: 400,
+        'empty': ('<p><br/></p>', '<p><br></p>'),
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['clear', ['clear']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'hr']],
+            ['view', ['fullscreen', 'codeview']],
+            ['help', ['help']]
+        ]
+    });
+
+    $("#txtTrainingContent").on('summernote.change', function () {
+        $("#spnTrainingContentSummernoteError").hide();
+        $("#dvTrainingContent").removeClass("has-error").addClass('has-success');;
+        $("#dvTrainingContent .note-editor").css('margin-bottom', '14px');
+        $("#dvTrainingContent .note-editor").css('border-color', '#00a65a');
+
+        if ($("#txtTrainingContent").summernote('isEmpty')) {
+            $("#spnTrainingContentSummernoteError").show();
+            $("#dvTrainingContent").removeClass("has-success").addClass("has-error");
+            $("#dvTrainingContent .note-editor").css('margin-bottom', '1px');
+            $("#dvTrainingContent .note-editor").css('border-color', '#dd4b39');
+        }
+    });
+}
+
+
+// INITIALIZATION SUMMERNOTE
+function InitSummernoteForCertificate() {
+    $('#txtCertificateContent').summernote({
+        minHeight: 400,
+        'empty': ('<p><br/></p>', '<p><br></p>'),
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['clear', ['clear']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'hr']],
+            ['view', ['fullscreen', 'codeview']],
+            ['help', ['help']]
+        ]
+    });
+
+    $("#txtCertificateContent").on('summernote.change', function () {
+        $("#spnCertificateContentSummernoteError").hide();
+        $("#dvCertificateContent").removeClass("has-error").addClass('has-success');;
+        $("#dvCertificateContent .note-editor").css('margin-bottom', '14px');
+        $("#dvCertificateContent .note-editor").css('border-color', '#00a65a');
+
+        if ($("#txtCertificateContent").summernote('isEmpty')) {
+            $("#spnCertificateContentSummernoteError").show();
+            $("#dvCertificateContent").removeClass("has-success").addClass("has-error");
+            $("#dvCertificateContent .note-editor").css('margin-bottom', '1px');
+            $("#dvCertificateContent .note-editor").css('border-color', '#dd4b39');
+        }
+    });
+}
+
+// INITIALIZATION SUMMERNOTE
+function InitSummernoteForMedical() {
+    $('#txtMedicalContent').summernote({
+        minHeight: 400,
+        'empty': ('<p><br/></p>', '<p><br></p>'),
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'italic', 'underline', 'clear']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['clear', ['clear']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'hr']],
+            ['view', ['fullscreen', 'codeview']],
+            ['help', ['help']]
+        ]
+    });
+
+    $("#txtMedicalContent").on('summernote.change', function () {
+        $("#spnMedicalContentSummernoteError").hide();
+        $("#dvMedicalContent").removeClass("has-error").addClass('has-success');;
+        $("#dvMedicalContent .note-editor").css('margin-bottom', '14px');
+        $("#dvMedicalContent .note-editor").css('border-color', '#00a65a');
+
+        if ($("#txtMedicalContent").summernote('isEmpty')) {
+            $("#spnMedicalContentSummernoteError").show();
+            $("#dvMedicalContent").removeClass("has-success").addClass("has-error");
+            $("#dvMedicalContent .note-editor").css('margin-bottom', '1px');
+            $("#dvMedicalContent .note-editor").css('border-color', '#dd4b39');
+        }
+    });
+}
+
+function ShowPreview(input) {
+    var fileName = $('input[name="fileImage"]').val();
+    $("#hdfProfileImage").val(fileName);
+    if (input.files.length > 0) {
+        var ImageDir = new FileReader();
+        ImageDir.onload = function (e) {
+            $("#imagePreview").attr("src", e.target.result);
+            $("#imagePreview").css("width", '100% !important');
+        }
+        ImageDir.readAsDataURL(input.files[0]);
+    } else {
+        $("#imageName").find(".fileinput-preview").html('<img src="' + _defaultImage + '" id="imagePreview" name="BannerImage" onerror="this.src = ' + _defaultImage + '"  class="img-responsive" style="height:100% !important;width: 400px !important;" />');
+    }
+    var validator = $("#frm_home").validate();
+    validator.element("#hdfProfileImage");
 }

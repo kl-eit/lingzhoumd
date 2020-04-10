@@ -9,6 +9,7 @@ using Ling.Domains.Abstract;
 using Ling.Domains.Concrete;
 using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -18,6 +19,7 @@ using static Ling.Common.Constants;
 
 namespace Ling.Dashboard.Controllers
 {
+    [Authorize]
     public class HomeSliderController : Controller
     {
         #region Declaration

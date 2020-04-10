@@ -9,7 +9,7 @@ namespace Ling.Domains.Abstract
 {
     public interface IPagesRepository
     {
-        ResponseObjectForAnything HomeUpsert(HomeViewModel pEntity);
+        ResponseObjectForAnything HomeUpsert(ProfileViewModel pEntity);
         ResponseObjectForAnything SelectHome();
     }
 }

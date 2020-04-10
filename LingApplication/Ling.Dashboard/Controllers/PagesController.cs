@@ -10,13 +10,15 @@ using Ling.Domains.Concrete;
 using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-
+using Ling.Domains.ViewModel;
+using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ling.Dashboard.Controllers
 {
+    [Authorize]
     public class PagesController : Controller
     {
 
@@ -41,32 +43,78 @@ namespace Ling.Dashboard.Controllers
             return View();
         }
 
-        public ActionResult Home(int id = 0)
+        public ActionResult Home()
         {
-            CMS model = new CMS();
-            ResponseObjectForAnything responseObjectForAnything = _cmsRepository.SelectByID(id);
+            ProfileViewModel model = new ProfileViewModel();
+            ResponseObjectForAnything responseObjectForAnything = _cmsRepository.SelectProfile();
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS && responseObjectForAnything.ResultObject != null)
             {
-                model = (CMS)responseObjectForAnything.ResultObject;
+                model = (ProfileViewModel)responseObjectForAnything.ResultObject;
             }
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Home(CMS model)
+        public ActionResult Home(ProfileViewModel model)
         {
-            model.CreatedBy = model.ModifiedBy = _session.LoginUserID.ToString();
-            string isactive = Request.Form["IsActive"];
-            model.IsActive = (isactive == "on") ? true : false;
-            ResponseObjectForAnything responseObjectForAnything = _cmsRepository.Upsert(model);
+            string imageName = string.Empty;
+            string sourceFilePath = string.Empty;
+            string uploadedFileName = string.Empty;
+            string hdfImageName = Request.Form["hdfImageName"];
+
+            model.ModifiedBy = _session.LoginUserID.ToString();
+
+            model.ModifiedDate = DateTime.Now;
+            if (Request.Form.Files != null && Request.Form.Files.Count > 0)
+            {
+                var uploadedFile = Request.Form.Files[0];
+                sourceFilePath = _appSettings.UploadFolderName + _appSettings.ProfileImagePath;
+
+                uploadedFileName = uploadedFile.FileName;
+
+                if (!string.IsNullOrEmpty(uploadedFileName))
+                {
+                    string fileExtension = Path.GetExtension(uploadedFile.FileName);
+                    imageName = Guid.NewGuid().ToString() + fileExtension;
+
+                    string webURL = _appSettings.DashboardURL;
+
+                    string fileDirectory = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath);
+
+                    if (!Directory.Exists(fileDirectory))
+                    {
+                        Directory.CreateDirectory(fileDirectory);
+                    }
+
+                    string fileSavePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath, imageName);
+
+                    using (var fileStream = new FileStream(fileSavePath, FileMode.Create))
+                    {
+                        uploadedFile.CopyTo(fileStream);
+                    }
+
+                    string imageVersions = Constants.THUMBNAILIMAGERESIZER + "," + Constants.LARGEIMAGERESIZER + "," + Constants.SMALLIMAGERESIZER + "," + Constants.MEDIUMIMAGERESIZER;
+
+                    string destinationFilePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath);
+                    CommonHelper.ResizeImage(fileSavePath, destinationFilePath, imageName, imageVersions);
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(hdfImageName))
+                    imageName = hdfImageName;
+            }
+
+            model.ProfileImage = imageName;
+
+            ResponseObjectForAnything responseObjectForAnything = _cmsRepository.ProfileUpsert(model);
+
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
                 WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
-                return RedirectToAction("Index");
+                return RedirectToAction("Home", "pages");
             }
-            else if (responseObjectForAnything.ResultCode == Constants.RESPONSE_EXISTS)
-                WebHelper.SetOperationMessage(this, Constants.ALERT_EXISTS, ALERTTYPE.Warning, ALERTMESSAGETYPE.TextWithClose);
-            else
+          else
                 WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
 
             return View(model);
