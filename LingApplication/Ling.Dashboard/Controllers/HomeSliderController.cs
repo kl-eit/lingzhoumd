@@ -11,6 +11,7 @@ using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using static Ling.Common.Constants;
@@ -33,8 +34,20 @@ namespace Ling.Dashboard.Controllers
             _homeSliderRepository = new HomeSliderRepository(iConfiguration);
             _session = new UserSession(httpContextAccessor, iConfiguration);
             _appSettings = settings.Value;
-            ViewBag.SelectedMenu = "HomeSlider";
+            
         }
+
+        public override void  OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            var controller = context.Controller as Controller;
+            if (controller != null)
+            {
+                controller.ViewBag.SelectedMenu = "HomeSlider";
+            }
+        }
+
         #endregion
 
         #region Actions

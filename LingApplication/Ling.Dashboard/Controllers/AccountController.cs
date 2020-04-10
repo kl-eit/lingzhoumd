@@ -256,6 +256,8 @@ namespace Ling.Dashboard.Controllers
             ResponseObjectForAnything responseObjectForAnything = _userRepository.Upsert(model);
             UserLoginViewModel userLoginViewModel = new UserLoginViewModel();
             userLoginViewModel.ID = _session.LoginUserID;
+            userLoginViewModel.UserName = model.UserName;
+            userLoginViewModel.Avatar = imageName;
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
                 if (!string.IsNullOrEmpty(oldImageName) && !string.IsNullOrEmpty(uploadedFileName))

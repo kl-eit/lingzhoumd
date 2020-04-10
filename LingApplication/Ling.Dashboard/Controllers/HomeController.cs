@@ -12,6 +12,7 @@ using Ling.Domains.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -31,7 +32,17 @@ namespace Ling.Dashboard.Controllers
             _dashboardRepository = new DashboardRepository(iConfiguration);
             _session = new UserSession(httpContextAccessor, iConfiguration);
             _appSettings = settings.Value;
-            ViewBag.SelectedMenu = "Dashboard";
+        }
+
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+
+            var controller = context.Controller as Controller;
+            if (controller != null)
+            {
+                controller.ViewBag.SelectedMenu = "Dashboard";
+            }
         }
 
         public IActionResult Index()

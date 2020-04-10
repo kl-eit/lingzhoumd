@@ -6,7 +6,7 @@ $(document).ready(function () {
         else
             HideBlockUI();
     }).dataTable();
-    InitDataTable();
+    //InitDataTable();
 
     $.fn.DataTable.ext.pager.numbers_length = 5;
 

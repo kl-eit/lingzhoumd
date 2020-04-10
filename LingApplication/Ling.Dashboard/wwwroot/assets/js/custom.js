@@ -1,7 +1,5 @@
 ﻿$(document).ready(function () {
-    var selectedMenu = $("#hdnSelectedMenu").val();
-    $("#li" + selectedMenu).addClass("active");
-
+    
     $(".searchdata").on("keyup", function () {
         if ($("div.dataTables_wrapper div.dataTables_filter input").length) {
             $("div.dataTables_wrapper div.dataTables_filter input").val($(this).val());

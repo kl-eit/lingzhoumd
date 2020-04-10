@@ -156,7 +156,7 @@ function InitCategoryValidation() {
 function SaveCategory() {
 
     if ($("#formCategory").valid()) {
-
+        ShowBlockUI();
         var data = new FormData();
         data.append("BlogCategoryName", $('#txtCategory').val());
         var ajaxUrl = _contentRoot + "Blog/SaveBlogCategory";
@@ -168,6 +168,7 @@ function SaveCategory() {
             contentType: false,
             processData: false,
             success: function (response) {
+                HideBlockUI();
                 if (response.ResultCode == "SUCCESS") {
                     $('#BlogCategoryID')
                         .append($("<option></option>")
@@ -183,7 +184,7 @@ function SaveCategory() {
 
             },
             error: function (x, e) {
-
+                HideBlockUI();
             }
         });
     }

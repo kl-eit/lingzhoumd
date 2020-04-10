@@ -5,14 +5,14 @@
 .bg-circle-shape {
     position: relative;
     overflow: hidden;
-    background-color: #005bea;
+    background-color: #4695ff;
 }
 
     .bg-circle-shape:before {
         height: 332%;
         width: 45%;
-        background-image: -o-linear-gradient(135deg,#005bea,#0e4eb1);
-        background-image: linear-gradient(-45deg,#005bea,#0e4eb1);
+        background-image: -o-linear-gradient(135deg,#1970e2,#4695ff);
+        background-image: linear-gradient(-45deg,#1970e2,#4695ff);
         left: -9%;
         top: 9px;
     }
@@ -20,8 +20,8 @@
     .bg-circle-shape:after {
         height: 250px;
         width: 115%;
-        background-image: -o-linear-gradient(135deg,#005bea,#0e4eb1);
-        background-image: linear-gradient(-45deg,#005bea,#0e4eb1);
+        background-image: -o-linear-gradient(135deg,#1970e2,#4695ff);
+        background-image: linear-gradient(-45deg,#1970e2,#4695ff);
         left: 32%;
         top: -188%;
     }
@@ -612,7 +612,7 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
 }
 
 
-.btn-crowne-cancel {
+.btn-ling-cancel {
     color: #4d5969;
     background-color: #fff;
     border-color: #fff;
@@ -620,13 +620,13 @@ table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td
     box-shadow: 0 0 0 1px rgba(43,45,80,.1),0 2px 5px 0 rgba(43,45,80,.08),0 1px 1.5px 0 rgba(0,0,0,.07),0 1px 2px 0 rgba(0,0,0,.08);
 }
 
-    .btn-crowne-cancel:hover {
+    .btn-ling-cancel:hover {
         color: #4d5969;
         background-color: #fff;
         border-color: #fff;
     }
 
-    .btn-crowne-cancel.focus, .btn-crowne-cancel:focus {
+    .btn-ling-cancel.focus, .btn-ling-cancel:focus {
         -webkit-box-shadow: 0 0 0 0 rgba(228,230,233,.5);
         box-shadow: 0 0 0 0 rgba(228,230,233,.5);
     }
@@ -859,4 +859,21 @@ border-radius: 50%;
     background-color: none;
     opacity: 1;
     background-image:url('../images/loader(2).gif')
+}
+
+div.dataTables_wrapper div.dataTables_processing {
+    position: fixed!important;
+    top: 0!important;
+    left: 0!important;
+    width: 100%!important;
+    height: 100%;
+    z-index: 9999;
+    background: #ffffff94;
+    margin: 0!important;
+    
+}
+
+div.dataTables_wrapper div.dataTables_processing div {
+    top: 40%;
+    position: relative;
 }

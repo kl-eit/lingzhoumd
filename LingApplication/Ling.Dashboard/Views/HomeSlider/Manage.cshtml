@@ -39,10 +39,10 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <i class="fa fa-home"></i>
-                            <a href="@Url.Content("~/Home/Index")">Home</a>
+                            <a href="@Url.Content("~/Home")">Home</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="@Url.Content("~/HomeSlider/Index")">Home Slider</a>
+                            <a href="@Url.Content("~/HomeSlider")">Home Slider</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">@(Model.ID > 0 ? "Edit" : "Add")</li>
                     </ol>
@@ -118,7 +118,7 @@
                                     <img src="@bannerPicture" id="imagePreview" name="BannerImage" onerror="this.src = '@Constants.SLIDE_IMAGE_NOT_FOUND'" class="img-responsive" style="width:100%;" />
                                 </div>
                                 <div class="validate">
-                                    <span class="btn btn-crowne-primary btn-sm btn-file">
+                                    <span class="btn btn-ling-primary btn-sm btn-file">
                                         <span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span>
                                         <input type="file" name="fileImage" id="fileImage" onchange="ShowPreview(this, 'bannerImage')" />
                                         <input type="hidden" id="hdfBannerImage" name="hdfBannerImage" value="@bannerImageFileName" class="@(!string.IsNullOrEmpty(Model.Video)?"bannerImage":"")" />
@@ -179,8 +179,8 @@
                     </div>
 
                     <div class="text-right">
-                        <a href="@Url.Content("~/HomeSlider/Index")" class="btn btn-crowne-cancel btn-sm mr-2">Cancel</a>
-                        <button id="btnSave" type="button" class="btn btn-crowne-primary btn-sm">Save </button>
+                        <a href="@Url.Content("~/HomeSlider")" class="btn btn-ling-cancel btn-sm mr-2">Cancel</a>
+                        <button id="btnSave" type="button" class="btn btn-ling-primary btn-sm">Save </button>
                     </div>
                 }
             </div>

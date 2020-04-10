@@ -102,18 +102,21 @@ function InitDataTable() {
 
 function ShowContactInquiryModalByID(id) {
     if (id > 0) {
+        ShowBlockUI();
         var ajaxUrl = _contentRoot + 'Home/SelectContactInquiryByID';
         $.ajax({
             type: "POST",
             url: ajaxUrl,
             data: { id: id },
             success: function (response) {
+                HideBlockUI();
                 $("#viewContactInquiryDetailModal").modal("show");
                 if (response != null && response.resultCode == "SUCCESS") {
-                    $('#dvMessage').html("<b>Message : </b>" + response.resultObject.message);
+                    $('#dvMessage').html(response.resultObject.message);
                 }
             },
             error: function (x, e) {
+                HideBlockUI();
                 $("#viewContactInquiryDetailModal").modal("hide");
             }
         });
@@ -123,12 +126,14 @@ function ShowContactInquiryModalByID(id) {
 
 function UpdateStatus(id) {
     if (id > 0) {
+        ShowBlockUI();
         var ajaxUrl = _contentRoot + 'Home/UpdateStatusByID';
         $.ajax({
             type: "POST",
             url: ajaxUrl,
             data: { id: id },
             success: function (response) {
+                HideBlockUI();
                 if (response.ResultCode == "SUCCESS") {
                     var table = $('#tblContactInquiries').DataTable();
 
