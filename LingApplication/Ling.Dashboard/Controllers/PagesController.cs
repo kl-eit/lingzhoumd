@@ -54,7 +54,7 @@ namespace Ling.Dashboard.Controllers
             return View();
         }
 
-        public ActionResult Home()
+        public ActionResult Profile()
         {
             ProfileViewModel model = new ProfileViewModel();
             ResponseObjectForAnything responseObjectForAnything = _cmsRepository.SelectProfile();
@@ -66,7 +66,7 @@ namespace Ling.Dashboard.Controllers
         }
 
         [HttpPost]
-        public ActionResult Home(ProfileViewModel model)
+        public ActionResult Profile(ProfileViewModel model)
         {
             string imageName = string.Empty;
             string sourceFilePath = string.Empty;
@@ -123,7 +123,7 @@ namespace Ling.Dashboard.Controllers
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
                 WebHelper.SetOperationMessage(this, Constants.ALERT_SAVE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
-                return RedirectToAction("Home", "pages");
+                return RedirectToAction("profile", "pages");
             }
           else
                 WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);

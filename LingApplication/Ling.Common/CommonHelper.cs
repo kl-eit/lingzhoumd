@@ -85,5 +85,36 @@ namespace Ling.Common
                 }
             }
         }
+
+        /// <summary>
+        /// CALCULATE FILE SIZE
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="formatString"></param>
+        /// <returns></returns>
+        public static string SizeFormat(long size, string formatString)
+        {
+            if (size < 1024)
+            {
+                return string.Format("{0} bytes", size.ToString(formatString));
+            }
+
+            if (size < Math.Pow(1024, 2))
+            {
+                return string.Format("{0} kb", (size / 1024).ToString(formatString));
+            }
+
+            if (size < Math.Pow(1024, 3))
+            {
+                return string.Format("{0} mb", (size / Math.Pow(1024, 2)).ToString(formatString));
+            }
+
+            if (size < Math.Pow(1024, 4))
+            {
+                return string.Format("{0} gb", (size / Math.Pow(1024, 3)).ToString(formatString));
+            }
+
+            return size.ToString(formatString);
+        }
     }
 }

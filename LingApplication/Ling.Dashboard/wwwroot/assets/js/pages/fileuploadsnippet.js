@@ -1,6 +1,12 @@
 ﻿
 // PAGE LOAD EVENT
 $(document).ready(function () {
+
+
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
     var formElement = $('#frmImageUpload');
     formElement.validate({
         errorElement: 'span',
@@ -82,10 +88,11 @@ $(document).ready(function () {
 
     var fileData = null;
 
-    $('input[type=file]').bootstrapFileInput();
+    //$('input[type=file]').bootstrapFileInput();
 
     // IMAGE UPLOAD
     $("#uploadImage").click(function () {
+        $(".custom-file-label").text('');
         $(".modalImageUpload").modal('show');
     });
 
@@ -94,13 +101,13 @@ $(document).ready(function () {
     });
 
     $("#btnUploadImage").click(function () {
-        
+        var laddaContextCustom = Ladda.create(this);
         if ($('#frmImageUpload').valid()) {
             var formData = new FormData();
 
             formData.append('file', fileData);
 
-            ShowBlockUI();
+            laddaContextCustom.start();
             var actionURl = _contentRoot + "Common/UploadImage";
             $.ajax({
                 url: actionURl,
@@ -108,12 +115,12 @@ $(document).ready(function () {
                 xhr: function () {
                     var xhr = $.ajaxSettings.xhr();
                     if (xhr.upload) {
-                        ShowBlockUI();
+                       laddaContextCustom.start();
                     }
                     return xhr;
                 },
                 success: function (data) {
-                    HideBlockUI();
+                    laddaContextCustom.stop();
                     $(".modalImageUpload").modal('hide');
                     var node = $(data)[0];
                     $('.summernote').summernote('insertNode', node);
@@ -121,7 +128,7 @@ $(document).ready(function () {
                     $("#ImageUpload").closest("a.file-input-wrapper").find("span").text("Browse");
                 },
                 error: function () {
-                    HideBlockUI();
+                    laddaContextCustom.stop();
                 },
                 data: formData,
                 cache: false,
@@ -133,6 +140,7 @@ $(document).ready(function () {
 
     // VIDEO UPLOAD
     $("#uploadVideo").click(function () {
+        $(".custom-file-label").text('');
         $(".modalVideoUpload").modal('show');
     });
 
@@ -151,7 +159,7 @@ $(document).ready(function () {
     });
 
     $("#btnUploadVideo").click(function () {
-        
+        var laddaContextCustom = Ladda.create(this);
         if ($('#frmVideoUpload').valid()) {
             var width = $(".modalVideoUpload .modal-body #frmVideoUpload #dvSearchText input").val();
             var align = $(".modalVideoUpload .modal-body #frmVideoUpload .btnAlign.active").val();
@@ -161,7 +169,7 @@ $(document).ready(function () {
             formData.append('Width', width);
             formData.append('align', align);
 
-            ShowBlockUI();
+            laddaContextCustom.start();
             var actionURl = _contentRoot + "Common/UploadVideo";
 
             $.ajax({
@@ -171,12 +179,12 @@ $(document).ready(function () {
                 xhr: function () {
                     var xhr = $.ajaxSettings.xhr();
                     if (xhr.upload) {
-                        ShowBlockUI();
+                        laddaContextCustom.start();
                     }
                     return xhr;
                 },
                 success: function (data) {
-                    HideBlockUI();
+                    laddaContextCustom.stop();
                     $(".modalVideoUpload").modal('hide');
                     var node = $(data)[0];
                     $('.summernote').summernote('insertNode', node);
@@ -184,7 +192,7 @@ $(document).ready(function () {
                     $("#VideoUpload").closest("a.file-input-wrapper").find("span").text("Browse");
                 },
                 error: function () {
-                    HideBlockUI();
+                    laddaContextCustom.stop();
                 },
                 data: formData,
                 cache: false,
@@ -195,6 +203,7 @@ $(document).ready(function () {
     });
 
     $("#uploadFile").click(function () {
+        $(".custom-file-label").text('');
         $(".modalFileUpload").modal('show');
     });
 
@@ -203,13 +212,13 @@ $(document).ready(function () {
     });
 
     $("#btnUploadFile").click(function () {
-        
+        var laddaContextCustom = Ladda.create(this);
         if ($('#frmFileUpload').valid()) {
             var formData = new FormData();
 
             formData.append('file', fileData);
 
-            ShowBlockUI();
+            laddaContextCustom.start();
             var actionURl = _contentRoot + "Common/UploadFile";
             $.ajax({
                 url: actionURl,
@@ -217,12 +226,12 @@ $(document).ready(function () {
                 xhr: function () {
                     var xhr = $.ajaxSettings.xhr();
                     if (xhr.upload) {
-                        ShowBlockUI();
+                        laddaContextCustom.start();
                     }
                     return xhr;
                 },
                 success: function (data) {
-                    HideBlockUI();
+                    laddaContextCustom.stop();
                     $(".modalFileUpload").modal('hide');
                     var node = $(data)[0];
                     $('.summernote').summernote('insertNode', node);
@@ -230,7 +239,7 @@ $(document).ready(function () {
                     $("#FileUpload").closest("a.file-input-wrapper").find("span").text("Browse");
                 },
                 error: function () {
-                    HideBlockUI();
+                    laddaContextCustom.stop();
                 },
                 data: formData,
                 cache: false,

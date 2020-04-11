@@ -6,6 +6,11 @@
 }
 @section PageCss{
     <link href="@Url.Content("~/assets/plugins/summernote/summernote.css")" rel="stylesheet" />
+    <style type="text/css">
+        .input-group > .form-control {
+            width: 51% !important;
+        }
+    </style>
 }
 
 <div class="card mb-3">
@@ -62,7 +67,14 @@
                             <span id="spnSummernoteError" class="text-error-validation text-danger" style="display:none;font-size: 85%;color: #e63757;">Please enter answer</span>
                         </div>
                     </div>
-
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label text-right"></label>
+                        <div class="editToolbar col-sm-10 col-offset-3">
+                            <button type="button" id="uploadImage" class="image btn btn-sm btn-primary">Insert image</button>
+                            <button type="button" id="uploadVideo" class="video btn btn-sm btn-success">Insert video</button>
+                            <button type="button" id="uploadFile" class="file btn btn-sm btn-info">Attach a file </button>
+                        </div>
+                    </div>
                     <div class="form-group row">
                         <label for="IsActive" class="col-sm-2 col-form-label text-right">Active?</label>
                         <div class="col-sm-4" style="margin-top:6px;">
@@ -85,10 +97,14 @@
     </div>
 </div>
 
+@Html.Partial("_FileUploadSnippet")
+
 @section PageScript{
+    <script src="@Url.Content("~/assets/js/file-input.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/assets/plugins/jquery-validation-1.16.0/jquery.validate.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/assets/plugins/jquery-validation-1.16.0/additional-methods.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/assets/plugins/summernote/summernote.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/assets/js/pages/fileuploadsnippet.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/assets/js/pages/faqmanage.js")"></script>
 }
 

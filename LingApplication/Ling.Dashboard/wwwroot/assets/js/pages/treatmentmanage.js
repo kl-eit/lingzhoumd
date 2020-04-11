@@ -11,7 +11,6 @@ function InitFormValidation() {
         ignore: [],
         rules: {
             Name: { required: true },
-            Description: { required: true },
             hdfTreatmentImage: {
                 required: true,
                 extension: "png|jpeg|jpg"
@@ -19,7 +18,6 @@ function InitFormValidation() {
         },
         messages: {
             Name: "Please enter name",
-            Description: "Please enter description",
             hdfTreatmentImage: {
                 required: "Please upload image",
                 extension: "Only image allowed (png, jpeg, jpg)"

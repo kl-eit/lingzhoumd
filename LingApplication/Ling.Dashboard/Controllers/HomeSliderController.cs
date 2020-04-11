@@ -162,10 +162,10 @@ namespace Ling.Dashboard.Controllers
 
         #region Methods
 
-        public List<HomeSlider> GetHomeSliderList(int pPageIndex = 1, int pPageSize = 20, string pSearch = "", int pOrderColumn = 0, string pCurrentOrder = "asc")
+        public List<HomeSlider> GetHomeSliderList(string pSearch = "")
         {
             List<HomeSlider> entityList = new List<HomeSlider>();
-            ResponseObjectForAnything responseObjectForAnything = _homeSliderRepository.Select(pPageIndex, pPageSize, pSearch, pOrderColumn, pCurrentOrder);
+            ResponseObjectForAnything responseObjectForAnything = _homeSliderRepository.Select(0, 0, pSearch);
 
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
             {
@@ -192,7 +192,7 @@ namespace Ling.Dashboard.Controllers
             int pageNumber = (start + length) / length;
             int recsPerPage = length;
 
-            List<HomeSlider> homeSlidersList = GetHomeSliderList(pageNumber, length, search, sortColumn, sortOrder);
+            List<HomeSlider> homeSlidersList = GetHomeSliderList(search);
 
             if (homeSlidersList != null && homeSlidersList.Count > 0)
             {

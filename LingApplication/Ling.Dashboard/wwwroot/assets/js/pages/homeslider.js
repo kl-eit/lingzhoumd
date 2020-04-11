@@ -1,6 +1,6 @@
 ﻿// PAGE LOAD EVENT
 $(document).ready(function () {
-    
+
     InitDataTable();
 
     $.fn.DataTable.ext.pager.numbers_length = 5;
@@ -40,7 +40,7 @@ function InitDataTable() {
             "emptyTable": "No record found",
             "sProcessing": "<div style='border: 'none';padding: '2px';backgroundColor: 'none';opacity: 1'><h3 style='margin: 10px 0px;'><img class='loading-image-radius' src='/assets/images/loader (2).gif')/></h3></div>"
         },
-        paging: true,
+        paging: false,
         filter: true,
         destroy: true,
         orderMulti: false,
@@ -50,15 +50,6 @@ function InitDataTable() {
             url: ajaxUrl,
             dataType: "json"
         },
-        columnDefs: [
-            { "width": "5%", "targets": 1 },
-            { "width": "30%", "targets": 2 },
-            { "width": "20%", "targets": 3 },
-            { "width": "10%", "targets": 4 },
-            { "width": "12%", "targets": 5 },
-            { "width": "12%", "targets": 6 },
-            { "width": "2%", "targets": 7 }
-        ],
         aoColumns: [
             {
                 mDataProp: "ID",
@@ -114,6 +105,7 @@ function InitDataTable() {
                 container: 'body',
             });
             $(".dataTables_paginate .pagination").addClass('pagination-sm');
+            $('#tableHomeSlider_wrapper').addClass('mt-2');
             if (window.screen.width < 768)
                 $(".dragLink").css("display", "none");
             else

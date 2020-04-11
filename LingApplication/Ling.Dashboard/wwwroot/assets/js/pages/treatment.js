@@ -50,7 +50,7 @@ function InitDataTable() {
                     else return '<span class="badge badge rounded-capsule badge-soft-warning">No<span class="ml-1 fa fa-times" data-fa-transform="shrink-2"></span></span>';
                 }
             },
-            { mDataProp: "CreatedBy", "orderable": false },
+            { mDataProp: "CreatedBy", "orderable": true },
             {
                 mDataProp: "CreatedDate",
                 render: function (d) {

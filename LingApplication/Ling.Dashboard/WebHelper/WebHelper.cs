@@ -1,4 +1,5 @@
 ﻿using Ling.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -45,6 +46,32 @@ namespace Ling.Dashboard
                 // return URI of the created resource.
                 return response.StatusCode;
             }
+        }
+
+        public static string UploadFile(IFormFile pHttpPostedFileBase, string pFileDirectoryPath = "", string pFilePath = "")
+        {
+            string genratedFilename = string.Empty;
+
+            if (pHttpPostedFileBase != null && pHttpPostedFileBase.Length > 0)
+            {
+                string fileExtension = Path.GetExtension(pHttpPostedFileBase.FileName);
+                genratedFilename = Guid.NewGuid().ToString() + fileExtension;
+                //string uploadedFilename = pHttpPostedFileBase.FileName;
+
+                string fileDirectory = Path.Combine(pFilePath, pFileDirectoryPath);
+                if (!Directory.Exists(fileDirectory))
+                {
+                    Directory.CreateDirectory(fileDirectory);
+                }
+
+                string fileSavePath = Path.Combine(fileDirectory, genratedFilename);
+                using (var stream = new FileStream(fileSavePath, FileMode.Create))
+                {
+                    pHttpPostedFileBase.CopyToAsync(stream);
+                }
+            }
+
+            return genratedFilename;
         }
     }
 }

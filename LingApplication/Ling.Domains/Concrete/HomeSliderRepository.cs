@@ -48,8 +48,6 @@ namespace Ling.Domains.Concrete
             try
             {
                 DbCommand dbCommand = sqldb.GetStoredProcCommand("HomeSlider_S");
-                sqldb.AddInParameter(dbCommand, "@PageIndex", DbType.Int32, CommonHelper.ToDB<Int32>(pPageIndex));
-                sqldb.AddInParameter(dbCommand, "@PageSize", DbType.Int32, CommonHelper.ToDB<Int32>(pPageSize));
                 sqldb.AddInParameter(dbCommand, "@SearchText", DbType.String, CommonHelper.ToDB<String>(pSearchText));
                 
 
