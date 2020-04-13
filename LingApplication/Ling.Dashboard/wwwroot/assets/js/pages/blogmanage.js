@@ -154,12 +154,13 @@ function InitCategoryValidation() {
     });
 }
 
-function SaveCategory() {
-    $("#btnSaveCategory").html('<i class="fa fa-spinner fa-spin mr-2"></i>Saving');
+function SaveCategory(ele) {
+    var laddaContextCustom = Ladda.create(ele);
 
     if ($("#formCategory").valid()) {
         var data = new FormData();
         data.append("BlogCategoryName", $('#txtCategory').val());
+        laddaContextCustom.start();
         var ajaxUrl = _contentRoot + "Blog/SaveBlogCategory";
         $.ajax({
             type: "POST",
@@ -169,6 +170,7 @@ function SaveCategory() {
             contentType: false,
             processData: false,
             success: function (response) {
+                laddaContextCustom.stop();
                 if (response.ResultCode == "SUCCESS") {
                     setTimeout(function () {
                         $("#btnsubmit").html('submit');
@@ -187,7 +189,7 @@ function SaveCategory() {
 
             },
             error: function (x, e) {
-
+                laddaContextCustom.stop();
             }
         });
     }
