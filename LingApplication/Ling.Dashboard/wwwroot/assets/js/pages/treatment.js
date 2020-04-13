@@ -62,7 +62,7 @@ function InitDataTable() {
                 mDataProp: "ID",
                 className: 'text-center',
                 render: function (d) {
-                    var editUrl = _contentRoot + "Treatment/manage/" + d;
+                    var editUrl = _contentRoot + "treatment/manage/" + d;
                     var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "Treatment/Delete/" + d + "')";
                     return '<div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal custom-btn-reveal mr-3" type="button" id="dropdown' + d + '" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-h fs--1"></span></button>' +
                         '<div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown' + d + '">' +

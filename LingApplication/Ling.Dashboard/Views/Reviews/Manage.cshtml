@@ -1,18 +1,15 @@
-﻿@model Ling.Domains.Entities.CMS
+﻿@model Ling.Domains.Entities.Reviews
 @using Ling.Common
 @{
-    string title = Model.ID > 0 ? "Ling Zhou, MD | CMS - Edit " : "Ling Zhou, MD | CMS - Add";
-    ViewBag.Title = title;
-}
-@section PageCss{
-    <link href="@Url.Content("~/assets/plugins/summernote/summernote.css")" rel="stylesheet" />
+    string Comment = Model.ID > 0 ? "Ling Zhou, MD | Reviews - Edit " : "Ling Zhou, MD | Reviews - Add";
+    ViewBag.Comment = Comment;
 }
 <div class="card mb-3">
     <div class="card-body rounded-soft bg-gradient">
         <div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
         <div class="row text-white align-items-center no-gutters">
             <div class="col">
-                <h4 class="text-white mb-0">Manage CMS</h4>
+                <h4 class="text-white mb-0">Manage Reviews</h4>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
@@ -20,7 +17,7 @@
                             <a href="@Url.Content("~/home")">Home</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="@Url.Content("~/cms")">CMS</a>
+                            <a href="@Url.Content("~/reviews")">Reviews</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">@(Model.ID > 0 ? "Edit" : "Add")</li>
                     </ol>
@@ -38,32 +35,31 @@
     <div class="col-lg-12">
         <div class="card mb-3">
             <div class="card-header">
-                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">@(Model.ID > 0 ? "Edit" : "Add") CMS</h5>
+                <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">@(Model.ID > 0 ? "Edit" : "Add") Reviews</h5>
             </div>
             <div class="card-body bg-light">
-                @using (Html.BeginForm("Manage", "CMS", FormMethod.Post, new { id = "frm_CMSManage", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("Manage", "Reviews", FormMethod.Post, new { id = "frm_ReviewsManage", @class = "form-horizontal", enctype = "multipart/form-data" }))
                 {
                     @Html.HiddenFor(m => m.ID)
 
                     <div class="form-group row">
-                        <label for="txtPageKey" class="col-sm-2 col-form-label text-right">CMS Key</label>
+                        <label for="txtPageKey" class="col-sm-2 col-form-label text-right">Review</label>
                         <div class="col-sm-6">
-                            <input type="text" name="CMSKey" id="txtCMSKey" class="form-control" maxlength="100" value="@Model.CMSKey" placeholder="CMS Key" />
+                            <input type="text" name="Review" id="txtReviews" class="form-control" maxlength="100" value="@Model.Review" placeholder="Review" />
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="txtTitle" class="col-sm-2 col-form-label text-right">Title</label>
+                        <label for="txtComment" class="col-sm-2 col-form-label text-right">Comment</label>
                         <div class="col-sm-6">
-                            <input type="text" name="Title" id="txtTitle" class="form-control" maxlength="100" value="@Model.Title" placeholder="Page Title" />
+                            <input type="text" name="Comment" id="txtComment" class="form-control" maxlength="100" value="@Model.Comment" placeholder="Comment" />
                         </div>
                     </div>
 
-                    <div class="form-group row" id="dvContent">
-                        <label for="txtAreaDescription" class="col-sm-2 col-form-label text-right">Description</label>
-                        <div class="col-sm-10">
-                            <textarea name="Content" class="form-control summernote" id="txtAreaDescription">@Model.Content</textarea>
-                            <span id="spnSummernoteError" class="text-error-validation text-danger" style="display:none;font-size: 85%;color: #e63757;">Please enter cms content</span>
+                    <div class="form-group row">
+                        <label for="txtAreaType" class="col-sm-2 col-form-label text-right">Type</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="Type" id="txtType" class="form-control" maxlength="100" value="@Model.Type" placeholder="Type" />
                         </div>
                     </div>
 
@@ -79,7 +75,7 @@
 
                     <div class="box-footer text-right">
                         <div class="col-xs-12">
-                            <a href="@Url.Content("~/cms")" class="btn btn-ling-cancel btn-sm mr-2">Cancel</a>
+                            <a href="@Url.Content("~/Reviews")" class="btn btn-ling-cancel btn-sm mr-2">Cancel</a>
                             <button id="btnSave" type="button" class="btn btn-ling-primary btn-sm">Save</button>
                         </div>
                     </div>
@@ -91,6 +87,5 @@
 @section PageScript{
     <script src="@Url.Content("~/assets/plugins/jquery-validation-1.16.0/jquery.validate.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/assets/plugins/jquery-validation-1.16.0/additional-methods.min.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/assets/plugins/summernote/summernote.js")" type="text/javascript"></script>
-    <script src="@Url.Content("~/assets/js/pages/cmsmanage.js")"></script>
+    <script src="@Url.Content("~/assets/js/pages/reviewsmanage.js")"></script>
 }

@@ -49,6 +49,8 @@ namespace Ling.Dashboard.Controllers
         }
         #endregion
 
+
+        #region Action
         public IActionResult Index()
         {
             return View();
@@ -130,5 +132,7 @@ namespace Ling.Dashboard.Controllers
 
             return View(model);
         }
+
+        #endregion
     }
 }

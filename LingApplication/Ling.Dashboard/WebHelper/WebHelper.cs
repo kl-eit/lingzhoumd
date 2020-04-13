@@ -67,7 +67,7 @@ namespace Ling.Dashboard
                 string fileSavePath = Path.Combine(fileDirectory, genratedFilename);
                 using (var stream = new FileStream(fileSavePath, FileMode.Create))
                 {
-                    pHttpPostedFileBase.CopyToAsync(stream);
+                    pHttpPostedFileBase.CopyTo(stream);
                 }
             }
 

@@ -155,6 +155,7 @@ function InitCategoryValidation() {
 }
 
 function SaveCategory() {
+    $("#btnSaveCategory").html('<i class="fa fa-spinner fa-spin mr-2"></i>Saving');
 
     if ($("#formCategory").valid()) {
         var data = new FormData();
@@ -168,8 +169,10 @@ function SaveCategory() {
             contentType: false,
             processData: false,
             success: function (response) {
-                HideBlockUI();
                 if (response.ResultCode == "SUCCESS") {
+                    setTimeout(function () {
+                        $("#btnsubmit").html('submit');
+                    }, 8000);
                     $('#BlogCategoryID')
                         .append($("<option></option>")
                             .attr("value", response.ResultObjectID)
@@ -184,7 +187,7 @@ function SaveCategory() {
 
             },
             error: function (x, e) {
-                HideBlockUI();
+
             }
         });
     }

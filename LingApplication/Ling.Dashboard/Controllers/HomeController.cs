@@ -26,7 +26,8 @@ namespace Ling.Dashboard.Controllers
         UserSession _session;
         private AppSettings _appSettings { get; set; }
         #endregion
-
+        
+        #region Constructor
         public HomeController(IHttpContextAccessor httpContextAccessor, IConfiguration iConfiguration, IOptions<AppSettings> settings)
         {
             _dashboardRepository = new DashboardRepository(iConfiguration);
@@ -44,7 +45,8 @@ namespace Ling.Dashboard.Controllers
                 controller.ViewBag.SelectedMenu = "Dashboard";
             }
         }
-
+        #endregion
+        #region Action
         public IActionResult Index()
         {
             ViewBag.LoginUserAvatar = _session.LoginUserAvtar;
@@ -70,7 +72,7 @@ namespace Ling.Dashboard.Controllers
             return Content(response);
         }
 
-       
+        #endregion
 
         #region Methods
         public List<ContactInquiry> GetContactInquiries(int pPageIndex = 1, int pPageSize = 20, string pSearch = "", int pSortColumn = 0, string pSortOrder = "")

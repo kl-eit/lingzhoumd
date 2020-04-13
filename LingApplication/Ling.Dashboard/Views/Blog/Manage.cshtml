@@ -28,10 +28,10 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <i class="fa fa-home"></i>
-                            <a href="@Url.Content("~/Home")">Home</a>
+                            <a href="@Url.Content("~/home")">Home</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="@Url.Content("~/Blog")">Blogs</a>
+                            <a href="@Url.Content("~/blog")">Blogs</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">@(Model.ID > 0 ? "Edit" : "Add")</li>
                     </ol>
@@ -157,7 +157,7 @@
                     </div>
                     <div class="box-footer text-right">
                         <div class="col-xs-12">
-                            <a href="@Url.Content("~/Blog")" class="btn btn-ling-cancel btn-sm mr-2">Cancel</a>
+                            <a href="@Url.Content("~/blog")" class="btn btn-ling-cancel btn-sm mr-2">Cancel</a>
                             <button id="btnSave" type="button" class="btn btn-ling-primary btn-sm">Save</button>
                         </div>
                     </div>
@@ -193,7 +193,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-light  btn-sm" type="button" data-dismiss="modal">Close</button>
-                <button class="btn btn-primary btn-sm" type="button" id="btnSaveCategory" onclick="SaveCategory();">Save changes</button>
+                <button class="btn btn-primary btn-sm btnSaveCategory" type="button" id="btnSaveCategory" onclick="SaveCategory();">Save changes</button>
             </div>
         </div>
     </div>

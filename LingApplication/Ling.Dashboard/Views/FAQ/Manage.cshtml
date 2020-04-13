@@ -23,10 +23,10 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
                             <i class="fa fa-home"></i>
-                            <a href="@Url.Content("~/Home")">Home</a>
+                            <a href="@Url.Content("~/home")">Home</a>
                         </li>
                         <li class="breadcrumb-item">
-                            <a href="@Url.Content("~/FAQ")">FAQ</a>
+                            <a href="@Url.Content("~/faq")">FAQ</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">@(Model.ID > 0 ? "Edit" : "Add")</li>
                     </ol>
@@ -87,7 +87,7 @@
 
                     <div class="box-footer text-right">
                         <div class="col-xs-12">
-                            <a href="@Url.Content("~/FAQ")" class="btn btn-ling-cancel btn-sm mr-2">Cancel</a>
+                            <a href="@Url.Content("~/faq")" class="btn btn-ling-cancel btn-sm mr-2">Cancel</a>
                             <button id="btnSave" type="button" class="btn btn-ling-primary btn-sm">Save</button>
                         </div>
                     </div>
