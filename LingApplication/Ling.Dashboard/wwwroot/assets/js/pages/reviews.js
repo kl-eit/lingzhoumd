@@ -30,7 +30,7 @@ function InitDataTable() {
                 mDataProp: "ID",
                 visible: false
             },
-            { mDataProp: "Reviews", "orderable": true },
+            { mDataProp: "Review", "orderable": true },
             { mDataProp: "Comment", "orderable": true },
             { mDataProp: "Type", "orderable": true },
             {

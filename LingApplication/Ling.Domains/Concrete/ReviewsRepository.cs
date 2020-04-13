@@ -145,7 +145,7 @@ namespace Ling.Domains.Concrete
             {
                 pEntity.CreatedDate = pEntity.ModifiedDate = DateTime.Now;
 
-                DbCommand dbCommand = sqldb.GetStoredProcCommand("Blogs_Upsert");
+                DbCommand dbCommand = sqldb.GetStoredProcCommand("Reviews_Upsert");
                 sqldb.AddInParameter(dbCommand, "@ID", DbType.Int32, CommonHelper.ToDB<Int32>(pEntity.ID));
                 sqldb.AddInParameter(dbCommand, "@Review", DbType.String, CommonHelper.ToDB<String>(pEntity.Review));
                 sqldb.AddInParameter(dbCommand, "@Comment", DbType.String, CommonHelper.ToDB<String>(pEntity.Comment));

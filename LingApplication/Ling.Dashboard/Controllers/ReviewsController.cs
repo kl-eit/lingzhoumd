@@ -48,13 +48,11 @@ namespace Ling.Dashboard.Controllers
         }
         #endregion
 
-
         #region Action
         public IActionResult Index()
         {
             return View();
         }
-
 
         public ActionResult Manage(int id=0)
         {
@@ -66,6 +64,7 @@ namespace Ling.Dashboard.Controllers
             }
             return View(reviews);
         }
+
         [HttpPost]
         public ActionResult Manage(Reviews model)
         {
@@ -83,6 +82,20 @@ namespace Ling.Dashboard.Controllers
 
             return View(model);
         }
+
+        public ActionResult Delete(int id)
+        {
+            ResponseObjectForAnything responseObjectForAnything = _reviewsRepository.Delete(id);
+            if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS)
+            {
+                WebHelper.SetOperationMessage(this, Constants.ALERT_DELETE, ALERTTYPE.Success, ALERTMESSAGETYPE.TextWithClose);
+                return RedirectToAction("Index");
+            }
+            else
+                WebHelper.SetOperationMessage(this, Constants.ALERT_ERROR, ALERTTYPE.Error, ALERTMESSAGETYPE.TextWithClose);
+            return View();
+        }
+
         #endregion
 
         #region Method
@@ -99,10 +112,11 @@ namespace Ling.Dashboard.Controllers
         }
 
         #endregion
+
         #region Ajax Request
         public JsonResult GetReviewsList()
         {
-            JsonResult jsonResult;
+            JsonResult result;
             string search = Request.Form["search[value]"];
             string draw = Request.Form["draw"];
             int start = Convert.ToInt32(Request.Form["start"]);
@@ -118,15 +132,14 @@ namespace Ling.Dashboard.Controllers
 
             if (reviewsList != null && reviewsList.Count > 0)
             {
-                totalRecords = reviewsList.Count;
-
-                jsonResult = this.Json(new { draw = Convert.ToInt32(draw), totalRecords = totalRecords, recordsFiltered = totalRecords, data = reviewsList }, new Newtonsoft.Json.JsonSerializerSettings());
+                totalRecords = reviewsList.FirstOrDefault().TotalCount;
+                result = this.Json(new { draw = Convert.ToInt32(draw), recordsTotal = totalRecords, recordsFiltered = totalRecords, data = reviewsList }, new Newtonsoft.Json.JsonSerializerSettings());
             }
             else
             {
-                jsonResult = this.Json(new { draw = Convert.ToInt32(draw), totalRecords = totalRecords, recordsFiltered = totalRecords, data = "" }, new Newtonsoft.Json.JsonSerializerSettings());
+                result = this.Json(new { draw = Convert.ToInt32(draw), recordsTotal = totalRecords, recordsFiltered = totalRecords, data = "" }, new Newtonsoft.Json.JsonSerializerSettings());
             }
-            return jsonResult;
+            return result;
         }
         #endregion
     }
