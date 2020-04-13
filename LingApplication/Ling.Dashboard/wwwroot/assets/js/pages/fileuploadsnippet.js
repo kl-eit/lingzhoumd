@@ -84,7 +84,9 @@ $(document).ready(function () {
 
     var fileData = null;
 
-    $('input[type=file]').bootstrapFileInput();
+    $('#ImageUpload').bootstrapFileInput();
+    $('#VideoUpload').bootstrapFileInput();
+    $('#FileUpload').bootstrapFileInput();
 
     // IMAGE UPLOAD
     $("#uploadImage").click(function () {
