@@ -217,7 +217,7 @@ function InitSummernote() {
 
     $("#txtDescription").on('summernote.change', function () {
         $("#spnSummernoteError").hide();
-        $("#dvDescription").removeClass("has-error").addClass('has-success');;
+        $("#dvDescription").removeClass("has-error").addClass('has-success');
         $(".note-editor").css('margin-bottom', '14px');
         $(".note-editor").css('border-color', '#00a65a');
 

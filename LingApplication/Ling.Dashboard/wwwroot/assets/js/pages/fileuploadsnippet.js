@@ -3,16 +3,12 @@
 $(document).ready(function () {
 
 
-    $(".custom-file-input").on("change", function () {
-        var fileName = $(this).val().split("\\").pop();
-        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-    });
     var formElement = $('#frmImageUpload');
     formElement.validate({
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            error.insertAfter(element.closest('.file-input-wrapper'))
+            error.insertAfter(element.closest('.file-input-wrapper')).css("display", "block");
         },
         highlight: function (element) {
             $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
@@ -40,7 +36,7 @@ $(document).ready(function () {
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            error.insertAfter(element.closest('.file-input-wrapper'))
+            error.insertAfter(element.closest('.file-input-wrapper')).css("display", "block");
         },
         highlight: function (element) {
             $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
@@ -68,7 +64,7 @@ $(document).ready(function () {
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function (error, element) {
-            error.insertAfter(element.closest('.file-input-wrapper'))
+            error.insertAfter(element.closest('.file-input-wrapper')).css("display", "block");
         },
         highlight: function (element) {
             $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
@@ -88,7 +84,7 @@ $(document).ready(function () {
 
     var fileData = null;
 
-    //$('input[type=file]').bootstrapFileInput();
+    $('input[type=file]').bootstrapFileInput();
 
     // IMAGE UPLOAD
     $("#uploadImage").click(function () {
