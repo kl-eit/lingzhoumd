@@ -42,6 +42,7 @@ namespace Ling.Dashboard.Controllers
             if (controller != null)
             {
                 controller.ViewBag.SelectedMenu = "CMS";
+                controller.ViewBag.LoginUserAvatar = _session.LoginUserAvtar;
             }
         }
         #endregion

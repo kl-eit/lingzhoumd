@@ -45,6 +45,9 @@ function InitDataTable() {
         destroy: true,
         orderMulti: false,
         serverSide: true,
+        columnDefs: [
+            { "width": "40%", "targets": 3 }
+        ],
         "info": false,
         ajax: {
             type: "POST",

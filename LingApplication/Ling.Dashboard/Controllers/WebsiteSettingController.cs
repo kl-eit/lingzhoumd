@@ -41,6 +41,7 @@ namespace Ling.Dashboard.Controllers
             if (controller != null)
             {
                 controller.ViewBag.SelectedMenu = "WebsiteSetting";
+                controller.ViewBag.LoginUserAvatar = _session.LoginUserAvtar;
             }
         }
         #endregion

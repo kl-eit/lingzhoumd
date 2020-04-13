@@ -43,13 +43,14 @@ namespace Ling.Dashboard.Controllers
             if (controller != null)
             {
                 controller.ViewBag.SelectedMenu = "Dashboard";
+                controller.ViewBag.LoginUserAvatar = _session.LoginUserAvtar;
             }
         }
         #endregion
         #region Action
         public IActionResult Index()
         {
-            ViewBag.LoginUserAvatar = _session.LoginUserAvtar;
+            
             ViewBag.LoginUserFirstName = _session.LoginUserFirstName;
             DashboardViewModel model = new DashboardViewModel();
             ResponseObjectForAnything responseObjectForAnything = _dashboardRepository.FAQ_Inquiry_Blog_Count();

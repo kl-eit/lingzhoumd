@@ -47,6 +47,7 @@ namespace Ling.Dashboard.Controllers
             if (controller != null)
             {
                 controller.ViewBag.SelectedMenu = "HomeSlider";
+                controller.ViewBag.LoginUserAvatar = _session.LoginUserAvtar;
             }
         }
 

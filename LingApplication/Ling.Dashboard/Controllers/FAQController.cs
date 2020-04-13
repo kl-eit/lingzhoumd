@@ -34,7 +34,6 @@ namespace Ling.Dashboard.Controllers
             _faqRepository = new FAQRepository(iConfiguration);
             _session = new UserSession(httpContextAccessor, iConfiguration);
             _appSettings = settings.Value;
-            ViewBag.SelectedMenu = "FAQ";
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -45,6 +44,7 @@ namespace Ling.Dashboard.Controllers
             if (controller != null)
             {
                 controller.ViewBag.SelectedMenu = "FAQ";
+                controller.ViewBag.LoginUserAvatar = _session.LoginUserAvtar;
             }
         }
         #endregion

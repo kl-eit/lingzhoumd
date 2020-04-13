@@ -37,9 +37,9 @@ function InitDataTable() {
             { mDataProp: "Name", "orderable": true },
             {
                 mDataProp: "Description", "orderable": true, "render": function (data, type, full, meta) {
-                    return data.length > 100 ?
-                        data.substr(0, 100) + '…' :
-                        data;
+                    return $(data).text().length > 100 ?
+                        $(data).text().substr(0, 100) + '…' :
+                        $(data).text();
                 } 
             },
             {

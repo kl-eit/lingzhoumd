@@ -196,7 +196,7 @@ function InitSectionValidation() {
 // INITIALIZATION SUMMERNOTE
 function InitSummernoteForPhilosophy() {
     $('#txtPhilosophyContent').summernote({
-        minHeight: 400,
+        minHeight: 300,
         'empty': ('<p><br/></p>', '<p><br></p>'),
         toolbar: [
             ['style', ['style']],
@@ -232,7 +232,7 @@ function InitSummernoteForPhilosophy() {
 // INITIALIZATION SUMMERNOTE
 function InitSummernoteForEducation() {
     $('#txtEducationContent').summernote({
-        minHeight: 400,
+        minHeight: 200,
         'empty': ('<p><br/></p>', '<p><br></p>'),
         toolbar: [
             ['style', ['style']],
@@ -267,7 +267,7 @@ function InitSummernoteForEducation() {
 // INITIALIZATION SUMMERNOTE
 function InitSummernoteForTraining() {
     $('#txtTrainingContent').summernote({
-        minHeight: 400,
+        minHeight: 200,
         'empty': ('<p><br/></p>', '<p><br></p>'),
         toolbar: [
             ['style', ['style']],
@@ -303,7 +303,7 @@ function InitSummernoteForTraining() {
 // INITIALIZATION SUMMERNOTE
 function InitSummernoteForCertificate() {
     $('#txtCertificateContent').summernote({
-        minHeight: 400,
+        minHeight: 200,
         'empty': ('<p><br/></p>', '<p><br></p>'),
         toolbar: [
             ['style', ['style']],
@@ -338,7 +338,7 @@ function InitSummernoteForCertificate() {
 // INITIALIZATION SUMMERNOTE
 function InitSummernoteForMedical() {
     $('#txtMedicalContent').summernote({
-        minHeight: 400,
+        minHeight: 200,
         'empty': ('<p><br/></p>', '<p><br></p>'),
         toolbar: [
             ['style', ['style']],

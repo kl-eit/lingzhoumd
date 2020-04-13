@@ -115,6 +115,9 @@ namespace Ling.Domains.Concrete
                             model.Description = CommonHelper.FromDB<String>(iReader["Description"]);
                             model.ImageName = CommonHelper.FromDB<String>(iReader["ImageName"]);
                             model.IsActive = CommonHelper.FromDB<Boolean>(iReader["IsActive"]);
+                            model.BlogCategoryID = CommonHelper.FromDB<Int32>(iReader["BlogCategoryID"]);
+                            model.MetaTitle = CommonHelper.FromDB<String>(iReader["MetaTitle"]);
+                            model.MetaDescription = CommonHelper.FromDB<String>(iReader["ImageName"]);
                         }
                     }
                 }

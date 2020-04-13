@@ -8,9 +8,11 @@ using Ling.Domains.Concrete;
 using Ling.Domains.Entities;
 using Ling.Domains.ResponseObject;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using static Ling.Common.Constants;
 
 namespace Ling.Dashboard.Controllers
@@ -20,13 +22,14 @@ namespace Ling.Dashboard.Controllers
     {
         #region Declaration
         ExceptionManagerRepository _exceptionManagerRepository;
+        UserSession _session;
         #endregion
 
         #region Constructor
-        public ExceptionLogController(IConfiguration iConfiguration)
+        public ExceptionLogController(IHttpContextAccessor httpContextAccessor, IConfiguration iConfiguration, IOptions<AppSettings> settings)
         {
             _exceptionManagerRepository = new ExceptionManagerRepository(iConfiguration);
-            ViewBag.SelectedMenu = "ExceptionLog";
+            _session = new UserSession(httpContextAccessor, iConfiguration);
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
@@ -37,6 +40,7 @@ namespace Ling.Dashboard.Controllers
             if (controller != null)
             {
                 controller.ViewBag.SelectedMenu = "ExceptionLog";
+                controller.ViewBag.LoginUserAvatar = _session.LoginUserAvtar;
             }
         }
         #endregion

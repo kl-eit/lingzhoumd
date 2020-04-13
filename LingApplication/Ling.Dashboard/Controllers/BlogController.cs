@@ -43,6 +43,7 @@ namespace Ling.Dashboard.Controllers
             if (controller != null)
             {
                 controller.ViewBag.SelectedMenu = "Blog";
+                controller.ViewBag.LoginUserAvatar = _session.LoginUserAvtar;
             }
         }
         #endregion
@@ -106,7 +107,7 @@ namespace Ling.Dashboard.Controllers
                     }
                     string imageVersions = Constants.THUMBNAILIMAGERESIZER + "," + Constants.LARGEIMAGERESIZER + "," + Constants.SMALLIMAGERESIZER + "," + Constants.MEDIUMIMAGERESIZER;
                     string destinationFilePath = Path.Combine(_appSettings.DashboardPhysicalUploadPath, sourceFilePath);
-                    CommonHelper.ResizeImage(fileSavePath, destinationFilePath, imageName, imageVersions);
+                   // CommonHelper.ResizeImage(fileSavePath, destinationFilePath, imageName, imageVersions);
                 }
             }
             else

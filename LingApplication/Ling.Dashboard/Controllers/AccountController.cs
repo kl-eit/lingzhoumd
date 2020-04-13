@@ -188,6 +188,7 @@ namespace Ling.Dashboard.Controllers
         [Authorize]
         public ActionResult MyProfile()
         {
+            ViewBag.LoginUserAvatar = _session.LoginUserAvtar;
             ResponseObjectForAnything responseObjectForAnything = _userRepository.SelectByID(_session.LoginUserID);
             if (responseObjectForAnything.ResultCode == Constants.RESPONSE_SUCCESS && responseObjectForAnything.ResultObject != null)
             {
