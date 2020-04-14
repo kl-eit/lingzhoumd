@@ -90,7 +90,6 @@ $(document).ready(function () {
 
     // IMAGE UPLOAD
     $("#uploadImage").click(function () {
-        $(".custom-file-label").text('');
         $(".modalImageUpload").modal('show');
     });
 
@@ -137,8 +136,7 @@ $(document).ready(function () {
     });
 
     // VIDEO UPLOAD
-    $("#uploadVideo").click(function () {
-        $(".custom-file-label").text('');
+    $(".uploadVideo").click(function () {
         $(".modalVideoUpload").modal('show');
     });
 

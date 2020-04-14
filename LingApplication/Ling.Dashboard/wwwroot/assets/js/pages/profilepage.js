@@ -28,16 +28,8 @@ $(document).ready(function () {
     });
 
     $("#btnSaveProfileImage").click(function () {
-            $("#dvImage").removeClass("has-error").addClass("has-success");
-            $("#frm_home").submit();
-        //}
-        //else {
-        //    if ($('#SectionFourMediaWrapper').html().trim() === "") {
-        //        $("#spnSectionFourUploadImage").show();
-        //        $('#dvImage .fileuploader-theme-dragdrop').addClass('has-error');
-        //        $('#dvImage').addClass('has-error');
-        //    }
-        //}
+        $("#dvImage").removeClass("has-error").addClass("has-success");
+        $("#frm_home").submit();
     });
 
     InitSummernoteForEducation();

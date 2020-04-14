@@ -55,7 +55,7 @@ function InitDataTable() {
                 mDataProp: "ID",
                 render: function (d) {
                     var viewUrl = "ShowExceptionLogModalByID(" + d + ");";
-                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "ExceptionLog/Delete/" + d + "')";
+                    var deleteUrl = "ShowGlobalConfirmDeleteModal('" + _contentRoot + "exceptionlog/delete/" + d + "')";
                     return '<div class="dropdown text-sans-serif"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal custom-btn-reveal mr-3" type="button" id="dropdown' + d + '" data-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false"><span class="fa fa-ellipsis-h fs--1"></span></button>' +
                         '<div class="dropdown-menu dropdown-menu-right border py-0" aria-labelledby="dropdown' + d + '">' +
                         '<div class="bg-white py-2"><a class="dropdown-item" href="javascript:void(0);" onclick=\"' + viewUrl + '\" >View</a>' +
